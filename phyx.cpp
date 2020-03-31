@@ -9,12 +9,19 @@ void PhyxObj2D::Update(){
 	double dd = d.count();
 	t=tn;
 
-	std::cout << dd << std::endl;
-
 	x+=xv*dd/1000.;
 	y+=yv*dd/1000.;
+
+	xv+=xa*dd/1000.;
+	yv+=ya*dd/1000.;
 }
 
 void PhyxObj2D::InitTime(){
 	t = std::chrono::steady_clock::now();
+}
+
+double const PhyxObj2D::V() {
+	return std::pow(
+				std::pow(xv,2)+std::pow(yv,2),
+			.5);
 }
