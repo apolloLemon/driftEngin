@@ -35,5 +35,4 @@ private:
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;
 
-	double mass;
 };
