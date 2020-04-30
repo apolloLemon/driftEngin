@@ -11,7 +11,7 @@ GLFWwindow* init()
 
 	// glfw window creation
 	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "frogGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "driftENG", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window." << std::endl;

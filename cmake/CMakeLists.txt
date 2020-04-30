@@ -28,4 +28,4 @@ add_executable(${PROJECT_NAME}.exe ${SOURCES})
 target_include_directories(${PROJECT_NAME}.exe PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 11)
 
-TARGET_LINK_LIBRARIES(driftEngine.exe -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lGLU -lglut -lm)
+TARGET_LINK_LIBRARIES(driftEngine.exe -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lGLU -lglut -lm)

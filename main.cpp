@@ -5,15 +5,12 @@
 #include "meshes/cube.h"
 #include "meshes/sphere.h"
 
-//#define USER=N
-//#define USER=M
-
-#if USER=N
-	#define PWD="/home/rakl/Repository/spaceProject/driftEngin/"
-#elif USER=M
-	#define PWD="/home/driftEngin/"
-#else
-	#define PWD="/home/driftEngin/"
+//#define N
+//#define M
+#if defined(N)
+	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
+#elif defined(M)
+	#define PWD "/home/melon/driftEngin/"
 #endif	
 
 // path variables
