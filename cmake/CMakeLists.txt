@@ -7,6 +7,7 @@ set(INC_DIR "${SRC_DIR}/includes")
 set(SOURCES "${SRC_DIR}/main.cpp"
 			"${SRC_DIR}/init.cpp"
 			"${SRC_DIR}/glad.c"
+			"${SRC_DIR}/perlin.cpp"
 
 			"${SRC_DIR}/camera/camera.cpp"
 			"${SRC_DIR}/camera/freecam.cpp"
