@@ -5,9 +5,20 @@
 #include "meshes/cube.h"
 #include "meshes/sphere.h"
 
+//#define USER=N
+//#define USER=M
+
+#if USER=N
+	#define PWD="/home/rakl/Repository/spaceProject/driftEngin/"
+#elif USER=M
+	#define PWD="/home/driftEngin/"
+#else
+	#define PWD="/home/driftEngin/"
+#endif	
+
 // path variables
 // --------------
-std::string srcPath = "/home/rakl/Repository/spaceProject/driftEngin/";
+std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
