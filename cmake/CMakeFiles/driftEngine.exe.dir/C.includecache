@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rakl/Repository/spaceProject/driftEngin/glad.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+includes/glad/glad.h
+/home/rakl/Repository/spaceProject/driftEngin/includes/glad/glad.h
+windows.h
+-
+winapifamily.h
+-
+dlfcn.h
+-
+
+/home/rakl/Repository/spaceProject/driftEngin/includes/glad/glad.h
+KHR/khrplatform.h
+-
+
