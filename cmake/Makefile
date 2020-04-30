@@ -150,6 +150,33 @@ home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.s:
 	$(MAKE) -f CMakeFiles/driftEngine.exe.dir/build.make CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.s
 .PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.s
 
+home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.o: home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o
+
+.PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.o
+
+# target to build an object file
+home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o:
+	$(MAKE) -f CMakeFiles/driftEngine.exe.dir/build.make CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o
+.PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o
+
+home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.i: home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i
+
+.PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.i
+
+# target to preprocess a source file
+home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i:
+	$(MAKE) -f CMakeFiles/driftEngine.exe.dir/build.make CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i
+.PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i
+
+home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.s: home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s
+
+.PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.s
+
+# target to generate assembly for a file
+home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s:
+	$(MAKE) -f CMakeFiles/driftEngine.exe.dir/build.make CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s
+.PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s
+
 home/rakl/Repository/spaceProject/driftEngin/camera/camera.o: home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp.o
 
 .PHONY : home/rakl/Repository/spaceProject/driftEngin/camera/camera.o
@@ -486,6 +513,9 @@ help:
 	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.o"
 	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.i"
 	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.s"
+	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.o"
+	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.i"
+	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.s"
 	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/camera.o"
 	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/camera.i"
 	@echo "... home/rakl/Repository/spaceProject/driftEngin/camera/camera.s"

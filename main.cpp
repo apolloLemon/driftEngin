@@ -1,6 +1,7 @@
 #include "init.h" // initialize function prototypes
 
 #include "camera/freecam.h"
+#include "camera/camOrt.h"
 #include "meshes/cube.h"
 #include "meshes/sphere.h"
 
@@ -13,9 +14,11 @@ std::string texturesPath = srcPath + "textures/";
 // camera variables
 // ----------------
 Freecam freecam(glm::vec3(0.0f, 7.0f, 10.0f));
+CamOrt ortcam(glm::vec3(0.0f, 10.0f, 0.0f));
 // starting in freecam
 Camera* currentCamera = &freecam;
 bool freeMode = true;
+bool ortMode = false;
 // variables to manipulate camera with mouse
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -81,7 +84,7 @@ int main(int argc, char **argv)
 		glm::mat4 view = currentCamera->GetViewMatrix();
 		ourShader.setMat4("view", view);
 
-		matthew.draw(glm::vec3(0.0f, 3.0f, 6.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
+		matthew.draw(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -106,18 +109,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
+		if (ortMode)	{ ortcam.ProcessKeyboard(ortUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
+		if (ortMode)	{ ortcam.ProcessKeyboard(ortDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
+		if (ortMode)	{ ortcam.ProcessKeyboard(ortLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
+		if (ortMode)	{ ortcam.ProcessKeyboard(ortRIGHT, deltaTime); }
 	}
 }
 
@@ -133,7 +140,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // --------------------------------------
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	// Nothing yet.
+	if (key == GLFW_KEY_N && action == GLFW_PRESS)
+	{
+		freeMode = !freeMode;
+		ortMode = !ortMode;
+		if (freeMode) 	{ currentCamera = &freecam; }
+		if (ortMode)	{ currentCamera = &ortcam; }
+	}
 }
 
 // glfw: whenever the mouse moves, this callback is called

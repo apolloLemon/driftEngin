@@ -1550,6 +1550,14 @@ cam3rd.h
 camera.h
 /home/rakl/Repository/spaceProject/driftEngin/camera/camera.h
 
+/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp
+camOrt.h
+/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.h
+
+/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.h
+camera.h
+/home/rakl/Repository/spaceProject/driftEngin/camera/camera.h
+
 /home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp
 camera.h
 /home/rakl/Repository/spaceProject/driftEngin/camera/camera.h
@@ -2721,6 +2729,8 @@ init.h
 /home/rakl/Repository/spaceProject/driftEngin/init.h
 camera/freecam.h
 /home/rakl/Repository/spaceProject/driftEngin/camera/freecam.h
+camera/camOrt.h
+/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.h
 meshes/cube.h
 /home/rakl/Repository/spaceProject/driftEngin/meshes/cube.h
 meshes/sphere.h

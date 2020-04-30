@@ -15,6 +15,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp" "/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o"
+  "/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp" "/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o"
   "/home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp" "/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp.o"
   "/home/rakl/Repository/spaceProject/driftEngin/camera/freecam.cpp" "/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/freecam.cpp.o"
   "/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp" "/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o"

@@ -201,9 +201,33 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/came
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o.provides.build: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o
 
 
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp
+
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp > CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.i
+
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.s
+
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.requires:
+
+.PHONY : CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.requires
+
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.provides: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.requires
+	$(MAKE) -f CMakeFiles/driftEngine.exe.dir/build.make CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.provides.build
+.PHONY : CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.provides
+
+CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.provides.build: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o
+
+
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.i: cmake_force
@@ -227,7 +251,7 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/mesh
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.i: cmake_force
@@ -251,7 +275,7 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/mesh
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.i: cmake_force
@@ -275,7 +299,7 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/mesh
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/mesh.cpp.i: cmake_force
@@ -299,7 +323,7 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/mesh
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/textures/texture.cpp.i: cmake_force
@@ -323,7 +347,7 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/text
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shaders/shader.cpp.i: cmake_force
@@ -347,7 +371,7 @@ CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/shad
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o: CMakeFiles/driftEngine.exe.dir/flags.make
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o: /home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o -c /home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp
 
 CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.i: cmake_force
@@ -377,6 +401,7 @@ driftEngine_exe_OBJECTS = \
 "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp.o" \
 "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/freecam.cpp.o" \
 "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o" \
+"CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o" \
 "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o" \
 "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o" \
 "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o" \
@@ -394,6 +419,7 @@ driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProjec
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp.o
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/freecam.cpp.o
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o
+driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o
@@ -403,7 +429,7 @@ driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProjec
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/includes/stb_image/stb_image.cpp.o
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/build.make
 driftEngine.exe: CMakeFiles/driftEngine.exe.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable driftEngine.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rakl/Repository/spaceProject/driftEngin/cmake/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable driftEngine.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/driftEngine.exe.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -417,6 +443,7 @@ CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rak
 CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp.o.requires
 CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/freecam.cpp.o.requires
 CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o.requires
+CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o.requires
 CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o.requires
 CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o.requires
 CMakeFiles/driftEngine.exe.dir/requires: CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o.requires

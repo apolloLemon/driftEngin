@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camera.cpp.o"
   "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/freecam.cpp.o"
   "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/cam3rd.cpp.o"
+  "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/camera/camOrt.cpp.o"
   "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/sphere.cpp.o"
   "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/cube.cpp.o"
   "CMakeFiles/driftEngine.exe.dir/home/rakl/Repository/spaceProject/driftEngin/meshes/plane.cpp.o"
