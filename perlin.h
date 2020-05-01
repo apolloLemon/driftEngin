@@ -10,19 +10,17 @@ GOAL:
 #include <cstdint>
 class PerlinNoise {
 public:
-	PerlinNoise(unsigned int _seed): seed(_seed){}
-	virtual float Get(uint32_t x)=0;
-
-private:
-	unsigned int seed;
 };
 
 
-class PerlinNoise1D : public PerlinNoise {
+class Perlin1D : public PerlinNoise {
 public:
-	PerlinNoise1D(unsigned int _seed) : PerlinNoise(_seed){}
+	float Rand(int x);
+};
 
-	float Get(uint32_t x) override;
+class Perlin2D : public PerlinNoise {
+public:
+	float Rand(int x, int y);
 };
 /*
 */

@@ -67,10 +67,10 @@ int main(int argc, char **argv)
 	Cube nathan;
 
 	std::vector<Cube> cubes;
-	for(int i=0;i<10;i++)
+	for(int i=0;i<100;i++)
 		cubes.push_back(Cube());
 
-	PerlinNoise1D a(1);
+	Perlin1D a;
 
 	// render loop
 	// -----------
@@ -106,8 +106,8 @@ int main(int argc, char **argv)
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		
-		for(int i=0;i<10;i++){
-			cubes[i].draw(glm::vec3(i-4, 0.0f, a.Get(i)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
+		for(int i=0;i<100;i++){
+			cubes[i].draw(glm::vec3(i, 0.0f, a.Rand(i)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		}
 
 
