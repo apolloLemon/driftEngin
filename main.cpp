@@ -54,7 +54,8 @@ int main(int argc, char **argv)
     // -------------------------
     Texture texture(texturesPath);
     
-	
+	texture.add("square.png");
+	texture.add("square2.png");
 	// tell OpenGL for each sampler to which texture unit it belongs to
 	// -------------------------------------------------------------------------------------------
 	ourShader.use();
@@ -70,7 +71,11 @@ int main(int argc, char **argv)
 	for(int i=0;i<100;i++)
 		cubes.push_back(Cube());
 
-	Perlin1D a;
+	std::vector<std::vector<Cube>> cubeplain;
+	for(int j=0;j<100;j++)
+		cubeplain.push_back(cubes);
+
+	Perlin2D a;
 
 	// render loop
 	// -----------
@@ -106,9 +111,9 @@ int main(int argc, char **argv)
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		
-		for(int i=0;i<100;i++){
-			cubes[i].draw(glm::vec3(i, 0.0f, a.Noise(i)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
-		}
+		for(int i=0;i<100;i++)
+			for(int j=0;j<100;j++)
+			cubes[i].draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
