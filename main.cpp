@@ -5,7 +5,7 @@
 #include "meshes/cube.h"
 #include "meshes/sphere.h"
 
-#include "perlin.h"
+#include "utilities/perlin.h"
 #include <vector>
 
 //#define N
