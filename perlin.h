@@ -15,12 +15,17 @@ public:
 
 class Perlin1D : public PerlinNoise {
 public:
-	float Rand(int x);
+	float Noise(int x);
 };
 
 class Perlin2D : public PerlinNoise {
 public:
-	float Rand(int x, int y);
+	float Noise(int x, int y);
+};
+
+class Perlin3D : public PerlinNoise {
+public:
+	float Noise(int x, int y, int z);
 };
 /*
 */
