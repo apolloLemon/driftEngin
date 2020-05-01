@@ -1,4 +1,8 @@
 /*
+PerlinNoise
+	m-dimentional noise function
+
+
 GOAL:
 	make spherical noise map
 
