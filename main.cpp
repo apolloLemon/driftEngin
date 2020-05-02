@@ -1,9 +1,9 @@
 #include "init.h" // initialize function prototypes
 
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+//#include "imgui/imgui.h"
+//#include "imgui/imgui_impl_glfw.h"
+//#include "imgui_impl_opengl3.h"
 
 #include "camera/freecam.h"
 #include "meshes/cube.h"
@@ -52,9 +52,9 @@ int main(int argc, char **argv)
 	GLFWwindow* window = init();
 
 	//GUI
-	ImGui::CreateContext();
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+	//ImGui::CreateContext();
+    //ImGui::StyleColorsDark();
+    //ImGui_ImplGlfw_InitForOpenGL(window, true);
 
 	// build and compile our shader program
 	// ------------------------------------
@@ -77,14 +77,8 @@ int main(int argc, char **argv)
 	Cube matthew;
 	Cube nathan;
 
-	std::vector<Cube> cubes;
-	for(int i=0;i<10;i++)
-		cubes.push_back(Cube());
-
-	std::vector<std::vector<Cube>> cubeplain;
-	for(int j=0;j<10;j++)
-		cubeplain.push_back(cubes);
-
+	Cube cube;
+	
 	Perlin2D a;
 
 	// render loop
@@ -97,7 +91,7 @@ int main(int argc, char **argv)
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		ImGui_ImplGlfw_NewFrame();
+		//ImGui_ImplGlfw_NewFrame();
 
 		// input
 		// -----
@@ -125,11 +119,11 @@ int main(int argc, char **argv)
 		
 		for(int i=0;i<10;i++)
 			for(int j=0;j<10;j++)
-			cubes[i].draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
+			cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
 
 		player.draw(&ourShader, &texture);
 
-		ImGui::Render();
+		//ImGui::Render();
 		//ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -140,8 +134,8 @@ int main(int argc, char **argv)
 
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
-	ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+	//ImGui_ImplGlfw_Shutdown();
+    //ImGui::DestroyContext();
 	glfwTerminate();
 	return 0;
 }
