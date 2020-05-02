@@ -1,28 +1,16 @@
 #include "camOrt.h"
 
 // Constructor with vectors
-CamOrt::CamOrt(glm::vec3 position):
-	Camera(position, glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -90.0f), MovementSpeed(SPEED)
+CamOrt::CamOrt():
+	Camera(glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -90.0f)
 {
 	Front = glm::vec3(0.0f, -1.0f, 0.0f);
-	updateCameraVectors();
+	updateCameraVectors(glm::vec3(0.0f));
 }
 
-void CamOrt::ProcessKeyboard(CamOrt_Movement direction, float deltaTime)
+void CamOrt::updateCameraVectors(glm::vec3 pos)
 {
-	float velocity = MovementSpeed * deltaTime;
-	if (direction == ortUP)
-		Position.z += velocity;
-	if (direction == ortDOWN)
-		Position.z -= velocity;
-	if (direction == ortLEFT)
-		Position.x += velocity;
-	if (direction == ortRIGHT)
-		Position.x -= velocity;
-}
-
-void CamOrt::updateCameraVectors()
-{
+	Position = glm::vec3(pos.x, pos.y + 10.0f, pos.z);
 	glm::vec3 front;
 	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	front.y = sin(glm::radians(Pitch));

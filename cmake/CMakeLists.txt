@@ -20,6 +20,8 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 			"${SRC_DIR}/meshes/plane.cpp"
 			"${SRC_DIR}/meshes/mesh.cpp"
 
+			"${SRC_DIR}/player.cpp"
+
 			"${SRC_DIR}/textures/texture.cpp"
 			"${SRC_DIR}/shaders/shader.cpp"
 
