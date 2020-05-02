@@ -1,15 +1,15 @@
 #include "init.h" // initialize function prototypes
 
 #include "camera/freecam.h"
-#include "camera/camOrt.h"
 #include "meshes/cube.h"
 #include "meshes/sphere.h"
+#include "player.h"
 
 #include "utilities/perlin.h"
 #include <vector>
 
-//#define N
-#define M
+#define N
+//#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -22,14 +22,14 @@ std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
+Player player(glm::vec3(0.0f, 0.0f, 0.0f));
+
 // camera variables
 // ----------------
 Freecam freecam(glm::vec3(0.0f, 7.0f, 10.0f));
-CamOrt ortcam(glm::vec3(0.0f, 10.0f, 0.0f));
 // starting in freecam
 Camera* currentCamera = &freecam;
 bool freeMode = true;
-bool ortMode = false;
 // variables to manipulate camera with mouse
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -68,11 +68,11 @@ int main(int argc, char **argv)
 	Cube nathan;
 
 	std::vector<Cube> cubes;
-	for(int i=0;i<100;i++)
+	for(int i=0;i<10;i++)
 		cubes.push_back(Cube());
 
 	std::vector<std::vector<Cube>> cubeplain;
-	for(int j=0;j<100;j++)
+	for(int j=0;j<10;j++)
 		cubeplain.push_back(cubes);
 
 	Perlin2D a;
@@ -111,10 +111,11 @@ int main(int argc, char **argv)
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		
-		for(int i=0;i<100;i++)
-			for(int j=0;j<100;j++)
+		for(int i=0;i<10;i++)
+			for(int j=0;j<10;j++)
 			cubes[i].draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
 
+		player.draw(&ourShader, &texture);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -138,22 +139,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
-		if (ortMode)	{ ortcam.ProcessKeyboard(ortUP, deltaTime); }
+		else			{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
-		if (ortMode)	{ ortcam.ProcessKeyboard(ortDOWN, deltaTime); }
+		else			{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
-		if (ortMode)	{ ortcam.ProcessKeyboard(ortLEFT, deltaTime); }
+		else			{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
-		if (ortMode)	{ ortcam.ProcessKeyboard(ortRIGHT, deltaTime); }
+		else			{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 }
 
@@ -172,9 +173,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_N && action == GLFW_PRESS)
 	{
 		freeMode = !freeMode;
-		ortMode = !ortMode;
 		if (freeMode) 	{ currentCamera = &freecam; }
-		if (ortMode)	{ currentCamera = &ortcam; }
+		else			{ currentCamera = &player.camera; }
 	}
 }
 

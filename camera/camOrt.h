@@ -3,24 +3,13 @@
 
 #include "camera.h"
 
-enum CamOrt_Movement {
-	ortUP,
-	ortDOWN,
-	ortLEFT,
-	ortRIGHT
-};
-
 class CamOrt : public Camera
 {
 public:
-	CamOrt(glm::vec3 position);
-
-	float MovementSpeed;
-
-	void ProcessKeyboard(CamOrt_Movement direction, float deltaTime);
+	CamOrt();
+	void updateCameraVectors(glm::vec3 pos);
 
 private:
-	void updateCameraVectors();
 };
 
 #endif
