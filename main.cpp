@@ -1,5 +1,10 @@
 #include "init.h" // initialize function prototypes
 
+
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 #include "camera/freecam.h"
 #include "meshes/cube.h"
 #include "meshes/sphere.h"
@@ -8,8 +13,8 @@
 #include "utilities/perlin.h"
 #include <vector>
 
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -45,6 +50,11 @@ int main(int argc, char **argv)
 	// initialize glfw
 	// ---------------
 	GLFWwindow* window = init();
+
+	//GUI
+	ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
 
 	// build and compile our shader program
 	// ------------------------------------
@@ -87,6 +97,8 @@ int main(int argc, char **argv)
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
+		ImGui_ImplGlfw_NewFrame();
+
 		// input
 		// -----
 		processInput(window);
@@ -117,6 +129,9 @@ int main(int argc, char **argv)
 
 		player.draw(&ourShader, &texture);
 
+		ImGui::Render();
+		//ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
@@ -125,6 +140,8 @@ int main(int argc, char **argv)
 
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
+	ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 	glfwTerminate();
 	return 0;
 }
