@@ -9,6 +9,14 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 			"${SRC_DIR}/glad.c"
 			
 			"${SRC_DIR}/utilities/perlin.cpp"
+			"${SRC_DIR}/utilities/phyx.cpp"
+
+			"${SRC_DIR}/imgui/imgui.cpp"
+			"${SRC_DIR}/imgui/imgui_demo.cpp"
+			"${SRC_DIR}/imgui/imgui_draw.cpp"
+			"${SRC_DIR}/imgui/imgui_impl_glfw.cpp"
+			"${SRC_DIR}/imgui/imgui_impl_opengl3.cpp"
+			"${SRC_DIR}/imgui/imgui_widgets.cpp"
 
 			"${SRC_DIR}/camera/camera.cpp"
 			"${SRC_DIR}/camera/freecam.cpp"

@@ -25,3 +25,7 @@ double const PhyxObj2D::V() {
 				std::pow(xv,2)+std::pow(yv,2),
 			.5);
 }
+
+void PhyxObj2D::ResetA(){
+	xa=0; ya=0;
+}

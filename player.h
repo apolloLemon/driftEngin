@@ -11,6 +11,8 @@
 #include "shaders/shader.h"
 #include "textures/texture.h"
 
+#include "utilities/phyx.h"
+
 const float PLAYER_SPEED = 2.5f;
 
 enum Player_Movement {
@@ -31,6 +33,7 @@ public:
 	glm::vec3 Position;
 	float MovementSpeed;
 	CamOrt camera;
+	PhyxObj2D point;
 
 private:
 

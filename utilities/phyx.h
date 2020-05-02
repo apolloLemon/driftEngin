@@ -9,6 +9,7 @@ public:
 	//Phyx
 	void Update();
 	void InitTime();
+	void ResetA();
 
 	//GettersSetters
 	double const X(){return x;}
