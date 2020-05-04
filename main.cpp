@@ -94,7 +94,6 @@ int main(int argc, char **argv)
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-
 		// input
 		// -----
 		processInput(window);
@@ -126,6 +125,7 @@ int main(int argc, char **argv)
 		player.draw(&ourShader, &texture);
 
 
+
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -135,6 +135,7 @@ int main(int argc, char **argv)
 		ImGui::Text("player Y:%f",player.point.Y());
 		ImGui::Text("player XV:%f",player.point.XV());
 		ImGui::Text("player YV:%f",player.point.YV());
+		ImGui::Text("player Speed:%f",player.point.V());
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
