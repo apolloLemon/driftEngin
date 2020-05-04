@@ -13,8 +13,10 @@ public:
 
 	//GettersSetters
 	double const X(){return x;}
+	//double & X(){return x;}
 	void X(double _x){x=_x;}
 	double const Y(){return y;}
+	//double & Y(){return y;}
 	void Y(double _y){y=_y;}
 
 	double const XV(){return xv;}

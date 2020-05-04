@@ -12,6 +12,8 @@
 #include "utilities/perlin.h"
 #include <vector>
 
+#include <iostream>
+
 //#define N
 #define M
 #if defined(N)
@@ -92,9 +94,6 @@ int main(int argc, char **argv)
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
 
 		// input
 		// -----
@@ -126,6 +125,17 @@ int main(int argc, char **argv)
 
 		player.draw(&ourShader, &texture);
 
+
+		ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+		ImGui::Begin("driftEngin",0,ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Text("player X:%f",player.point.X());
+		ImGui::Text("player Y:%f",player.point.Y());
+		ImGui::Text("player XV:%f",player.point.XV());
+		ImGui::Text("player YV:%f",player.point.YV());
+		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
