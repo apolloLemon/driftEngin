@@ -1,21 +1,22 @@
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+//#include "imgui/imgui.h"
+//#include "imgui/imgui_impl_glfw.h"
+//#include "imgui/imgui_impl_opengl3.h"
 
 #include "init.h" // initialize function prototypes
 
 #include "camera/freecam.h"
-#include "meshes/cube.h"
-#include "meshes/sphere.h"
-#include "player.h"
+#include "shaders/shader.h"
+//#include "meshes/cube.h"
+//#include "meshes/sphere.h"
+//#include "player.h"
 
-#include "utilities/perlin.h"
-#include <vector>
+//#include "utilities/perlin.h"
+//#include <vector>
 
 #include <iostream>
 
-//#define N
-#define M
+#define N
+//#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -28,7 +29,7 @@ std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
-Player player(glm::vec3(0.0f, 0.0f, 0.0f));
+//Player player(glm::vec3(0.0f, 0.0f, 0.0f));
 
 // camera variables
 // ----------------
@@ -52,12 +53,14 @@ int main(int argc, char **argv)
 	// ---------------
 	GLFWwindow* window = init();
 
+	/*
 	//GUI
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
+    //*/
 
 	// build and compile our shader program
 	// ------------------------------------
@@ -65,24 +68,24 @@ int main(int argc, char **argv)
 
     // adding our textures
     // -------------------------
-    Texture texture(texturesPath);
+    //Texture texture(texturesPath);
     
-	texture.add("square.png");
-	texture.add("square2.png");
+	//texture.add("square.png");
+	//texture.add("square2.png");
 	// tell OpenGL for each sampler to which texture unit it belongs to
 	// -------------------------------------------------------------------------------------------
-	ourShader.use();
-	ourShader.setInt("texture1", 0);
-	ourShader.setInt("texture2", 1);
+	//ourShader.use();
+	//ourShader.setInt("texture1", 0);
+	//ourShader.setInt("texture2", 1);
 
-	ourShader.setVec4("lightColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	//ourShader.setVec4("lightColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-	Cube matthew;
-	Cube nathan;
+	//Cube matthew;
+	//Cube nathan;
 
-	Cube cube;
+	//Cube cube;
 	
-	Perlin2D a;
+	//Perlin2D a;
 
 	// render loop
 	// -----------
@@ -119,17 +122,19 @@ int main(int argc, char **argv)
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		
+		/*
 		for(int i=0;i<10;i++)
 			for(int j=0;j<10;j++)
 			cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
 
 		player.draw(&ourShader, &texture);
+		//*/
 
-
+		/*
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
+		
 		ImGui::Begin("driftEngin",0,ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("player X:%f",player.point.X());
 		ImGui::Text("player Y:%f",player.point.Y());
@@ -138,16 +143,18 @@ int main(int argc, char **argv)
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		//*/
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
+	/*
 	ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    //*/
 
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
@@ -165,22 +172,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
-		else			{ player.ProcessKeyboard(playerUP, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
-		else			{ player.ProcessKeyboard(playerDOWN, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
-		else			{ player.ProcessKeyboard(playerLEFT, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
-		else			{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 }
 
@@ -200,7 +207,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		freeMode = !freeMode;
 		if (freeMode) 	{ currentCamera = &freecam; }
-		else			{ currentCamera = &player.camera; }
+		//else			{ currentCamera = &player.camera; }
 	}
 }
 
