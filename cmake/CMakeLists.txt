@@ -18,6 +18,9 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 			"${SRC_DIR}/imgui/imgui_impl_opengl3.cpp"
 			"${SRC_DIR}/imgui/imgui_widgets.cpp"
 
+			"${SRC_DIR}/meshtest/mesh.cpp"
+			"${SRC_DIR}/meshtest/model.cpp"
+
 			"${SRC_DIR}/camera/camera.cpp"
 			"${SRC_DIR}/camera/freecam.cpp"
 			"${SRC_DIR}/camera/cam3rd.cpp"
