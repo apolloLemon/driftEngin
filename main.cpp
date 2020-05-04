@@ -1,9 +1,8 @@
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #include "init.h" // initialize function prototypes
-
-
-//#include "imgui/imgui.h"
-//#include "imgui/imgui_impl_glfw.h"
-//#include "imgui_impl_opengl3.h"
 
 #include "camera/freecam.h"
 #include "meshes/cube.h"
@@ -52,9 +51,11 @@ int main(int argc, char **argv)
 	GLFWwindow* window = init();
 
 	//GUI
-	//ImGui::CreateContext();
-    //ImGui::StyleColorsDark();
-    //ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
 	// build and compile our shader program
 	// ------------------------------------
@@ -91,7 +92,9 @@ int main(int argc, char **argv)
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		//ImGui_ImplGlfw_NewFrame();
+		ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
 
 		// input
 		// -----
@@ -123,8 +126,8 @@ int main(int argc, char **argv)
 
 		player.draw(&ourShader, &texture);
 
-		//ImGui::Render();
-		//ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -132,10 +135,12 @@ int main(int argc, char **argv)
 		glfwPollEvents();
 	}
 
+	ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
-	//ImGui_ImplGlfw_Shutdown();
-    //ImGui::DestroyContext();
 	glfwTerminate();
 	return 0;
 }
