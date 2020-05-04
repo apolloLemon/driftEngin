@@ -11,7 +11,7 @@ public:
 	void InitTime();
 	void ResetA();
 
-	void AddForce();
+	void AddForce(double x, double y);
 
 	//GettersSetters
 	double const X(){return x;}

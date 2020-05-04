@@ -28,7 +28,7 @@ std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
-Player player(glm::vec3(0.0f, 0.0f, 0.0f));
+Player player(glm::vec3(6.0f, 0.0f, 0.0f));
 
 // camera variables
 // ----------------
@@ -84,6 +84,9 @@ int main(int argc, char **argv)
 	
 	Perlin2D a;
 
+	//start velocity
+	player.point.YV(-5);
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -118,10 +121,14 @@ int main(int argc, char **argv)
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		
-		for(int i=0;i<10;i++)
-			for(int j=0;j<10;j++)
-			cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
+		for(int i=-3;i<=3;i++)
+			for(int j=-3;j<=3;j++)
+				if ((i*i + j*j) <= 9)
+					cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
 
+		player.point.AddForce(-player.point.X()/2,-player.point.Y()/2);
+		player.point.Update();
+		player.point.ResetA();
 		player.draw(&ourShader, &texture);
 
 

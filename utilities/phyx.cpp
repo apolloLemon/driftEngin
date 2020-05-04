@@ -29,3 +29,8 @@ double const PhyxObj2D::V() {
 void PhyxObj2D::ResetA(){
 	xa=0; ya=0;
 }
+
+void PhyxObj2D::AddForce(double _x, double _y) {
+	xa += _x;
+	ya += _y;
+}
