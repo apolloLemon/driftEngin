@@ -12,15 +12,19 @@
 class Model
 {
 public:
-	// constructor
-	Model(char* path);
+	// model data
+	std::vector<Texture> textures_loaded;
+	std::vector<Mesh> meshes;
+	std::string directory;
 
+	// constructor, expects a filepath to a 3D model.
+	Model(std::string const &path);
+
+	// draws the model, and thus all its meshes
 	void Draw(Shader* shader);
 
 private:
 	// model data
-	std::vector<Mesh> meshes;
-	std::string directory;
 
 	void loadModel(std::string path);
 	void processNode(aiNode *node, const aiScene *scene);

@@ -6,6 +6,8 @@
 #include "includes/glm/glm.hpp"
 #include "includes/glm/gtc/matrix_transform.hpp"
 
+#include "includes/stb_image/stb_image.h"
+
 #include "shaders/shader.h"
 
 #include <string>
@@ -19,18 +21,20 @@ struct Vertex
 	glm::vec3 Normal;
 	// texCoords
 	glm::vec2 TexCoords;
-	// tangeant
-	glm::vec3 Tangeant;
-	// bitangeant
-	glm::vec3 Bitangeant;
+	// tangent
+	glm::vec3 Tangent;
+	// bitangent
+	glm::vec3 Bitangent;
 };
 
 struct Texture
 {
 	unsigned int id;
 	std::string type;
-	std::string path;
+	std::string path; // we store the path of the texture to compare with other textures
 };
+
+unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
 
 class Mesh
 {
