@@ -6,6 +6,8 @@
 
 #include "camera/freecam.h"
 #include "shaders/shader.h"
+#include "meshtest/mesh.h"
+#include "meshtest/model.h"
 //#include "meshes/cube.h"
 //#include "meshes/sphere.h"
 //#include "player.h"
@@ -62,9 +64,15 @@ int main(int argc, char **argv)
     ImGui_ImplOpenGL3_Init("#version 130");
     //*/
 
+    stbi_set_flip_vertically_on_load(true);
+
 	// build and compile our shader program
 	// ------------------------------------
 	Shader ourShader((shadersPath+"shader.vs").c_str(), (shadersPath+"shader.fs").c_str());
+
+	// load models
+	// -----------
+	Model ship(srcPath + "meshtest/backpack/backpack.obj");
 
     // adding our textures
     // -------------------------
@@ -117,6 +125,12 @@ int main(int argc, char **argv)
 		// camera/view transformation
 		glm::mat4 view = currentCamera->GetViewMatrix();
 		ourShader.setMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		ourShader.setMat4("model", model);
+		ship.Draw(&ourShader);
 
 		//int matx = -3.0f, natx = 0.0f, shipx = 3.0f;
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));

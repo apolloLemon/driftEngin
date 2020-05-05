@@ -27,7 +27,6 @@ void Model::loadModel(std::string path)
 	}
 	// retrieve the directory path of the filepath
 	directory = path.substr(0, path.find_last_of('/'));
-
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
 }
@@ -85,17 +84,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			vertex.TexCoords = vec;
 		}
 		else
-			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-		// tangent
-		vector.x = mesh->mTangents[i].x;
-		vector.y = mesh->mTangents[i].y;
-		vector.z = mesh->mTangents[i].z;
-		vertex.Tangent = vector;
-		// bitangent
-		vector.x = mesh->mBitangents[i].x;
-		vector.y = mesh->mBitangents[i].y;
-		vector.z = mesh->mBitangents[i].z;
-		vertex.Bitangent = vector;
+		vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 
 		vertices.push_back(vertex);
 	}
@@ -166,7 +155,6 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 			texture.path = str.C_Str();
 			textures.push_back(texture);
 			textures_loaded.push_back(texture); // store it as texture loaded for entire model, to ensure we won't unnecessary load duplicate textures
-
 		}
 	}
 	return textures;
