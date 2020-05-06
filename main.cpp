@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 
 	// load models
 	// -----------
-	//Model ship(srcPath + "meshtest/backpack/backpack.obj");
+	Model ship(srcPath + "meshtest/backpack/backpack.obj");
 
 	// render loop
 	// -----------
@@ -131,7 +131,10 @@ int main(int argc, char **argv)
 		sphere.worldPosition = glm::vec3(2.0f, 0.0f, 0.0f); 
 		sphere.Draw(&ourShader);
 		cube2.worldPosition = glm::vec3(-2.0f, 0.0f, 0.0f);
-		cube2.Draw(&ourShader);
+		cube2.Draw(&ourShader); 
+
+		ship.worldPosition = glm::vec3(0.0f, 4.0f, 0.0f);
+		ship.Draw(&ourShader);
 
 		/*
 		ImGui_ImplOpenGL3_NewFrame();

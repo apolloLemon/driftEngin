@@ -8,8 +8,9 @@
 
 #include "shaders/shader.h"
 #include "meshtest/mesh.h"
+#include "gameobjects/gameObj.h"
 
-class Model
+class Model : public GameObject
 {
 public:
 	// model data
