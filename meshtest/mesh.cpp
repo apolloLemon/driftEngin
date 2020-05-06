@@ -46,13 +46,22 @@ void Mesh::Draw(Shader* shader)
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, this->worldPosition);
+	model = glm::scale(model, this->scale);
+	shader->setMat4("model", model);
+
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured
-	glActiveTexture(GL_TEXTURE0);
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
 
 // initializes all the buffer objects/arrays

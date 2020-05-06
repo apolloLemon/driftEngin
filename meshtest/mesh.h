@@ -10,6 +10,8 @@
 
 #include "shaders/shader.h"
 
+#include "gameobjects/gameObj.h"
+
 #include <string>
 #include <vector>
 
@@ -36,7 +38,7 @@ struct Texture
 
 unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
 
-class Mesh
+class Mesh : public GameObject
 {
 public:
 	// mesh data

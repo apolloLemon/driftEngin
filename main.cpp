@@ -9,6 +9,7 @@
 #include "meshtest/mesh.h"
 #include "meshtest/model.h"
 #include "meshtest/cube.h"
+#include "meshtest/sphere.h"
 //#include "meshes/cube.h"
 //#include "meshes/sphere.h"
 //#include "player.h"
@@ -31,8 +32,6 @@
 std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
-
-//Player player(glm::vec3(0.0f, 0.0f, 0.0f));
 
 // camera variables
 // ----------------
@@ -71,39 +70,31 @@ int main(int argc, char **argv)
 	// ------------------------------------
 	Shader ourShader((shadersPath+"shader.vs").c_str(), (shadersPath+"shader.fs").c_str());
 
-	// load models
-	// -----------
-	//Model ship(srcPath + "meshtest/backpack/backpack.obj");
-
     // adding our textures
     // -------------------------
     std::vector<Texture> cubeTextures;
     Texture cubeTexture;
     cubeTexture.id = TextureFromFile("textures/square2.png", srcPath);
     cubeTexture.type = "texture_diffuse";
-    cubeTexture.path = "textures/square2.png";
+    cubeTexture.path = "textures/square.png";
     cubeTextures.push_back(cubeTexture);
-    //Texture texture(texturesPath);
-    
-	//texture.add("square.png");
-	//texture.add("square2.png");
-	// tell OpenGL for each sampler to which texture unit it belongs to
-	// -------------------------------------------------------------------------------------------
-	//ourShader.use();
-	//ourShader.setInt("texture1", 0);
-	//ourShader.setInt("texture2", 1);
 
-	//ourShader.setVec4("lightColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    std::vector<Texture> sphereTextures;
+    Texture sphereTexture;
+    sphereTexture.id = TextureFromFile("textures/square.png", srcPath);
+    sphereTexture.type = "texture_diffuse";
+    sphereTexture.path = "textures/square.png";
+    sphereTextures.push_back(sphereTexture);
 
     // instantiate meshes
 	// ------------------
-	Cube cube(cubeTextures);
-	//Cube matthew;
-	//Cube nathan;
+	Cube cube(sphereTextures);
+	Sphere sphere(10, 10, cubeTextures);
+	Cube cube2(cubeTextures);
 
-	//Cube cube;
-	
-	//Perlin2D a;
+	// load models
+	// -----------
+	//Model ship(srcPath + "meshtest/backpack/backpack.obj");
 
 	// render loop
 	// -----------
@@ -136,23 +127,11 @@ int main(int argc, char **argv)
 		glm::mat4 view = currentCamera->GetViewMatrix();
 		ourShader.setMat4("view", view);
 
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		ourShader.setMat4("model", model);
 		cube.Draw(&ourShader);
-
-		//int matx = -3.0f, natx = 0.0f, shipx = 3.0f;
-		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
-		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
-		
-		/*
-		for(int i=0;i<10;i++)
-			for(int j=0;j<10;j++)
-			cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
-
-		player.draw(&ourShader, &texture);
-		//*/
+		sphere.worldPosition = glm::vec3(2.0f, 0.0f, 0.0f); 
+		sphere.Draw(&ourShader);
+		cube2.worldPosition = glm::vec3(-2.0f, 0.0f, 0.0f);
+		cube2.Draw(&ourShader);
 
 		/*
 		ImGui_ImplOpenGL3_NewFrame();
