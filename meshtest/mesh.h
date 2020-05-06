@@ -45,17 +45,18 @@ public:
 	std::vector<Texture>		textures;
 	unsigned int VAO;
 
-	// constructor
+	// constructors
+	Mesh();
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 	// render the mesh
 	void Draw(Shader* shader);
+	// initialize all the buffer objects/arrays
+	void setupMesh();
 
 private:
 	// render data
 	unsigned int VBO, EBO;
-
-	// initialize all the buffer objects/arrays
-	void setupMesh();
+	
 };
 
 #endif

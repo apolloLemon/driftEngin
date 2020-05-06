@@ -8,6 +8,7 @@
 #include "shaders/shader.h"
 #include "meshtest/mesh.h"
 #include "meshtest/model.h"
+#include "meshtest/cube.h"
 //#include "meshes/cube.h"
 //#include "meshes/sphere.h"
 //#include "player.h"
@@ -72,10 +73,16 @@ int main(int argc, char **argv)
 
 	// load models
 	// -----------
-	Model ship(srcPath + "meshtest/backpack/backpack.obj");
+	//Model ship(srcPath + "meshtest/backpack/backpack.obj");
 
     // adding our textures
     // -------------------------
+    std::vector<Texture> cubeTextures;
+    Texture cubeTexture;
+    cubeTexture.id = TextureFromFile("textures/square2.png", srcPath);
+    cubeTexture.type = "texture_diffuse";
+    cubeTexture.path = "textures/square2.png";
+    cubeTextures.push_back(cubeTexture);
     //Texture texture(texturesPath);
     
 	//texture.add("square.png");
@@ -88,6 +95,9 @@ int main(int argc, char **argv)
 
 	//ourShader.setVec4("lightColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
+    // instantiate meshes
+	// ------------------
+	Cube cube(cubeTextures);
 	//Cube matthew;
 	//Cube nathan;
 
@@ -130,7 +140,7 @@ int main(int argc, char **argv)
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		ourShader.setMat4("model", model);
-		ship.Draw(&ourShader);
+		cube.Draw(&ourShader);
 
 		//int matx = -3.0f, natx = 0.0f, shipx = 3.0f;
 		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
