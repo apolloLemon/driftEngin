@@ -20,20 +20,15 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 
 			"${SRC_DIR}/gameobjects/gameObj.cpp"
 
-			"${SRC_DIR}/meshtest/mesh.cpp"
-			"${SRC_DIR}/meshtest/model.cpp"
-			"${SRC_DIR}/meshtest/cube.cpp"
-			"${SRC_DIR}/meshtest/sphere.cpp"
+			"${SRC_DIR}/mesh/mesh.cpp"
+			"${SRC_DIR}/mesh/model.cpp"
+			"${SRC_DIR}/mesh/cube.cpp"
+			"${SRC_DIR}/mesh/sphere.cpp"
 
 			"${SRC_DIR}/camera/camera.cpp"
 			"${SRC_DIR}/camera/freecam.cpp"
 			"${SRC_DIR}/camera/cam3rd.cpp"
 			"${SRC_DIR}/camera/camOrt.cpp"
-
-			#"${SRC_DIR}/meshes/sphere.cpp"
-			#"${SRC_DIR}/meshes/cube.cpp"
-			#"${SRC_DIR}/meshes/plane.cpp"
-			#"${SRC_DIR}/meshes/mesh.cpp"
 
 			#"${SRC_DIR}/player.cpp"
 

@@ -1,6 +1,6 @@
 #include "sphere.h"
 
-Sphere::Sphere(unsigned int xSegments, unsigned int ySegments, std::vector<Texture> textures)
+Sphere::Sphere(unsigned int xSegments, unsigned int ySegments, std::vector<Texture> textures, Material* material)
 {
 	Vertex vertex;
 
@@ -37,6 +37,8 @@ Sphere::Sphere(unsigned int xSegments, unsigned int ySegments, std::vector<Textu
 	}
 
 	this->textures = textures;
+
+	this->material = material;
 
 	setupMesh();
 }

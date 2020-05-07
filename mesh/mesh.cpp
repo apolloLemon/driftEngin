@@ -6,11 +6,12 @@ Mesh::Mesh()
 
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material* material)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
+	this->material = material;
 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
@@ -25,26 +26,59 @@ void Mesh::Draw(Shader* shader)
 	unsigned int normalNr	= 1;
 	unsigned int heightNr	= 1;
 
-	for (unsigned int i = 0; i < textures.size(); i++)
+	if (textures.size() > 0)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-		// retrieve texture number (the N in diffuse_textureN)
-		std::string number;
-		std::string name = textures[i].type;
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularNr++);
-		else if (name == "texture_normal")
-			number = std::to_string(normalNr++);
-		else if (name == "texture_height")
-			number = std::to_string(heightNr++);
+		for (unsigned int i = 0; i < textures.size(); i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+			// retrieve texture number (the N in diffuse_textureN)
+			std::string number;
+			std::string name = textures[i].type;
+			if (name == "texture_diffuse")
+			{
+				number = std::to_string(diffuseNr++);
+				name = "material.diffuse";
+			}
+			else if (name == "texture_specular")
+			{
+				number = std::to_string(specularNr++);
+				name = "material.specular";
+			}
+			else if (name == "texture_normal")
+			{
+				number = std::to_string(normalNr++);
+			}
+			else if (name == "texture_height")
+			{
+				number = std::to_string(heightNr++);
+			}
+			else if (name == "texture_light")
+			{
+				number = "";
+			}
 
-		// now set the sampler to the correct texture unit
-		glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), i);
-		// and finally bind the texture
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+			// now set the sampler to the correct texture unit
+			glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), i);
+			shader->setFloat("material.shininess", 32.0f);
+			// and finally bind the texture
+			glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		}
 	}
+	else if (material != nullptr)
+	{
+		/*
+		std::cout << "MATERIAL INFO:" << std::endl;
+		std::cout << "\tAmbient: [x:" << material->ambient.x << ", y:" << material->ambient.y << ", z:" << material->ambient.z << "]" << std::endl;
+		std::cout << "\tDiffuse: [x:" << material->diffuse.x << ", y:" << material->diffuse.y << ", z:" << material->diffuse.z << "]" << std::endl;
+		std::cout << "\tSpecular: [x:" << material->specular.x << ", y:" << material->specular.y << ", z:" << material->specular.z << "]" << std::endl;
+		std::cout << "\tShininess: " << material->shininess << std::endl;
+		//*/
+		shader->setVec3("material.ambient", material->ambient);
+		shader->setVec3("material.diffuse", material->diffuse);
+		shader->setVec3("material.specular", material->specular);
+		shader->setFloat("material.shininess", 32.0f);
+	}
+	
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, this->worldPosition);
