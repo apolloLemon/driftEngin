@@ -1,3 +1,4 @@
 cmake/
 *.exec
 a.out
+includes/assimp/
