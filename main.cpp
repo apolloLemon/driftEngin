@@ -1,6 +1,6 @@
-//#include "imgui/imgui.h"
-//#include "imgui/imgui_impl_glfw.h"
-//#include "imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include "init.h" // initialize function prototypes
 
@@ -19,8 +19,8 @@
 
 #include <iostream>
 
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	// ---------------
 	GLFWwindow* window = init();
 
-	/*
+	///*
 	//GUI
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	Model ship(srcPath + "meshtest/backpack/backpack.obj");
 
 	//start velocity
-	player.point.YV(-5);
+	//player.point.YV(-5);
 
 	// render loop
 	// -----------
