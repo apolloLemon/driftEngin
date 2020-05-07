@@ -1,7 +1,8 @@
-//#include "imgui/imgui.h"
-//#include "imgui/imgui_impl_glfw.h"
-//#include "imgui/imgui_impl_opengl3.h"
-
+//*Imgui 1/4
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+//*/
 #include "init.h" // initialize function prototypes
 
 #include "camera/freecam.h"
@@ -17,8 +18,8 @@
 
 #include <iostream>
 
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -53,8 +54,7 @@ int main(int argc, char **argv)
 	// ---------------
 	GLFWwindow* window = init();
 
-	/*
-	//GUI
+	//*Imgui 2/4
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
@@ -192,16 +192,16 @@ int main(int argc, char **argv)
 		materialSphere.Draw(&materialShader);
 		
 
-		/*
+		//*Imgui 3/4
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 		
 		ImGui::Begin("driftEngin",0,ImGuiWindowFlags_AlwaysAutoResize);
-		ImGui::Text("player X:%f",player.point.X());
-		ImGui::Text("player Y:%f",player.point.Y());
-		ImGui::Text("player XV:%f",player.point.XV());
-		ImGui::Text("player YV:%f",player.point.YV());
+//		ImGui::Text("player X:%f",player.point.X());
+//		ImGui::Text("player Y:%f",player.point.Y());
+//		ImGui::Text("player XV:%f",player.point.XV());
+//		ImGui::Text("player YV:%f",player.point.YV());
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -212,11 +212,11 @@ int main(int argc, char **argv)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	/*
+	//*Imgui 4/4
 	ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    //*/
+//	*/
 
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
