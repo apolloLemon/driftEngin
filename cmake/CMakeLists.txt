@@ -18,17 +18,19 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 			"${SRC_DIR}/imgui/imgui_impl_opengl3.cpp"
 			"${SRC_DIR}/imgui/imgui_widgets.cpp"
 
+			"${SRC_DIR}/gameobjects/gameObj.cpp"
+
+			"${SRC_DIR}/mesh/mesh.cpp"
+			"${SRC_DIR}/mesh/model.cpp"
+			"${SRC_DIR}/mesh/cube.cpp"
+			"${SRC_DIR}/mesh/sphere.cpp"
+
 			"${SRC_DIR}/camera/camera.cpp"
 			"${SRC_DIR}/camera/freecam.cpp"
 			"${SRC_DIR}/camera/cam3rd.cpp"
 			"${SRC_DIR}/camera/camOrt.cpp"
 
-			"${SRC_DIR}/meshes/sphere.cpp"
-			"${SRC_DIR}/meshes/cube.cpp"
-			"${SRC_DIR}/meshes/plane.cpp"
-			"${SRC_DIR}/meshes/mesh.cpp"
-
-			"${SRC_DIR}/player.cpp"
+			#"${SRC_DIR}/player.cpp"
 
 			"${SRC_DIR}/textures/texture.cpp"
 			"${SRC_DIR}/shaders/shader.cpp"
@@ -36,8 +38,10 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 			"${INC_DIR}/stb_image/stb_image.cpp"
 	)
 
+add_subdirectory(${INC_DIR}/assimp assimp)
+
 add_executable(${PROJECT_NAME}.exe ${SOURCES})
 target_include_directories(${PROJECT_NAME}.exe PRIVATE "${SRC_DIR}")
-set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 17)
 
-TARGET_LINK_LIBRARIES(driftEngine.exe -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lGLU -lglut -lm)
+TARGET_LINK_LIBRARIES(driftEngine.exe assimp -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lGLU -lglut -lm)

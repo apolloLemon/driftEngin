@@ -1,21 +1,24 @@
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+//#include "imgui/imgui.h"
+//#include "imgui/imgui_impl_glfw.h"
+//#include "imgui/imgui_impl_opengl3.h"
 
 #include "init.h" // initialize function prototypes
 
 #include "camera/freecam.h"
-#include "meshes/cube.h"
-#include "meshes/sphere.h"
-#include "player.h"
+#include "shaders/shader.h"
+#include "mesh/mesh.h"
+#include "mesh/model.h"
+#include "mesh/cube.h"
+#include "mesh/sphere.h"
+//#include "player.h"
 
-#include "utilities/perlin.h"
-#include <vector>
+//#include "utilities/perlin.h"
+//#include <vector>
 
 #include <iostream>
 
-//#define N
-#define M
+#define N
+//#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -27,8 +30,6 @@
 std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
-
-Player player(glm::vec3(0.0f, 0.0f, 0.0f));
 
 // camera variables
 // ----------------
@@ -52,37 +53,79 @@ int main(int argc, char **argv)
 	// ---------------
 	GLFWwindow* window = init();
 
+	/*
 	//GUI
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
+    //*/
+
+    stbi_set_flip_vertically_on_load(true);
 
 	// build and compile our shader program
 	// ------------------------------------
-	Shader ourShader((shadersPath+"shader.vs").c_str(), (shadersPath+"shader.fs").c_str());
+
+	Shader textureShader((shadersPath+"textureShader.vs").c_str(), (shadersPath+"textureShader.fs").c_str());
+	Shader materialShader((shadersPath+"materialShader.vs").c_str(), (shadersPath+"materialShader.fs").c_str());
+	Shader lightSourceShader((shadersPath+"lightSourceShader.vs").c_str(), (shadersPath+"lightSourceShader.fs").c_str());
 
     // adding our textures
     // -------------------------
-    Texture texture(texturesPath);
-    
-	texture.add("square.png");
-	texture.add("square2.png");
-	// tell OpenGL for each sampler to which texture unit it belongs to
-	// -------------------------------------------------------------------------------------------
-	ourShader.use();
-	ourShader.setInt("texture1", 0);
-	ourShader.setInt("texture2", 1);
+    Texture tSquare;
+    tSquare.id = TextureFromFile("textures/square/square.png", srcPath);
+    tSquare.type = "texture_diffuse";
+    tSquare.path = "textures/square/square.png";
 
-	ourShader.setVec4("lightColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    Texture tSquare2;
+    tSquare2.id = TextureFromFile("textures/square2/square2.png", srcPath);
+    tSquare2.type = "texture_diffuse";
+    tSquare2.path = "textures/square2/square2.png";
 
-	Cube matthew;
-	Cube nathan;
+    Texture tSquare2_specular;
+    tSquare2_specular.id = TextureFromFile("textures/square2/square2_specular.png", srcPath);
+    tSquare2_specular.type = "texture_specular";
+    tSquare2_specular.path = "textures/square2/square2_specular.png";
 
-	Cube cube;
-	
-	Perlin2D a;
+    Texture tSun;
+    tSun.id = TextureFromFile("textures/sun/sun.jpg", srcPath);
+    tSun.type = "texture_light";
+    tSun.path = "textures/sun/sun.jpg";
+
+    // adding our materials
+    // --------------------
+    Material emerald;
+    emerald.ambient = glm::vec3(0.0215f, 0.1745f, 0.0215f);
+    emerald.diffuse = glm::vec3(0.07568f, 0.61424f, 0.07568f);
+    emerald.specular = glm::vec3(0.633f, 0.727811f, 0.633f);
+    //TODO: Import new materials from www.devernay.free.fr/cours/opengl/materials.html
+
+    // creating texture vectors
+    // ------------------------
+    std::vector<Texture> cubeTextures;
+    cubeTextures.push_back(tSquare2);
+    cubeTextures.push_back(tSquare2_specular);
+    std::vector<Texture> sunTextures;
+    sunTextures.push_back(tSun);
+
+    // instantiate meshes
+	// ------------------
+	Cube texturedCube(cubeTextures);
+	Cube materialCube(std::vector<Texture>(), &emerald);
+	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
+	Sphere sunMesh(50, 50, sunTextures);
+
+	// load models
+	// -----------
+	Model ship(srcPath + "mesh/models/backpack/backpack.obj");
+
+	// lighting options
+	// ----------------
+	glm::vec3 lightColor(1.0f);
+	glm::vec3 lDiffuse = lightColor * glm::vec3(0.8f);
+	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
+	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
 
 	// render loop
 	// -----------
@@ -104,32 +147,56 @@ int main(int argc, char **argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// activate shader
-		ourShader.use();
-
-		// pass projection matrix to shader
 		glm::mat4 projection = glm::perspective(glm::radians(currentCamera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		ourShader.setMat4("projection", projection);
-
-		// camera/view transformation
 		glm::mat4 view = currentCamera->GetViewMatrix();
-		ourShader.setMat4("view", view);
-
-		//int matx = -3.0f, natx = 0.0f, shipx = 3.0f;
-		//matthew.draw(glm::vec3(matx, 0.0f, a.Get(matx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
-		//nathan.draw(glm::vec3(natx, 0.0f, a.Get(natx)*3), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), MODE_COLOR, &ourShader, &texture, 0.0f, 0.0f, 1.0f, glm::vec4(0.3f, 1.0f, 1.0f, 1.0f));
 		
-		for(int i=0;i<10;i++)
-			for(int j=0;j<10;j++)
-			cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
+		// configuring the light source shader and meshes
+		// ----------------------------------------------
+		lightSourceShader.use();
+		lightSourceShader.setMat4("projection", projection);
+		lightSourceShader.setMat4("view", view);
+		// the sun is the source light here
+		sunMesh.worldPosition = glm::vec3(cos(glfwGetTime()) * 20.0f, sin(glfwGetTime()) * 20.0f, 2.0f);
+		sunMesh.scale = glm::vec3(10.0f);
+		sunMesh.Draw(&lightSourceShader);
 
-		player.draw(&ourShader, &texture);
+		// configuring textureShader to draw textured meshes
+		// -------------------------------------------------
+		textureShader.use();
+		textureShader.setVec3("light.position", sunMesh.worldPosition);
+		textureShader.setVec3("light.ambient", lAmbient);
+		textureShader.setVec3("light.diffuse", lDiffuse);
+		textureShader.setVec3("light.specular", lSpecular);
+		textureShader.setVec3("viewPos", currentCamera->Position);
+		textureShader.setMat4("projection", projection);
+		textureShader.setMat4("view", view);
 
+		texturedCube.Draw(&textureShader);
+		ship.worldPosition = glm::vec3(0.0f, 4.0f, 0.0f);
+		ship.Draw(&textureShader);
 
+		// configuring materialShader to draw untextured meshes
+		// ----------------------------------------------------
+		materialShader.use();
+		materialShader.setVec3("light.position", sunMesh.worldPosition);
+		materialShader.setVec3("light.ambient", lAmbient);
+		materialShader.setVec3("light.diffuse", lDiffuse);
+		materialShader.setVec3("light.specular", lSpecular);
+		materialShader.setVec3("viewPos", currentCamera->Position);
+		materialShader.setMat4("projection", projection);
+		materialShader.setMat4("view", view);
+
+		materialCube.worldPosition = glm::vec3(2.0f, 0.0f, 0.0f);
+		materialCube.Draw(&materialShader);
+		materialSphere.worldPosition = glm::vec3(-2.0f, 0.0f, 0.0f);
+		materialSphere.Draw(&materialShader);
+		
+
+		/*
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
+		
 		ImGui::Begin("driftEngin",0,ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("player X:%f",player.point.X());
 		ImGui::Text("player Y:%f",player.point.Y());
@@ -138,16 +205,18 @@ int main(int argc, char **argv)
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		//*/
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
+	/*
 	ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    //*/
 
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
@@ -165,22 +234,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
-		else			{ player.ProcessKeyboard(playerUP, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
-		else			{ player.ProcessKeyboard(playerDOWN, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
-		else			{ player.ProcessKeyboard(playerLEFT, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freeMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
-		else			{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
+		//else			{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 }
 
@@ -200,7 +269,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		freeMode = !freeMode;
 		if (freeMode) 	{ currentCamera = &freecam; }
-		else			{ currentCamera = &player.camera; }
+		//else			{ currentCamera = &player.camera; }
 	}
 }
 
