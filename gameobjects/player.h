@@ -7,9 +7,8 @@
 
 #include "../camera/camOrt.h"
 
-//#include "../meshes/cube.h"
 #include "../shaders/shader.h"
-//#include "../textures/texture.h"
+#include "../mesh/model.h"
 
 #include "../utilities/phyx.h"
 #include "gameObj.h"
@@ -28,7 +27,7 @@ class Player : public GameObj, public PhyxObj2D, public Model
 public:
 
 	Player(glm::vec3 position, std::string path);
-	void draw(Shader *shader/*, Texture *texture*/);
+//	void draw(Shader *shader);
 	void ProcessKeyboard(Player_Movement direction, float deltaTime);
 
 	CamOrt camera;

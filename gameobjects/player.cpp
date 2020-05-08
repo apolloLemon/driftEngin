@@ -9,8 +9,8 @@ Model(path)
 	X(this->worldPosition.x);
 	Y(this->worldPosition.z);
 }
-
-void Player::draw(Shader* shader/*, Texture* texture*/)
+/*/
+void Player::draw(Shader* shader)
 {
 	worldPosition.x = X();
 	worldPosition.z = Y();
@@ -21,7 +21,7 @@ void Player::draw(Shader* shader/*, Texture* texture*/)
 	//glDeleteBuffers(1, &cube.m_VBO);
 	camera.updateCameraVectors(worldPosition);
 }
-
+//*/
 void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 {
 	if (direction == playerUP)

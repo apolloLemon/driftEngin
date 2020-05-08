@@ -10,7 +10,7 @@
 #include "mesh/mesh.h"
 #include "gameobjects/gameObj.h"
 
-class Model : public GameObj
+class Model //: public GameObj
 {
 public:
 	// model data
@@ -18,6 +18,7 @@ public:
 	std::vector<Mesh> meshes;
 	std::string directory;
 
+	glm::vec3 drawpos;
 	// constructor, expects a filepath to a 3D model.
 	Model(std::string const &path);
 

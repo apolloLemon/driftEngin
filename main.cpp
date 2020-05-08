@@ -33,7 +33,6 @@ std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
-Player player(glm::vec3(6.0f, 0.0f, 0.0f),"Games/OrbitGame/Assets/sputnik1.obj");
 
 // camera variables
 // ----------------
@@ -76,6 +75,7 @@ int main(int argc, char **argv)
 
     // adding our textures
     // -------------------------
+   	//*/
     Texture tSquare;
     tSquare.id = TextureFromFile("textures/square/square.png", srcPath);
     tSquare.type = "texture_diffuse";
@@ -111,18 +111,18 @@ int main(int argc, char **argv)
     cubeTextures.push_back(tSquare2_specular);
     std::vector<Texture> sunTextures;
     sunTextures.push_back(tSun);
-
     // instantiate meshes
 	// ------------------
 	Cube texturedCube(cubeTextures);
 	Cube materialCube(std::vector<Texture>(), &emerald);
 	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
 	Sphere sunMesh(50, 50, sunTextures);
-
+	
 	// load models
 	// -----------
-	Model ship(srcPath + "mesh/models/backpack/backpack.obj");
-
+	//Model ship(srcPath + "mesh/models/backpack/backpack.obj");
+	
+	Player player(glm::vec3(10.0f, 0.0f, 0.0f),srcPath + "Games/OrbitGame/Assets/sputnik1.obj");
 	// lighting options
 	// ----------------
 	glm::vec3 lightColor(1.0f);
@@ -154,20 +154,17 @@ int main(int argc, char **argv)
 
 		glm::mat4 projection = glm::perspective(glm::radians(currentCamera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = currentCamera->GetViewMatrix();
-		
-		player.AddForce(-player.X()/2,-player.Y()/2);
-		player.Update();
-		player.ResetA();
 		// configuring the light source shader and meshes
 		// ----------------------------------------------
 		lightSourceShader.use();
 		lightSourceShader.setMat4("projection", projection);
 		lightSourceShader.setMat4("view", view);
+		//*/
 		// the sun is the source light here
-		sunMesh.worldPosition = glm::vec3(cos(glfwGetTime()) * 20.0f, sin(glfwGetTime()) * 20.0f, 4.0f);
-		sunMesh.scale = glm::vec3(10.0f);
+		sunMesh.worldPosition = glm::vec3(0,0,0);
+		sunMesh.scale = glm::vec3(8.0f);
 		sunMesh.Draw(&lightSourceShader);
-
+	
 		// configuring textureShader to draw textured meshes
 		// -------------------------------------------------
 		textureShader.use();
@@ -180,8 +177,17 @@ int main(int argc, char **argv)
 		textureShader.setMat4("view", view);
 
 		texturedCube.Draw(&textureShader);
-		ship.worldPosition = glm::vec3(0.0f, 2.0f, 0.0f);
-		ship.Draw(&textureShader);
+		//ship.drawpos = glm::vec3(0.0f, 2.0f, 0.0f);
+		//ship.Draw(&textureShader);
+		player.AddForce(-player.X()/2,-player.Y()/2);
+		player.Update();
+		player.ResetA();
+
+
+		player.worldPosition.x = player.X();
+		player.worldPosition.z = player.Y();
+		player.drawpos=player.worldPosition;
+		player.Draw(&textureShader);
 
 		// configuring materialShader to draw untextured meshes
 		// ----------------------------------------------------
@@ -195,9 +201,10 @@ int main(int argc, char **argv)
 		materialShader.setMat4("view", view);
 
 		materialCube.worldPosition = glm::vec3(2.0f, 0.0f, 0.0f);
-		materialCube.Draw(&materialShader);
+		//materialCube.Draw(&materialShader);
 		materialSphere.worldPosition = glm::vec3(-2.0f, 0.0f, 0.0f);
-		materialSphere.Draw(&materialShader);
+		//materialSphere.Draw(&materialShader);
+		//*/
 		
 
 		//*Imgui 3/4
@@ -212,6 +219,9 @@ int main(int argc, char **argv)
 		ImGui::Text("player XV:%f",player.XV());
 		ImGui::Text("player YV:%f",player.YV());
 		ImGui::Text("player Speed:%f",player.V());
+		ImGui::Text("");
+		ImGui::Text("player GameObj pos:%f",player.worldPosition.x);
+		ImGui::Text("player Model drawpos:%f",player.drawpos.x);
 
 		ImGui::End();
 		ImGui::Render();
