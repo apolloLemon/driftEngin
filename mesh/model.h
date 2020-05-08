@@ -10,7 +10,7 @@
 #include "mesh/mesh.h"
 #include "gameobjects/gameObj.h"
 
-class Model : public GameObject
+class Model : public GameObj
 {
 public:
 	// model data
