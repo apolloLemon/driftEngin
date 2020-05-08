@@ -22,7 +22,7 @@ enum Player_Movement {
 	playerRIGHT
 };
 
-class Player : public GameObj, public PhyxObj2D, public Model
+class Player : public PhyxObj2D, public Model
 {
 public:
 

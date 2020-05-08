@@ -46,7 +46,7 @@ struct Material
 
 unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
 
-class Mesh : public GameObj
+class Mesh : virtual public GameObj
 {
 public:
 	// mesh data

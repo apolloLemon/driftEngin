@@ -3,7 +3,9 @@
 #include <cmath>
 #include <iostream>
 
-class PhyxObj2D {
+#include "../gameobjects/gameObj.h"
+
+class PhyxObj2D : virtual public GameObj {
 public:
 
 	//Phyx
