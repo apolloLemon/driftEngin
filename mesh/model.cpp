@@ -73,6 +73,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
+		//std::cout << "Vertex [x:"<<mesh->mVertices[i].x << "y:"<<mesh->mVertices[i].y << "z:"<<mesh->mVertices[i].z << "]" << std::endl;
 		vertex.Position = vector;
 		// normals
 		vector.x = mesh->mNormals[i].x;
@@ -185,6 +186,15 @@ Material Model::loadMaterial(aiMaterial* mat)
 
 	mat->Get(AI_MATKEY_SHININESS, shininess);
 	material.shininess = shininess;
+
+	/*
+	std::cout << "Material:" << std::endl;
+	std::cout << "\tAmbient: [x:" << material.ambient.x << ", y:" << material.ambient.y << ", z:" << material.ambient.z << "]" << std::endl;
+	std::cout << "\tDiffuse: [x:" << material.diffuse.x << ", y:" << material.diffuse.y << ", z:" << material.diffuse.z << "]" << std::endl;
+	std::cout << "\tSpecular: [x:" << material.specular.x << ", y:" << material.specular.y << ", z:" << material.specular.z << "]" << std::endl;
+	std::cout << "\tShininess: " << material.shininess << std::endl;
+	//*/
+
 
 	return material;
 }
