@@ -5,13 +5,14 @@
 #include "includes/glm/glm.hpp"
 #include "includes/glm/gtc/matrix_transform.hpp"
 
-#include "camera/camOrt.h"
+#include "../camera/camOrt.h"
 
-#include "meshes/cube.h"
-#include "shaders/shader.h"
-#include "textures/texture.h"
+//#include "../meshes/cube.h"
+#include "../shaders/shader.h"
+//#include "../textures/texture.h"
 
-#include "utilities/phyx.h"
+#include "../utilities/phyx.h"
+#include "gameObj.h"
 
 const float PLAYER_SPEED = 2.5f;
 
@@ -22,19 +23,15 @@ enum Player_Movement {
 	playerRIGHT
 };
 
-class Player
+class Player : public GameObj, public PhyxObj2D
 {
 public:
 
 	Player(glm::vec3 position);
-	void draw(Shader *shader, Texture *texture);
+	void draw(Shader *shader/*, Texture *texture*/);
 	void ProcessKeyboard(Player_Movement direction, float deltaTime);
 
-	glm::vec3 Position;
-	float MovementSpeed;
 	CamOrt camera;
-	PhyxObj2D point;
-
 private:
 
 };

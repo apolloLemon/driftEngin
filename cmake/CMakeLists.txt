@@ -19,6 +19,7 @@ set(SOURCES "${SRC_DIR}/main.cpp"
 			"${SRC_DIR}/imgui/imgui_widgets.cpp"
 
 			"${SRC_DIR}/gameobjects/gameObj.cpp"
+			"${SRC_DIR}/gameobjects/player.cpp"
 
 			"${SRC_DIR}/meshtest/mesh.cpp"
 			"${SRC_DIR}/meshtest/model.cpp"

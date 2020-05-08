@@ -12,7 +12,7 @@
 #include "meshtest/sphere.h"
 //#include "meshes/cube.h"
 //#include "meshes/sphere.h"
-//#include "player.h"
+#include "gameobjects/player.h"
 
 //#include "utilities/perlin.h"
 //#include <vector>
@@ -33,7 +33,7 @@ std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
-//Player player(glm::vec3(6.0f, 0.0f, 0.0f));
+Player player(glm::vec3(6.0f, 0.0f, 0.0f));
 
 // camera variables
 // ----------------
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	Model ship(srcPath + "meshtest/backpack/backpack.obj");
 
 	//start velocity
-	//player.point.YV(-5);
+	player.YV(-5);
 
 	// render loop
 	// -----------
@@ -140,9 +140,6 @@ int main(int argc, char **argv)
 				if ((i*i + j*j) <= 9)
 					cube.draw(glm::vec3(i, a.Noise(i,j), j), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),  MODE_TEX1, &ourShader, &texture, ((a.Noise(i,j)>0.5)?0:1));
 
-		player.point.AddForce(-player.point.X()/2,-player.point.Y()/2);
-		player.point.Update();
-		player.point.ResetA();
 		player.draw(&ourShader, &texture);
 		//*/
 		cube.Draw(&ourShader);
@@ -154,17 +151,20 @@ int main(int argc, char **argv)
 		ship.worldPosition = glm::vec3(0.0f, 4.0f, 0.0f);
 		ship.Draw(&ourShader);
 
+		player.AddForce(-player.X()/2,-player.Y()/2);
+		player.Update();
+		player.ResetA();
 		///*
 		ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 		
 		ImGui::Begin("driftEngin",0,ImGuiWindowFlags_AlwaysAutoResize);
-//		ImGui::Text("player X:%f",player.point.X());
-//		ImGui::Text("player Y:%f",player.point.Y());
-//		ImGui::Text("player XV:%f",player.point.XV());
-//		ImGui::Text("player YV:%f",player.point.YV());
-//		ImGui::Text("player Speed:%f",player.point.V());
+		ImGui::Text("player X:%f",player.X());
+		ImGui::Text("player Y:%f",player.Y());
+		ImGui::Text("player XV:%f",player.XV());
+		ImGui::Text("player YV:%f",player.YV());
+		ImGui::Text("player Speed:%f",player.V());
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
