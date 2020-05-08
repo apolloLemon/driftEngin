@@ -9,7 +9,7 @@ const float TAU	= 6.28318530717f;
 class Sphere : public Mesh
 {
 public:
-	Sphere(unsigned int xSegments, unsigned int ySegments, std::vector<Texture> textures = std::vector<Texture>());
+	Sphere(unsigned int xSegments, unsigned int ySegments, std::vector<Texture> textures = std::vector<Texture>(), Material* material = nullptr);
 };
 
 #endif

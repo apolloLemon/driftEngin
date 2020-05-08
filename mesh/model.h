@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "shaders/shader.h"
-#include "meshtest/mesh.h"
+#include "mesh/mesh.h"
 #include "gameobjects/gameObj.h"
 
 class Model : public GameObject
@@ -31,6 +31,7 @@ private:
 	void processNode(aiNode *node, const aiScene *scene);
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
+	Material loadMaterial(aiMaterial* mat);
 };
 
 #endif

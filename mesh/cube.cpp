@@ -1,6 +1,6 @@
 #include "cube.h"
 
-Cube::Cube(std::vector<Texture> textures)
+Cube::Cube(std::vector<Texture> textures, Material* material)
 {
 	Vertex vertex;
 
@@ -122,6 +122,8 @@ Cube::Cube(std::vector<Texture> textures)
 	this->indices = vInd;
 
 	this->textures = textures;
+
+	this->material = material;
 
 	setupMesh();
 }

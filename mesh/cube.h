@@ -7,7 +7,7 @@
 class Cube : public Mesh
 {
 public:
-	Cube(std::vector<Texture> textures = std::vector<Texture>());
+	Cube(std::vector<Texture> textures = std::vector<Texture>(), Material* material = nullptr);
 };
 
 #endif

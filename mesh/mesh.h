@@ -36,6 +36,14 @@ struct Texture
 	std::string path; // we store the path of the texture to compare with other textures
 };
 
+struct Material
+{
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
+};
+
 unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
 
 class Mesh : public GameObject
@@ -45,11 +53,12 @@ public:
 	std::vector<Vertex>			vertices;
 	std::vector<unsigned int>	indices;
 	std::vector<Texture>		textures;
+	Material*					material;
 	unsigned int VAO;
 
 	// constructors
 	Mesh();
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material *material = nullptr);
 	// render the mesh
 	void Draw(Shader* shader);
 	// initialize all the buffer objects/arrays

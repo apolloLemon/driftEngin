@@ -59,6 +59,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
+	Material uMaterial;
 
 	// walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -72,6 +73,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
+		//std::cout << "Vertex [x:"<<mesh->mVertices[i].x << "y:"<<mesh->mVertices[i].y << "z:"<<mesh->mVertices[i].z << "]" << std::endl;
 		vertex.Position = vector;
 		// normals
 		vector.x = mesh->mNormals[i].x;
@@ -124,10 +126,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		// 4. height maps
 		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+		// 5. untextured materials
+		uMaterial = loadMaterial(material);
 	}
 
 	// return a mesh object created from the extracted mesh data
-	return Mesh(vertices, indices, textures);
+	return Mesh(vertices, indices, textures, &uMaterial);
 }
 
 // checks all material textures of a given type and loads the textures if they're not loaded yet.
@@ -161,4 +166,35 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		}
 	}
 	return textures;
+}
+
+Material Model::loadMaterial(aiMaterial* mat)
+{
+	Material material;
+
+	aiColor3D color(0.0f, 0.0f, 0.0f);
+	float shininess;
+
+	mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+	material.ambient = glm::vec3(color.r, color.b, color.g);
+
+	mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+	material.diffuse = glm::vec3(color.r, color.b, color.g);
+
+	mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+	material.specular = glm::vec3(color.r, color.b, color.g);
+
+	mat->Get(AI_MATKEY_SHININESS, shininess);
+	material.shininess = shininess;
+
+	/*
+	std::cout << "Material:" << std::endl;
+	std::cout << "\tAmbient: [x:" << material.ambient.x << ", y:" << material.ambient.y << ", z:" << material.ambient.z << "]" << std::endl;
+	std::cout << "\tDiffuse: [x:" << material.diffuse.x << ", y:" << material.diffuse.y << ", z:" << material.diffuse.z << "]" << std::endl;
+	std::cout << "\tSpecular: [x:" << material.specular.x << ", y:" << material.specular.y << ", z:" << material.specular.z << "]" << std::endl;
+	std::cout << "\tShininess: " << material.shininess << std::endl;
+	//*/
+
+
+	return material;
 }
