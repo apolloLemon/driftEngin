@@ -23,11 +23,11 @@ enum Player_Movement {
 	playerRIGHT
 };
 
-class Player : public GameObj, public PhyxObj2D
+class Player : public GameObj, public PhyxObj2D, public Model
 {
 public:
 
-	Player(glm::vec3 position);
+	Player(glm::vec3 position, std::string path);
 	void draw(Shader *shader/*, Texture *texture*/);
 	void ProcessKeyboard(Player_Movement direction, float deltaTime);
 

@@ -33,7 +33,7 @@ std::string srcPath = PWD;
 std::string shadersPath = srcPath + "shaders/";
 std::string texturesPath = srcPath + "textures/";
 
-Player player(glm::vec3(6.0f, 0.0f, 0.0f));
+Player player(glm::vec3(6.0f, 0.0f, 0.0f),"Games/OrbitGame/Assets/sputnik1.obj");
 
 // camera variables
 // ----------------

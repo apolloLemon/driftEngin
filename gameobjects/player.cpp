@@ -1,6 +1,7 @@
 #include "player.h"
 
-Player::Player(glm::vec3 position) 
+Player::Player(glm::vec3 position, std::string path) :
+Model(path)
 {
 	worldPosition=position;
 	camera.updateCameraVectors(this->worldPosition);
