@@ -156,7 +156,7 @@ int main(int argc, char **argv)
 		lightSourceShader.setMat4("projection", projection);
 		lightSourceShader.setMat4("view", view);
 		// the sun is the source light here
-		sunMesh.worldPosition = glm::vec3(cos(glfwGetTime()) * 20.0f, sin(glfwGetTime()) * 20.0f, 2.0f);
+		sunMesh.worldPosition = glm::vec3(cos(glfwGetTime()) * 20.0f, sin(glfwGetTime()) * 20.0f, 4.0f);
 		sunMesh.scale = glm::vec3(10.0f);
 		sunMesh.Draw(&lightSourceShader);
 
@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 		textureShader.setMat4("view", view);
 
 		texturedCube.Draw(&textureShader);
-		ship.worldPosition = glm::vec3(0.0f, 4.0f, 0.0f);
+		ship.worldPosition = glm::vec3(0.0f, 2.0f, 0.0f);
 		ship.Draw(&textureShader);
 
 		// configuring materialShader to draw untextured meshes
