@@ -2,15 +2,13 @@
 #define MESH_H
 
 #include "includes/glad/glad.h"
-
 #include "includes/glm/glm.hpp"
 #include "includes/glm/gtc/matrix_transform.hpp"
-
 #include "includes/stb_image/stb_image.h"
 
 #include "shaders/shader.h"
 
-#include "gameobjects/gameObj.h"
+#include "objects/gameObj.h"
 
 #include <string>
 #include <vector>
@@ -46,10 +44,11 @@ struct Material
 
 unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
 
-class Mesh : virtual public GameObj
+class Mesh
 {
 public:
 	// mesh data
+	glm::vec3					position;
 	std::vector<Vertex>			vertices;
 	std::vector<unsigned int>	indices;
 	std::vector<Texture>		textures;
@@ -60,7 +59,7 @@ public:
 	Mesh();
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material *material = nullptr);
 	// render the mesh
-	void Draw(Shader* shader);
+	void Draw(Shader* shader, glm::vec3 position = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
 	// initialize all the buffer objects/arrays
 	void setupMesh();
 
