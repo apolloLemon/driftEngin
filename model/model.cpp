@@ -21,6 +21,8 @@ void Model::loadModel(std::string path)
 	directory = path.substr(0, path.find_last_of('/'));
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
+
+	formatModel();
 }
 
 // processes a node in a recursive fashion. Processes each individual mesh located at the node
@@ -186,4 +188,19 @@ Material Model::loadMaterial(aiMaterial* mat)
 
 
 	return material;
+}
+
+void Model::formatModel()
+{
+	glm::vec3 min = glm::vec3(std::numeric_limits<float>::infinity());
+	glm::vec3 max = glm::vec3(-std::numeric_limits<float>::infinity());
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		if (meshes[i].position.x < min.x)	{ min.x = meshes[i].position.x; }
+		if (meshes[i].position.y < min.y)	{ min.y = meshes[i].position.y; }
+		if (meshes[i].position.z < min.z)	{ min.z = meshes[i].position.z; }
+		if (meshes[i].position.x > max.x)	{ max.x = meshes[i].position.x; }
+		if (meshes[i].position.y > max.y)	{ max.y = meshes[i].position.y; }
+		if (meshes[i].position.z > max.z)	{ max.z = meshes[i].position.z; }
+	}
 }

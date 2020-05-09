@@ -5,6 +5,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <vector>
+#include <limits>
 
 #include "shaders/shader.h"
 #include "mesh/mesh.h"
@@ -29,6 +30,7 @@ private:
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 	Material loadMaterial(aiMaterial* mat);
+	void formatModel();
 };
 
 #endif
