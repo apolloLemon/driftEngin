@@ -7,6 +7,7 @@ void RenderObj::loadModel(std::string path)
 	for (unsigned int i = 0; i < model.meshes.size(); i++)
 	{
 		this->meshes.push_back(&model.meshes[i]);
+		//std::cout << "Position: [x:" << model.meshes[i].vertices[0].Position.x << ", y:" << model.meshes[i].vertices[0].Position.y << ", z:" << model.meshes[i].vertices[0].Position.z << "]" << std::endl;
 	}
 }
 

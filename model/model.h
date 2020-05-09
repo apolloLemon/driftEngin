@@ -30,7 +30,6 @@ private:
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 	Material loadMaterial(aiMaterial* mat);
-	void formatModel();
 };
 
 #endif

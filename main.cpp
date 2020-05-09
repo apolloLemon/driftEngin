@@ -124,6 +124,11 @@ int main(int argc, char **argv)
 	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
 	Sphere sunMesh(50, 50, sunTextures);
 
+	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
+	{
+		sunMesh.vertices[i].Position += glm::vec3(2.0f);
+	}
+
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);

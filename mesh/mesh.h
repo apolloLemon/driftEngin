@@ -48,11 +48,11 @@ class Mesh
 {
 public:
 	// mesh data
-	glm::vec3					position;
 	std::vector<Vertex>			vertices;
 	std::vector<unsigned int>	indices;
 	std::vector<Texture>		textures;
 	Material*					material;
+
 	unsigned int VAO;
 
 	// constructors
