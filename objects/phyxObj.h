@@ -27,15 +27,15 @@ public:
 	double const 	Y()			{ return worldPosition.z; }
 	void			Y(double y)	{ worldPosition.z = y; }
 
-	double const XV(){return xv;}
-	void XV(double _xv){xv=_xv;}
-	double const YV(){return yv;}
-	void YV(double _yv){yv=_yv;}
+	double const 	XV()		{return xv;}
+	void 			XV(double _xv){xv=_xv;}
+	double const 	YV()		{return yv;}
+	void 			YV(double _yv){yv=_yv;}
 
-	double const XA(){return xa;}
-	void XA(double _xa){xa=_xa;}
-	double const YA(){return ya;}
-	void YA(double _ya){ya=_ya;}
+	double const 	XA()		{return xa;}
+	void 			XA(double _xa){xa=_xa;}
+	double const 	YA()		{return ya;}
+	void 			YA(double _ya){ya=_ya;}
 
 	double const V();
 
@@ -47,4 +47,10 @@ private:
 
 };
 
+
+class PhyxENG /*?: GameENG ?*/{
+	
+	//static function gravity(phyxObj, phyxObj)
+	//static function
+};
 #endif
