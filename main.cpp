@@ -22,7 +22,7 @@
 #define N
 //#define M
 #if defined(N)
-	#define PWD "/home/rakl/Repository/spaceProject/dirftEngin/driftEngin/"
+	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
 	#define PWD "/home/melon/driftEngin"
 #endif
@@ -34,7 +34,7 @@ std::string srcPath = PWD;
 std::string vShadersPath = srcPath + "shaders/vertex/";
 std::string fShadersPath = srcPath + "shaders/fragment/";
 std::string texturesPath = srcPath + "mesh/textures/";
-std::string modelsPath = srcPath + "model/models/"
+std::string modelsPath = srcPath + "model/models/";
 
 // camera variables
 // ----------------
@@ -82,24 +82,24 @@ int main(int argc, char **argv)
 	// adding our textures
 	// -------------------
 	Texture tSquare;
-	tSquare.path = "square/square.png";
-	tSquare.id = TextureFromFile(texturesPath + tSquare.path, srcPath);
+	tSquare.id = TextureFromFile("mesh/textures/square/square.png", srcPath);
 	tSquare.type = "texture_diffuse";
+	tSquare.path = "mesh/textures/square/square.png";
 
 	Texture tSquare2;
-	tSquare2.path = "square2/square2.png";
-	tSquare2.id = TextureFromFile(texturesPath + tSquare2.path, srcPath);
+	tSquare2.id = TextureFromFile("mesh/textures/square2/square2.png", srcPath);
 	tSquare2.type = "texture_diffuse";
+	tSquare2.path = "mesh/textures/square2/square2.png";
 
 	Texture tSquare2_specular;
-	tSquare2_specular.path = "square2/square2_specular.png";
-	tSquare2_specular.id = TextureFromFile(texturesPath + tSquare2_specular.path, srcPath);
+	tSquare2_specular.id = TextureFromFile("mesh/textures/square2/square2_specular.png", srcPath);
 	tSquare2_specular.type = "texture_diffuse";
+	tSquare2_specular.path = "mesh/textures/square2/square2_specular.png";
 
 	Texture tSun;
-	tSun.path = "sun/sun.jpg";
-	tSun.id = TextureFromFile(texturesPath + tSun.path, srcPath);
+	tSun.id = TextureFromFile("mesh/textures/sun/sun.jpg", srcPath);
 	tSun.type = "texture_diffuse";
+	tSun.path = "mesh/textures/sun/sun.jpg";
 
 	// adding our materals
 	// -------------------
@@ -180,11 +180,10 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		player.AddForce(-player.X()/2, -player.Y()/2);
+		player.AddForce(-player.X()/2.0f, -player.Y()/2.0f);
 		player.Update();
 		player.ResetA();
-		player.worldPosition.x = player.X();
-		player.worldPosition.y = player.Y();
+
 		player.Draw(&textureShader);
 
 		// configuring the material shader and meshes
@@ -205,7 +204,12 @@ int main(int argc, char **argv)
 		ImGui::NewFrame();
 
 		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
-		ImGui::Text("Hello World!");
+		ImGui::Text("player XV:%f", player.XV());
+		ImGui::Text("player YV:%f", player.YV());
+		ImGui::Text("player Speed:%f", player.V());
+		ImGui::Text("\n");
+		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
+		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -269,7 +273,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_N && action == GLFW_PRESS)
 	{
 		freecamMode = !freecamMode;
-		if (freeMode)	{ currentCamera = &freecam; }
+		if (freecamMode)	{ currentCamera = &freecam; }
 		else			{ currentCamera = &player.camera; }
 	}
 }

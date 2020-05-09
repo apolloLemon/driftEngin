@@ -2,6 +2,8 @@
 
 PhyxObj2D::PhyxObj2D()
 {
+	xv = 0;
+	yv = 0;
 	xa = 0;
 	ya = 0;
 }
@@ -15,8 +17,8 @@ void PhyxObj2D::Update(){
 	double dd = d.count();
 	t=tn;
 
-	x+=xv*dd/1000.;
-	y+=yv*dd/1000.;
+	worldPosition.x += xv*dd/1000.;
+	worldPosition.z += yv*dd/1000.;
 
 	xv+=xa*dd/1000.;
 	yv+=ya*dd/1000.;

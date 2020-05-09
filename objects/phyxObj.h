@@ -21,12 +21,11 @@ public:
 	void AddForce(double x, double y);
 
 	//GettersSetters
-	double const X(){return x;}
-	//double & X(){return x;}
-	void X(double _x){x=_x;}
-	double const Y(){return y;}
-	//double & Y(){return y;}
-	void Y(double _y){y=_y;}
+	double const 	X()			{ return worldPosition.x; }
+	void			X(double x)	{ worldPosition.x = x; }
+
+	double const 	Y()			{ return worldPosition.z; }
+	void			Y(double y)	{ worldPosition.z = y; }
 
 	double const XV(){return xv;}
 	void XV(double _xv){xv=_xv;}
@@ -41,7 +40,6 @@ public:
 	double const V();
 
 private:
-	double x,y; //position
 	double xv,yv; //velocity
 	double xa,ya; //acceleration
 	std::chrono::time_point

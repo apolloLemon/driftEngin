@@ -5,8 +5,6 @@ Player::Player(glm::vec3 position)
 	worldPosition = position;
 	camera.updateCameraVectors(this->worldPosition);
 	InitTime();
-	X(this->worldPosition.x);
-	Y(this->worldPosition.z);
 }
 
 /*/
