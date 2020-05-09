@@ -4,6 +4,11 @@
 #include "includes/glm/glm.hpp"
 #include "includes/glm/gtc/matrix_transform.hpp"
 
+/*
+enum of GameObj States
+*/
+
+
 class GameObj
 {
 public:
@@ -16,4 +21,7 @@ public:
 	GameObj(glm::vec3 wPos, glm::vec3 scale);
 };
 
+/*?
+class GameENG {};
+?*/
 #endif

@@ -9,6 +9,10 @@
 #include "mesh/mesh.h"
 #include "shaders/shader.h"
 
+/*
+enum of RenderObj States
+*/
+
 class RenderObj : public virtual GameObj
 {
 public:
@@ -19,4 +23,6 @@ public:
 	void Draw(Shader* shader);
 };
 
+
+class RenderENG /*: GameENG */{};
 #endif
