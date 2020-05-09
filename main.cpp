@@ -126,6 +126,7 @@ int main(int argc, char **argv)
 
 	// initializing the player
 	// -----------------------
+	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
 	player.YV(-5); // starting velocity
 
@@ -185,6 +186,7 @@ int main(int argc, char **argv)
 		player.ResetA();
 
 		player.Draw(&textureShader);
+		player.camera.updateCameraVectors(player.worldPosition);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------

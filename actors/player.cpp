@@ -3,7 +3,7 @@
 Player::Player(glm::vec3 position)
 {
 	worldPosition = position;
-	camera.updateCameraVectors(this->worldPosition);
+	camera.updateCameraVectors(worldPosition);
 	InitTime();
 }
 
