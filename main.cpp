@@ -132,8 +132,8 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
-	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-5); // starting velocity
+	player.loadModel(modelsPath + "backpack/backpack.obj");
+	player.camera.updateCameraVectors(player.worldPosition);
 
 	// lighting options
 	// ----------------
@@ -186,12 +186,7 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		player.AddForce(-player.X()/2.0f, -player.Y()/2.0f);
-		player.Update();
-		player.ResetA();
-
 		player.Draw(&textureShader);
-		player.camera.updateCameraVectors(player.worldPosition);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -215,8 +210,11 @@ int main(int argc, char **argv)
 		ImGui::Text("player YV:%f", player.YV());
 		ImGui::Text("player Speed:%f", player.V());
 		ImGui::Text("\n");
-		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
-		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
+		ImGui::Text("player xpos:%f", player.worldPosition.x);
+		ImGui::Text("player ypos:%f", player.worldPosition.z);
+		ImGui::Text("\n");
+		ImGui::Text("camera xpos:%f", player.camera.worldPosition.x);
+		ImGui::Text("camera ypos:%f", player.camera.worldPosition.z);
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -250,18 +248,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
+		else				{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
+		else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
+		else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
+		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 }
 
@@ -281,7 +283,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		freecamMode = !freecamMode;
 		if (freecamMode)	{ currentCamera = &freecam; }
-		else			{ currentCamera = &player.camera; }
+		else				{ currentCamera = &player.camera; }
 	}
 }
 
