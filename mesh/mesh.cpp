@@ -3,7 +3,7 @@
 // constructors
 Mesh::Mesh()
 {
-
+	
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material* material)
@@ -18,7 +18,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 }
 
 // render the mesh
-void Mesh::Draw(Shader* shader)
+void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 {
 	// bind appropriate textures
 	unsigned int diffuseNr	= 1;
@@ -81,8 +81,8 @@ void Mesh::Draw(Shader* shader)
 	
 
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, this->worldPosition);
-	model = glm::scale(model, this->scale);
+	model = glm::translate(model, position);
+	model = glm::scale(model, scale);
 	shader->setMat4("model", model);
 
 	// draw mesh
