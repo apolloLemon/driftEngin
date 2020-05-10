@@ -6,7 +6,7 @@ Mesh::Mesh()
 	
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material* material)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material material)
 {
 	this->vertices = vertices;
 	this->indices = indices;
@@ -66,7 +66,7 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 	}
-	else if (material != nullptr)
+	else if (material.untextured)
 	{
 		/*
 		std::cout << "MATERIAL INFO:" << std::endl;
@@ -75,9 +75,9 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 		std::cout << "\tSpecular: [x:" << material->specular.x << ", y:" << material->specular.y << ", z:" << material->specular.z << "]" << std::endl;
 		std::cout << "\tShininess: " << material->shininess << std::endl;
 		//*/
-		shader->setVec3("material.ambient", material->ambient);
-		shader->setVec3("material.diffuse", material->diffuse);
-		shader->setVec3("material.specular", material->specular);
+		shader->setVec3("material.ambient", material.ambient);
+		shader->setVec3("material.diffuse", material.diffuse);
+		shader->setVec3("material.specular", material.specular);
 		shader->setFloat("material.shininess", 32.0f);
 	}
 	

@@ -118,11 +118,12 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 		// 5. untextured materials
-		uMaterial = loadMaterial(material);
+		if (textures.size() == 0)
+			uMaterial = loadMaterial(material);
 	}
 
 	// return a mesh object created from the extracted mesh data
-	return Mesh(vertices, indices, textures, &uMaterial);
+	return Mesh(vertices, indices, textures, uMaterial);
 }
 
 // checks all material textures of a given type and loads the textures if they're not loaded yet.
@@ -161,7 +162,9 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 Material Model::loadMaterial(aiMaterial* mat)
 {
 	Material material;
+	material.untextured = true;
 
+	//*
 	aiColor3D color(0.0f, 0.0f, 0.0f);
 	float shininess;
 
@@ -176,6 +179,14 @@ Material Model::loadMaterial(aiMaterial* mat)
 
 	mat->Get(AI_MATKEY_SHININESS, shininess);
 	material.shininess = shininess;
+	//*/
+
+	/*/
+	material.ambient = glm::vec3(0.0215f, 0.1745f, 0.0215f);
+	material.diffuse = glm::vec3(0.07568f, 0.61424f, 0.07568f);
+	material.specular = glm::vec3(0.633f, 0.727811f, 0.633f);
+	material.shininess = 32.0f;
+	//*/
 
 	/*
 	std::cout << "Material:" << std::endl;
