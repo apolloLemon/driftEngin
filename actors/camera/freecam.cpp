@@ -19,9 +19,9 @@ void Freecam::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 	if (direction == RIGHT)
 		worldPosition += Right * velocity;
 	if (direction == DOWN)
-		worldPosition -= UP * velocity;
+		worldPosition -= Up * velocity;
 	if (direction == UP)
-		worldPosition += UP * velocity;
+		worldPosition += Up * velocity;
 }
 
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.

@@ -21,8 +21,8 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-//#define N
-#define M
+#define N
+//#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -198,7 +198,9 @@ int main(int argc, char **argv)
 //		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
+
 		player.Draw(&textureShader);
+		player.camera.updateCameraVectors(player.worldPosition);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
