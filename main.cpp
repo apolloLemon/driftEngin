@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 	// -----------------------
 	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-5); // starting velocity
+	player.YV(-8); // starting velocity
 
 	// lighting options
 	// ----------------
