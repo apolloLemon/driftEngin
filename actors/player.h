@@ -29,6 +29,7 @@ class Player : public PhyxObj2D, public CollisionObj, public InputObj, public Re
 public:
 
 	CamOrt camera;
+	float MovementSpeed;
 
 	Player(glm::vec3 position = glm::vec3(0.0f));
 	//void draw(Shader *shader);

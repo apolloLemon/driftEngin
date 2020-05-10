@@ -127,6 +127,11 @@ int main(int argc, char **argv)
 	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
 	Sphere sunMesh(50, 50, sunTextures);
 
+	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
+	{
+		sunMesh.vertices[i].Position += glm::vec3(2.0f);
+	}
+
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
@@ -193,9 +198,7 @@ int main(int argc, char **argv)
 //		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
-
 		player.Draw(&textureShader);
-		player.camera.updateCameraVectors(player.worldPosition);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -257,18 +260,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
+		else				{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
+		else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
+		else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
+		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 	{
@@ -296,7 +303,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		freecamMode = !freecamMode;
 		if (freecamMode)	{ currentCamera = &freecam; }
-		else			{ currentCamera = &player.camera; }
+		else				{ currentCamera = &player.camera; }
 	}
 }
 

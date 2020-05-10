@@ -1,10 +1,9 @@
 #include "player.h"
 
-Player::Player(glm::vec3 position)
+Player::Player(glm::vec3 position): MovementSpeed(PLAYER_SPEED)
 {
 	worldPosition = position;
 	camera.updateCameraVectors(worldPosition);
-	InitTime();
 }
 
 /*/
@@ -23,6 +22,7 @@ void Player::draw(Shader* shader)
 
 void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 {
+	float velocity = MovementSpeed * deltaTime;
 	if (direction == playerUP)
 	{
 		AddForce(glm::vec2(0,1));
@@ -40,5 +40,5 @@ void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 		AddForce(glm::vec2(-1,0));
 	}
 
-	//camera.updateCameraVectors(Position);
+	camera.updateCameraVectors(worldPosition);
 }
