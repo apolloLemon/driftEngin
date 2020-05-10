@@ -10,10 +10,10 @@
 #include "shaders/shader.h"
 #include "model/model.h"
 
-#include "objects/phyxObj.h"
-#include "objects/collisionObj.h"
-#include "objects/inputObj.h"
-#include "objects/renderObj.h"
+#include "objects/phyx.h"
+#include "objects/kldr.h"
+#include "objects/ctrl.h"
+#include "objects/rndr.h"
 
 const float PLAYER_SPEED = 2.5f;
 

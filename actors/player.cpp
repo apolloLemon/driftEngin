@@ -25,19 +25,19 @@ void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 {
 	if (direction == playerUP)
 	{
-		AddForce(0,1);
+		AddForce(glm::vec2(0,1));
 	}
 	if (direction == playerDOWN)
 	{
-		AddForce(0,-1);
+		AddForce(glm::vec2(0,-1));
 	}
 	if (direction == playerLEFT)
 	{
-		AddForce(1,0);
+		AddForce(glm::vec2(1,0));
 	}
 	if (direction == playerRIGHT)
 	{
-		AddForce(-1,0);
+		AddForce(glm::vec2(-1,0));
 	}
 
 	//camera.updateCameraVectors(Position);

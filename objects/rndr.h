@@ -1,8 +1,7 @@
 #ifndef RENDER_OBJ_H
 #define RENDER_OBJ_H
 
-#include "gameObj.h"
-
+#include "game.h"
 #include <vector>
 
 #include "model/model.h"

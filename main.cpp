@@ -181,7 +181,7 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		player.AddForce(-player.X()/2.0f, -player.Y()/2.0f);
+		player.AddForce(glm::vec2(player.X()*-1.f,player.Y()*-1.f));
 		player.Update();
 		player.ResetA();
 

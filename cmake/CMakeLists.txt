@@ -10,11 +10,11 @@ set(SOURCES
 
 			"${SRC_DIR}/shaders/shader.cpp"
 
-			"${SRC_DIR}/objects/gameObj.cpp"
-			"${SRC_DIR}/objects/phyxObj.cpp"
-			"${SRC_DIR}/objects/collisionObj.cpp"
-			"${SRC_DIR}/objects/inputObj.cpp"
-			"${SRC_DIR}/objects/renderObj.cpp"
+			"${SRC_DIR}/objects/game.cpp"
+			"${SRC_DIR}/objects/phyx.cpp"
+			"${SRC_DIR}/objects/kldr.cpp"
+			"${SRC_DIR}/objects/ctrl.cpp"
+			"${SRC_DIR}/objects/rndr.cpp"
 
 			"${SRC_DIR}/actors/camera/camera.cpp"
 			"${SRC_DIR}/actors/camera/freecam.cpp"

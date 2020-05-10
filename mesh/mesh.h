@@ -8,7 +8,7 @@
 
 #include "shaders/shader.h"
 
-#include "objects/gameObj.h"
+#include "objects/game.h"
 
 #include <string>
 #include <vector>

@@ -9,7 +9,7 @@
 
 #include "shaders/shader.h"
 #include "mesh/mesh.h"
-#include "objects/gameObj.h"
+#include "objects/game.h"
 
 class Model
 {

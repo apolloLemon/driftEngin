@@ -1,4 +1,4 @@
-#include "renderObj.h"
+#include "rndr.h"
 
 
 void RenderObj::loadModel(std::string path)

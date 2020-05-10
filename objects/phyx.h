@@ -5,8 +5,7 @@
 #include "includes/glm/ext.hpp"
 #include <chrono>
 
-#include "gameObj.h"
-
+#include "game.h"
 
 
 
@@ -14,34 +13,35 @@ class PhyxObj2D : virtual public GameObj
 {
 public:
 
-	PhyxObj2D();
+	//PhyxObj2D()=default;
 	//Phyx
 	void Update();
 	//void Update(/*but with global time*/);
 	void InitTime();
 	void ResetA();
 
-	void AddForce(double x, double y);
+	void AddForce(glm::vec2);
+	//void AddForce(double x, double y);
 
 	//GettersSetters
 	//*/
-	double const 	X()			{ return worldPosition.x; }
-	void			X(double x)	{ worldPosition.x = x; }
+	float const 	X()			{ return worldPosition.x; }
+	void			X(float x)	{ worldPosition.x = x; }
 
-	double const 	Y()			{ return worldPosition.z; }
-	void			Y(double y)	{ worldPosition.z = y; }
+	float const 	Y()			{ return worldPosition.z; }
+	void			Y(float y)	{ worldPosition.z = y; }
 
-	double const 	XV()		{return v.x;}
-	void 			XV(double _xv){v.x=_xv;}
-	double const 	YV()		{return v.y;}
-	void 			YV(double _yv){v.y=_yv;}
+	float const 	XV()		{return v.x;}
+	void 			XV(float _xv){v.x=_xv;}
+	float const 	YV()		{return v.y;}
+	void 			YV(float _yv){v.y=_yv;}
 
-	double const 	XA()		{return a.x;}
-	void 			XA(double _xa){a.x=_xa;}
-	double const 	YA()		{return a.y;}
-	void 			YA(double _ya){a.y=_ya;}
+	float const 	XA()		{return a.x;}
+	void 			XA(float _xa){a.x=_xa;}
+	float const 	YA()		{return a.y;}
+	void 			YA(float _ya){a.y=_ya;}
 
-	double const V() {return v.length;}
+	float const V() {return v.length();}
 	//*/
 	glm::vec2 v;
 	glm::vec2 a;
