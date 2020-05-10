@@ -17,28 +17,41 @@ void PhyxObj2D::Update(){
 	double dd = d.count();
 	t=tn;
 
-	worldPosition.x += xv*dd/1000.;
-	worldPosition.z += yv*dd/1000.;
+	worldPosition = worldPosition + v * dd/1000;
+//	worldPosition.x += xv*dd/1000.;
+//	worldPosition.z += yv*dd/1000.;
 
-	xv+=xa*dd/1000.;
-	yv+=ya*dd/1000.;
+	v = v + a * dd/1000;
+//	xv+=xa*dd/1000.;
+//	yv+=ya*dd/1000.;
 }
 
 void PhyxObj2D::InitTime(){
 	t = std::chrono::steady_clock::now();
 }
 
+/*/
 double const PhyxObj2D::V() {
 	return std::pow(
 				std::pow(xv,2)+std::pow(yv,2),
 			.5);
-}
+}//*/
 
 void PhyxObj2D::ResetA(){
-	xa=0; ya=0;
+	a=0;
+	//xa=0; ya=0;
 }
 
+
+void PhyxObj2D::AddForce(glm::vec2 _a) {
+	a=a+_a;
+}
+/*/
 void PhyxObj2D::AddForce(double _x, double _y) {
 	xa += _x;
 	ya += _y;
 }
+//*/
+
+
+

@@ -19,12 +19,12 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
-	#define PWD "/home/melon/driftEngin"
+	#define PWD "/home/melon/driftEngin/"
 #endif
 
 
