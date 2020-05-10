@@ -2,18 +2,18 @@
 #define PLAYER_H
 
 // glm library
-#include "includes/glm/glm.hpp"
-#include "includes/glm/gtc/matrix_transform.hpp"
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/gtc/matrix_transform.hpp"
 
-#include "camera/camOrt.h"
+#include "ENG/camera/camOrt.h"
 
-#include "shaders/shader.h"
-#include "model/model.h"
+#include "ENG/shaders/shader.h"
+#include "ENG/model/model.h"
 
-#include "objects/phyx.h"
-#include "objects/kldr.h"
-#include "objects/ctrl.h"
-#include "objects/rndr.h"
+#include "ENG/objects/phyx.h"
+#include "ENG/objects/kldr.h"
+#include "ENG/objects/ctrl.h"
+#include "ENG/objects/rndr.h"
 
 const float PLAYER_SPEED = 2.5f;
 

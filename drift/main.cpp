@@ -1,28 +1,26 @@
 //* Imgui 1/4
-#include "includes/imgui/imgui.h"
-#include "includes/imgui/imgui_impl_glfw.h"
-#include "includes/imgui/imgui_impl_opengl3.h"
+#include "ENG/includes/imgui/imgui.h"
+#include "ENG/includes/imgui/imgui_impl_glfw.h"
+#include "ENG/includes/imgui/imgui_impl_opengl3.h"
 //*/
 
-#include "init.h"
+//ENG
+#include "ENG/init.h"
+#include "ENG/camera/freecam.h"
+#include "ENG/shaders/shader.h"
+#include "ENG/mesh/mesh.h"
+#include "ENG/mesh/sphere.h"
+#include "ENG/mesh/cube.h"
+#include "ENG/model/model.h"
+#include "ENG/objects/phyx.h"
 
-#include "actors/camera/freecam.h"
-#include "actors/player.h"
-
-#include "shaders/shader.h"
-
-#include "mesh/mesh.h"
-#include "mesh/sphere.h"
-#include "mesh/cube.h"
-
-#include "model/model.h"
-
-#include "objects/phyx.h"
+//drift
+#include "player.h"
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -33,10 +31,10 @@
 // path variables
 // --------------
 std::string srcPath = PWD;
-std::string vShadersPath = srcPath + "shaders/vertex/";
-std::string fShadersPath = srcPath + "shaders/fragment/";
-std::string texturesPath = srcPath + "mesh/textures/";
-std::string modelsPath = srcPath + "model/models/";
+std::string vShadersPath = srcPath + "ENG/shaders/vertex/";
+std::string fShadersPath = srcPath + "ENG/shaders/fragment/";
+std::string texturesPath = srcPath + "drift/textures/";
+std::string modelsPath = srcPath + "drift/models/";
 
 // camera variables
 // ----------------
@@ -85,24 +83,24 @@ int main(int argc, char **argv)
 	// adding our textures
 	// -------------------
 	Texture tSquare;
-	tSquare.id = TextureFromFile("mesh/textures/square/square.png", srcPath);
+	tSquare.id = TextureFromFile("square/square.png", texturesPath);
 	tSquare.type = "texture_diffuse";
-	tSquare.path = "mesh/textures/square/square.png";
+	tSquare.path = "square/square.png";
 
 	Texture tSquare2;
-	tSquare2.id = TextureFromFile("mesh/textures/square2/square2.png", srcPath);
+	tSquare2.id = TextureFromFile("square2/square2.png", texturesPath);
 	tSquare2.type = "texture_diffuse";
-	tSquare2.path = "mesh/textures/square2/square2.png";
+	tSquare2.path = "square2/square2.png";
 
 	Texture tSquare2_specular;
-	tSquare2_specular.id = TextureFromFile("mesh/textures/square2/square2_specular.png", srcPath);
+	tSquare2_specular.id = TextureFromFile("square2/square2_specular.png", texturesPath);
 	tSquare2_specular.type = "texture_diffuse";
-	tSquare2_specular.path = "mesh/textures/square2/square2_specular.png";
+	tSquare2_specular.path = "square2/square2_specular.png";
 
 	Texture tSun;
-	tSun.id = TextureFromFile("mesh/textures/sun/sun.jpg", srcPath);
+	tSun.id = TextureFromFile("sun/sun.jpg", texturesPath);
 	tSun.type = "texture_diffuse";
-	tSun.path = "mesh/textures/sun/sun.jpg";
+	tSun.path = "sun/sun.jpg";
 
 	// adding our materals
 	// -------------------
@@ -134,7 +132,7 @@ int main(int argc, char **argv)
 
 	// initializing the player
 	// -----------------------
-	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
+	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
 	player.YV(-2); // starting velocity
 	player.Mass(1.f);

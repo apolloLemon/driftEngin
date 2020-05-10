@@ -1,12 +1,12 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "includes/glad/glad.h" // include glad to get all the required OpenGL headers
+#include "ENG/includes/glad/glad.h" // include glad to get all the required OpenGL headers
 
 // glm library
-#include "includes/glm/glm.hpp"
-#include "includes/glm/gtc/matrix_transform.hpp"
-#include "includes/glm/gtc/type_ptr.hpp"
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/gtc/matrix_transform.hpp"
+#include "ENG/includes/glm/gtc/type_ptr.hpp"
 
 #include <string>
 #include <fstream>

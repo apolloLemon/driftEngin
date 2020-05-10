@@ -1,14 +1,14 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "includes/glad/glad.h"
-#include "includes/glm/glm.hpp"
-#include "includes/glm/gtc/matrix_transform.hpp"
-#include "includes/stb_image/stb_image.h"
+#include "ENG/includes/glad/glad.h"
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/gtc/matrix_transform.hpp"
+#include "ENG/includes/stb_image/stb_image.h"
 
-#include "shaders/shader.h"
+#include "ENG/shaders/shader.h"
 
-#include "objects/game.h"
+#include "ENG/objects/game.h"
 
 #include <string>
 #include <vector>
