@@ -45,7 +45,7 @@ void PhyxObj2D::ResetA(){
 
 
 void PhyxObj2D::AddForce(glm::vec2 _a) {
-	a+=_a;
+	a+=_a/mass;
 }
 /*/
 void PhyxObj2D::AddForce(double _x, double _y) {
@@ -56,3 +56,15 @@ void PhyxObj2D::AddForce(double _x, double _y) {
 
 
 
+
+
+glm::vec2 PhyxENG::Gravity2D(PhyxObj2D a,PhyxObj2D b) {
+	glm::vec2 a2 = glm::vec2(a.X(),a.Y());
+	glm::vec2 b2 = glm::vec2(b.X(),b.Y());
+	glm::vec2 a2b = b2-a2;
+	float G = 1;//6.67408f/100000000000.f;
+	float Mm = a.Mass()*b.Mass();
+	float d = glm::length(a2b);
+	float r2 = (d*d)/4.f;
+	return a2b*(G*(Mm/r2));
+}

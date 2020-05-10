@@ -17,6 +17,8 @@
 
 #include "model/model.h"
 
+#include "objects/phyx.h"
+
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
 //#define N
@@ -49,6 +51,7 @@ bool firstMouse = true;
 // player variables
 // ----------------
 Player player;
+PhyxObj2D centre;
 
 // timing variables
 // ----------------
@@ -128,7 +131,11 @@ int main(int argc, char **argv)
 	// -----------------------
 	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-5); // starting velocity
+	player.YV(-2); // starting velocity
+	player.Mass(1.f);
+
+	centre.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	centre.Mass(1.f);
 
 	// lighting options
 	// ----------------
@@ -181,7 +188,9 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		player.AddForce(glm::vec2(player.X()*-1.f,player.Y()*-1.f));
+		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
+		player.AddForce(g);
+//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
 
@@ -208,10 +217,13 @@ int main(int argc, char **argv)
 		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("player XV:%f", player.XV());
 		ImGui::Text("player YV:%f", player.YV());
-		ImGui::Text("player Speed:%f", player.V());
+		ImGui::Text("player Speed:%f", player.Speed());
 		ImGui::Text("\n");
 		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
 		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
+
+		ImGui::Text("player  xG:%f", g.x);
+		ImGui::Text("player  yG:%f", g.y);
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -257,6 +269,14 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
+	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		if (freecamMode)	{ freecam.ProcessKeyboard(UP, deltaTime); }
+	}
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+	{
+		if (freecamMode)	{ freecam.ProcessKeyboard(DOWN, deltaTime); }
 	}
 }
 
