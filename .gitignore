@@ -2,4 +2,4 @@ cmake/*
 !cmake/CMakeLists.txt
 *.exec
 a.out
-includes/assimp/
+ENG/includes/assimp/
