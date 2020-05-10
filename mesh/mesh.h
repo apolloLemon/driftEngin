@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 
 struct Vertex
 {
@@ -62,6 +63,7 @@ public:
 	void Draw(Shader* shader, glm::vec3 position = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
 	// initialize all the buffer objects/arrays
 	void setupMesh();
+	//void normalizeMesh();
 
 private:
 	// render data

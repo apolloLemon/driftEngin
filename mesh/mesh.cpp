@@ -13,6 +13,8 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 	this->textures = textures;
 	this->material = material;
 
+	//normalizeMesh();
+
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
 }
@@ -176,3 +178,15 @@ unsigned int TextureFromFile(const char* path, const std::string &directory, boo
 
 	return textureID;
 }
+/*
+void Mesh::normalizeMesh()
+{
+	for (unsigned int i = 0; i < vertices.size(); i++)
+	{
+		glm::vec3 pos = vertices[i].Position;
+		float length = sqrt(pow(pos.x, 2) + pow(pos.y, 2) + pow(pos.z, 2));
+		vertices[i].Position /= length;
+		//std::cout << "Vertex [x:" << vertices[i].Position.x << "y:"<<vertices[i].Position.y << "z:"<<vertices[i].Position.z << "]" << std::endl;
+	}
+}
+//*/
