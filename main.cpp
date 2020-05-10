@@ -17,14 +17,16 @@
 
 #include "model/model.h"
 
+#include "objects/phyx.h"
+
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
-	#define PWD "/home/melon/driftEngin"
+	#define PWD "/home/melon/driftEngin/"
 #endif
 
 
@@ -49,6 +51,7 @@ bool firstMouse = true;
 // player variables
 // ----------------
 Player player;
+PhyxObj2D centre;
 
 // timing variables
 // ----------------
@@ -132,8 +135,12 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
-	player.loadModel(modelsPath + "backpack/backpack.obj");
-	player.camera.updateCameraVectors(player.worldPosition);
+	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
+	player.YV(-2); // starting velocity
+	player.Mass(1.f);
+
+	centre.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	centre.Mass(1.f);
 
 	// lighting options
 	// ----------------
@@ -186,6 +193,11 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
+		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
+		player.AddForce(g);
+//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
+		player.Update();
+		player.ResetA();
 		player.Draw(&textureShader);
 
 		// configuring the material shader and meshes
@@ -208,13 +220,13 @@ int main(int argc, char **argv)
 		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("player XV:%f", player.XV());
 		ImGui::Text("player YV:%f", player.YV());
-		ImGui::Text("player Speed:%f", player.V());
+		ImGui::Text("player Speed:%f", player.Speed());
 		ImGui::Text("\n");
-		ImGui::Text("player xpos:%f", player.worldPosition.x);
-		ImGui::Text("player ypos:%f", player.worldPosition.z);
-		ImGui::Text("\n");
-		ImGui::Text("camera xpos:%f", player.camera.worldPosition.x);
-		ImGui::Text("camera ypos:%f", player.camera.worldPosition.z);
+		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
+		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
+
+		ImGui::Text("player  xG:%f", g.x);
+		ImGui::Text("player  yG:%f", g.y);
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -264,6 +276,14 @@ void processInput(GLFWwindow* window)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
 		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
+	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		if (freecamMode)	{ freecam.ProcessKeyboard(UP, deltaTime); }
+	}
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+	{
+		if (freecamMode)	{ freecam.ProcessKeyboard(DOWN, deltaTime); }
 	}
 }
 

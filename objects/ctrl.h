@@ -1,7 +1,7 @@
 #ifndef INPUT_OBJ_H
 #define INPUT_OBJ_H
 
-#include "gameObj.h"
+#include "game.h"
 
 /*
 enum of InputObj States

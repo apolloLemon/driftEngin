@@ -1,7 +1,7 @@
 #ifndef COLLISION_OBJ_H
 #define COLLISION_OBJ_H
 
-#include "gameObj.h"
+#include "game.h"
 
 /*
 enum of CollisionObj States?

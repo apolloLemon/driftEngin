@@ -25,19 +25,19 @@ void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 	float velocity = MovementSpeed * deltaTime;
 	if (direction == playerUP)
 	{
-		worldPosition.z += velocity;
+		AddForce(glm::vec2(0,1));
 	}
 	if (direction == playerDOWN)
 	{
-		worldPosition.z -= velocity;
+		AddForce(glm::vec2(0,-1));
 	}
 	if (direction == playerLEFT)
 	{
-		worldPosition.x += velocity;
+		AddForce(glm::vec2(1,0));
 	}
 	if (direction == playerRIGHT)
 	{
-		worldPosition.x -= velocity;
+		AddForce(glm::vec2(-1,0));
 	}
 
 	camera.updateCameraVectors(worldPosition);
