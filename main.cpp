@@ -250,18 +250,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
+		else				{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
+		else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
+		else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
+		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 }
 
