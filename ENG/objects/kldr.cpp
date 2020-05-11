@@ -2,16 +2,12 @@
 
 bool CircleCollider::boolin(glm::vec2 other){
 	return (
-		glm::distance(worldpos+transform.pos,other)
-		<=
-		dim
-		)
+		glm::distance(this->pos,other)
+		<= this->dim);
 }
 
-bool SphereCollider::boolin(glm::vec3 other){
+/*bool SphereCollider::boolin(glm::vec3 other){
 	return (
-		glm::distance(worldpos+transform.pos,other)
-		<=
-		dim
-		)
-}
+		glm::distance(transform.pos,other)
+		<= dim);
+}*/

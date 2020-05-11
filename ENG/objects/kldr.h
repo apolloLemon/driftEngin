@@ -9,45 +9,47 @@
 enum of CollisionObj States?
 */
 
-struct kldrMsg {
+struct CollisionMsg {
 	//vectors representing collision
 	// vec : obj1 - obj2
 	// tangents, etc..
 	// overlap amount
 };
-struct kldrTransform2D {
+/*struct CollisionTransform2D {
 	glm::vec2 pos;
 	//rot
 	//scale
-};
+};*/
 
-class KldrObj : public virtual GameObj
-{
+class CollisionObj {};
+
+class CollisionObj2D {
 public:
-	virtual KldrMsg * collision(KldrObj); //null if no collision, ptr 
+	//virtual CollisionMsg * collision(CollisionObj); //null if no collision, ptr
+	bool collision(CollisionObj2D);
 //private:
 
-	kldrTransform2D transform;
-
+	glm::vec2 pos;
 	float dim; //dimention0 or radius
 };
 
 
-class KldrENG /*?: GameENG ?*/ {};
+class CollisionENG /*?: GameENG ?*/ {};
 
 
 
 //particular colliders
-class CircleCollider : public KldrObj {
+class CircleCollider : public CollisionObj2D {
 public:
+//private:
 	bool boolin(glm::vec2);
 
 };
-class SphereCollider : public KldrObj {
+/*class SphereCollider : public CollisionObj {
 public:
 	bool boolin(glm::vec3);	
-};
+};*/
 
-//class BoxCollider2D : public KldrObj {};
-//class BoxCollider3D : public KldrObj {};
+//class BoxCollider2D : public CollisionObj {};
+//class BoxCollider3D : public CollisionObj {};
 

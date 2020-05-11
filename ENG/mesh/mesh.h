@@ -70,6 +70,6 @@ private:
 	
 };
 
-class MeshCollider : public KldrObj{};
+class MeshCollider : public CollisionObj{};
 
 #endif
