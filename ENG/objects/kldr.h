@@ -14,6 +14,8 @@ struct CollisionMsg {
 	// vec : obj1 - obj2
 	// tangents, etc..
 	// overlap amount
+	glm::vec2 dir;
+	float overlap;
 };
 /*struct CollisionTransform2D {
 	glm::vec2 pos;
@@ -26,8 +28,11 @@ class CollisionObj {};
 class CollisionObj2D {
 public:
 	//virtual CollisionMsg * collision(CollisionObj); //null if no collision, ptr
-	bool collision(CollisionObj2D);
+	//virtual bool collision(CollisionObj2D)=0;
 //private:
+
+	void Dim(float x){dim=x;}
+	void Pos(glm::vec2 x){pos=x;}
 
 	glm::vec2 pos;
 	float dim; //dimention0 or radius
@@ -41,7 +46,9 @@ class CollisionENG /*?: GameENG ?*/ {};
 //particular colliders
 class CircleCollider : public CollisionObj2D {
 public:
+	CollisionMsg collision(CircleCollider) /*override*/;
 //private:
+	bool boolin(CircleCollider);
 	bool boolin(glm::vec2);
 
 };

@@ -133,12 +133,15 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
+	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.y);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
 	player.YV(-2); // starting velocity
 	player.Mass(1.f);
+	player.collider.Dim(1);
 
 	centre.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	centre.Mass(1.f);
+	centre.collider.Dim(8);
 
 	// lighting options
 	// ----------------
@@ -193,6 +196,15 @@ int main(int argc, char **argv)
 
 		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
 		player.AddForce(g);
+		
+		if(centre.collider.boolin(player.collider)){
+			CollisionMsg collisiondata = centre.collider.collision(player.collider);
+			player.pos2D += collisiondata.dir * collisiondata.overlap;
+			player.XV(0);
+			player.YV(0);
+			player.AddForce(g*-1.f);
+		}
+
 //		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
@@ -225,8 +237,10 @@ int main(int argc, char **argv)
 		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
 		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
 
-		ImGui::Text("player  xG:%f", g.x);
-		ImGui::Text("player  yG:%f", g.y);
+		//ImGui::Text("player  xG:%f", g.x);
+		//ImGui::Text("player  yG:%f", g.y);
+
+		ImGui::Text("player in Sun:%d", centre.collider.boolin(player.collider));
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

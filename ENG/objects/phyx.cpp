@@ -18,17 +18,19 @@ void PhyxObj2D::Update(){
 	float dd = d.count();
 	t=tn;
 
-	worldPosition += glm::vec3(v.x * (float)(dd/1000),0,v.y * (float)(dd/1000));
-//	worldPosition.x += xv*dd/1000.;
-//	worldPosition.z += yv*dd/1000.;
+
+	pos2D += v*(float)(dd/1000);
+	collider.pos = pos2D;
+	worldPosition = glm::vec3(pos2D.x,0,pos2D.y);
+
 
 	v += a * (float)(dd/1000);
-//	xv+=xa*dd/1000.;
-//	yv+=ya*dd/1000.;
 }
 
 void PhyxObj2D::InitTime(){
 	t = std::chrono::steady_clock::now();
+	pos2D=worldPosition;
+	collider.pos = pos2D;
 }
 
 /*/

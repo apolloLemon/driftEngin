@@ -6,6 +6,7 @@
 #include <chrono>
 
 #include "game.h"
+#include "kldr.h"
 
 
 
@@ -48,6 +49,10 @@ public:
 	float const 	Mass()		{return mass;}
 	void 			Mass(float _m){mass=_m;}
 	//*/
+
+
+	CircleCollider collider;
+	glm::vec2 pos2D;
 	glm::vec2 v;
 	glm::vec2 a;
 	//double xv,yv; //velocity
