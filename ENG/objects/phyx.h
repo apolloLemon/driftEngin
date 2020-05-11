@@ -16,7 +16,7 @@ public:
 	//PhyxObj2D()=default;
 	//Phyx
 	void Update();
-	//void Update(/*but with global time*/);
+	//void Update(/*but with PhyxENG time*/);
 	void InitTime();
 	void ResetA();
 
