@@ -32,14 +32,14 @@ public:
 	float const 	Y()			{ return worldPosition.z; }
 	void			Y(float y)	{ worldPosition.z = y; }
 
-	glm::vec2		V(){return v;}
+	glm::dvec2		V(){return v;}
 	float const 	XV()		{return v.x;}
 	void 			XV(float _xv){v.x=_xv;}
 	float const 	YV()		{return v.y;}
 	void 			YV(float _yv){v.y=_yv;}
 	float 			Speed() {return glm::length(v);}
 
-	glm::vec2		A(){return a;}
+	glm::dvec2		A(){return a;}
 	float const 	XA()		{return a.x;}
 	void 			XA(float _xa){a.x=_xa;}
 	float const 	YA()		{return a.y;}
