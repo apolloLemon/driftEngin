@@ -1,8 +1,8 @@
 #ifndef GAME_OBJ_H
 #define GAME_OBJ_H
 
-#include "includes/glm/glm.hpp"
-#include "includes/glm/gtc/matrix_transform.hpp"
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/gtc/matrix_transform.hpp"
 
 /*
 enum of GameObj States

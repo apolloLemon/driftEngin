@@ -1,40 +1,40 @@
 //* Imgui 1/4
-#include "includes/imgui/imgui.h"
-#include "includes/imgui/imgui_impl_glfw.h"
-#include "includes/imgui/imgui_impl_opengl3.h"
+#include "ENG/includes/imgui/imgui.h"
+#include "ENG/includes/imgui/imgui_impl_glfw.h"
+#include "ENG/includes/imgui/imgui_impl_opengl3.h"
 //*/
 
-#include "init.h"
+//ENG
+#include "ENG/init.h"
+#include "ENG/camera/freecam.h"
+#include "ENG/shaders/shader.h"
+#include "ENG/mesh/mesh.h"
+#include "ENG/mesh/sphere.h"
+#include "ENG/mesh/cube.h"
+#include "ENG/model/model.h"
+#include "ENG/objects/phyx.h"
 
-#include "actors/camera/freecam.h"
-#include "actors/player.h"
-
-#include "shaders/shader.h"
-
-#include "mesh/mesh.h"
-#include "mesh/sphere.h"
-#include "mesh/cube.h"
-
-#include "model/model.h"
+//drift
+#include "player.h"
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-#define N
-//#define M
+//#define N
+#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
-	#define PWD "/home/melon/driftEngin"
+	#define PWD "/home/melon/driftEngin/"
 #endif
 
 
 // path variables
 // --------------
 std::string srcPath = PWD;
-std::string vShadersPath = srcPath + "shaders/vertex/";
-std::string fShadersPath = srcPath + "shaders/fragment/";
-std::string texturesPath = srcPath + "mesh/textures/";
-std::string modelsPath = srcPath + "model/models/";
+std::string vShadersPath = srcPath + "ENG/shaders/vertex/";
+std::string fShadersPath = srcPath + "ENG/shaders/fragment/";
+std::string texturesPath = srcPath + "drift/textures/";
+std::string modelsPath = srcPath + "drift/models/";
 
 // camera variables
 // ----------------
@@ -49,6 +49,7 @@ bool firstMouse = true;
 // player variables
 // ----------------
 Player player;
+PhyxObj2D centre;
 
 // timing variables
 // ----------------
@@ -82,24 +83,24 @@ int main(int argc, char **argv)
 	// adding our textures
 	// -------------------
 	Texture tSquare;
-	tSquare.id = TextureFromFile("mesh/textures/square/square.png", srcPath);
+	tSquare.id = TextureFromFile("square/square.png", texturesPath);
 	tSquare.type = "texture_diffuse";
-	tSquare.path = "mesh/textures/square/square.png";
+	tSquare.path = "square/square.png";
 
 	Texture tSquare2;
-	tSquare2.id = TextureFromFile("mesh/textures/square2/square2.png", srcPath);
+	tSquare2.id = TextureFromFile("square2/square2.png", texturesPath);
 	tSquare2.type = "texture_diffuse";
-	tSquare2.path = "mesh/textures/square2/square2.png";
+	tSquare2.path = "square2/square2.png";
 
 	Texture tSquare2_specular;
-	tSquare2_specular.id = TextureFromFile("mesh/textures/square2/square2_specular.png", srcPath);
+	tSquare2_specular.id = TextureFromFile("square2/square2_specular.png", texturesPath);
 	tSquare2_specular.type = "texture_diffuse";
-	tSquare2_specular.path = "mesh/textures/square2/square2_specular.png";
+	tSquare2_specular.path = "square2/square2_specular.png";
 
 	Texture tSun;
-	tSun.id = TextureFromFile("mesh/textures/sun/sun.jpg", srcPath);
+	tSun.id = TextureFromFile("sun/sun.jpg", texturesPath);
 	tSun.type = "texture_diffuse";
-	tSun.path = "mesh/textures/sun/sun.jpg";
+	tSun.path = "sun/sun.jpg";
 
 	// adding our materals
 	// -------------------
@@ -131,9 +132,13 @@ int main(int argc, char **argv)
 
 	// initializing the player
 	// -----------------------
-	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
+	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-8); // starting velocity
+	player.YV(-2); // starting velocity
+	player.Mass(1.f);
+
+	centre.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	centre.Mass(1.f);
 
 	// lighting options
 	// ----------------
@@ -186,7 +191,9 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		player.AddForce(-player.X()/2.0f, -player.Y()/2.0f);
+		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
+		player.AddForce(g);
+//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
 
@@ -213,10 +220,13 @@ int main(int argc, char **argv)
 		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("player XV:%f", player.XV());
 		ImGui::Text("player YV:%f", player.YV());
-		ImGui::Text("player Speed:%f", player.V());
+		ImGui::Text("player Speed:%f", player.Speed());
 		ImGui::Text("\n");
 		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
 		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
+
+		ImGui::Text("player  xG:%f", g.x);
+		ImGui::Text("player  yG:%f", g.y);
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -267,6 +277,14 @@ void processInput(GLFWwindow* window)
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
 		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		if (freecamMode)	{ freecam.ProcessKeyboard(UP, deltaTime); }
+	}
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+	{
+		if (freecamMode)	{ freecam.ProcessKeyboard(DOWN, deltaTime); }
+	}
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -285,7 +303,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		freecamMode = !freecamMode;
 		if (freecamMode)	{ currentCamera = &freecam; }
-		else			{ currentCamera = &player.camera; }
+		else				{ currentCamera = &player.camera; }
 	}
 }
 

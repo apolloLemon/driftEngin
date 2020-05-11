@@ -3,29 +3,30 @@ cmake_minimum_required(VERSION 3.0)
 project(driftEngine)
 
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
-set(INC_DIR "${SRC_DIR}/includes")
+set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
-			"${SRC_DIR}/main.cpp"
-			"${SRC_DIR}/init.cpp"
+			"${SRC_DIR}/drift/main.cpp"
+			"${SRC_DIR}/drift/player.cpp"
 
-			"${SRC_DIR}/shaders/shader.cpp"
+			"${SRC_DIR}/ENG/init.cpp"
 
-			"${SRC_DIR}/objects/gameObj.cpp"
-			"${SRC_DIR}/objects/phyxObj.cpp"
-			"${SRC_DIR}/objects/collisionObj.cpp"
-			"${SRC_DIR}/objects/inputObj.cpp"
-			"${SRC_DIR}/objects/renderObj.cpp"
+			"${SRC_DIR}/ENG/shaders/shader.cpp"
+			
+			"${SRC_DIR}/ENG/objects/game.cpp"
+			"${SRC_DIR}/ENG/objects/phyx.cpp"
+			"${SRC_DIR}/ENG/objects/kldr.cpp"
+			"${SRC_DIR}/ENG/objects/ctrl.cpp"
+			"${SRC_DIR}/ENG/objects/rndr.cpp"
 
-			"${SRC_DIR}/actors/camera/camera.cpp"
-			"${SRC_DIR}/actors/camera/freecam.cpp"
-			"${SRC_DIR}/actors/camera/camOrt.cpp"
-			"${SRC_DIR}/actors/player.cpp"
+			"${SRC_DIR}/ENG/camera/camera.cpp"
+			"${SRC_DIR}/ENG/camera/freecam.cpp"
+			"${SRC_DIR}/ENG/camera/camOrt.cpp"
 
-			"${SRC_DIR}/mesh/mesh.cpp"
-			"${SRC_DIR}/mesh/cube.cpp"
-			"${SRC_DIR}/mesh/sphere.cpp"
+			"${SRC_DIR}/ENG/mesh/mesh.cpp"
+			"${SRC_DIR}/ENG/mesh/cube.cpp"
+			"${SRC_DIR}/ENG/mesh/sphere.cpp"
 
-			"${SRC_DIR}/model/model.cpp"			
+			"${SRC_DIR}/ENG/model/model.cpp"			
 
 			"${INC_DIR}/glad/glad.c"
 

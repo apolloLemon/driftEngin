@@ -2,7 +2,7 @@
 #define CUBE_H
 
 #include "mesh.h"
-#include "shaders/shader.h"
+#include "ENG/shaders/shader.h"
 
 class Cube : public Mesh
 {

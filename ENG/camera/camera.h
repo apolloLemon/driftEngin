@@ -1,14 +1,14 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "includes/glad/glad.h"
-#include "includes/glm/glm.hpp"
-#include "includes/glm/gtc/matrix_transform.hpp"
+#include "ENG/includes/glad/glad.h"
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/gtc/matrix_transform.hpp"
 
 #include <vector>
 #include <iostream>
 
-#include "objects/gameObj.h"
+#include "ENG/objects/game.h"
 
 // Default camera values
 const float YAW			= -90.0f;
