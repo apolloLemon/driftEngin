@@ -1,5 +1,7 @@
-#ifndef COLLISION_OBJ_H
-#define COLLISION_OBJ_H
+#pragma once
+
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/ext.hpp"
 
 #include "game.h"
 
@@ -7,13 +9,38 @@
 enum of CollisionObj States?
 */
 
-class CollisionObj : public virtual GameObj
+struct kldrMsg {};
+struct kldrTransform2D {
+	glm::vec2 pos;
+	//rot
+	//scale
+};
+
+class KldrObj : public virtual GameObj
 {
+public:
+	virtual KldrMsg * collision(KldrObj); //null if no collision, ptr 
+//private:
 
+	kldrTransform2D transform;
 };
 
 
-class CollisionENG /*?: GameENG ?*/ {
-	//detect collisions and create
+class KldrENG /*?: GameENG ?*/ {};
+
+
+
+//particular colliders
+class BoundryCollider : public KldrObj {
+	float radius;
 };
-#endif
+class CircleCollider : public BoundryCollider {
+public:
+	bool boolin(glm::vec2);
+
+};
+//class SphereCollider : public BoundryCollider {};
+
+//class BoxCollider2D : public KldrObj {};
+//class BoxCollider3D : public KldrObj {};
+
