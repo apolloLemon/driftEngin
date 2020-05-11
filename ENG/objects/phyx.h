@@ -52,9 +52,9 @@ public:
 
 
 	CircleCollider collider;
-	glm::vec2 pos2D;
-	glm::vec2 v;
-	glm::vec2 a;
+	glm::dvec2 pos2D;
+	glm::dvec2 v;
+	glm::dvec2 a;
 	//double xv,yv; //velocity
 	//double xa,ya; //acceleration
 	std::chrono::time_point

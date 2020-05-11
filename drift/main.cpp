@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
 	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.y);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-2); // starting velocity
+	player.YV(2); // starting velocity
 	player.Mass(1.f);
 	player.collider.Dim(1);
 
@@ -200,12 +200,11 @@ int main(int argc, char **argv)
 		if(centre.collider.boolin(player.collider)){
 			CollisionMsg collisiondata = centre.collider.collision(player.collider);
 			player.pos2D += collisiondata.dir * collisiondata.overlap;
-			player.XV(0);
-			player.YV(0);
+			player.XV(-player.XV()*.7f);
+			player.YV(-player.YV()*.7f);
 			player.AddForce(g*-1.f);
 		}
 
-//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
 
