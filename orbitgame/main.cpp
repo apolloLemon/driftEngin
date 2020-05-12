@@ -1,3 +1,13 @@
+//#define N
+#define M
+#if defined(N)
+	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
+#elif defined(M)
+	#define PWD "/home/melon/driftEngin/"
+#else
+	#define PWD "enter/path/to/driftEngin/"
+#endif
+
 //* Imgui 1/4
 #include "ENG/includes/imgui/imgui.h"
 #include "ENG/includes/imgui/imgui_impl_glfw.h"
@@ -19,13 +29,6 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-//#define N
-#define M
-#if defined(N)
-	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
-#elif defined(M)
-	#define PWD "/home/melon/driftEngin/"
-#endif
 
 
 // path variables
