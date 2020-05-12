@@ -48,8 +48,8 @@ class CircleCollider : public CollisionObj2D {
 public:
 	CollisionMsg collision(CircleCollider) /*override*/;
 //private:
-	bool boolin(CircleCollider);
-	bool boolin(glm::dvec2);
+	bool isin(CircleCollider);
+	bool isin(glm::dvec2);
 
 };
 /*class SphereCollider : public CollisionObj {
