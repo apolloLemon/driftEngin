@@ -43,6 +43,7 @@ struct Material
 };
 
 unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
+unsigned int loadCubemap(std::vector<std::string> faces, const std::string &directory);
 
 class Mesh
 {

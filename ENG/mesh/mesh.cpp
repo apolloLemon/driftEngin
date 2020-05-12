@@ -52,11 +52,15 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 			{
 				number = std::to_string(heightNr++);
 			}
+			else if (name == "texture_skybox")
+			{
+				name = "skybox";
+				number = "";
+			}
 			else if (name == "texture_light")
 			{
 				number = "";
 			}
-
 			// now set the sampler to the correct texture unit
 			glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), i);
 			shader->setFloat("material.shininess", 32.0f);
@@ -173,6 +177,38 @@ unsigned int TextureFromFile(const char* path, const std::string &directory, boo
 		std::cout << "Texture failed to load at path: " << path << std::endl;
 		stbi_image_free(data);
 	}
+
+	return textureID;
+}
+
+unsigned int loadCubemap(std::vector<std::string> faces, const std::string &directory)
+{
+	unsigned int textureID;
+	std::string filename;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+	int width, height, nrChannels;
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
+		filename = directory + '/' + faces[i];
+		unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Cubemap texture failed to load at path: " << filename << std::endl;
+			stbi_image_free(data);
+		}
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	return textureID;
 }
