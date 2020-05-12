@@ -20,7 +20,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 }
 
 // render the mesh
-void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
+void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation)
 {
 	// bind appropriate textures
 	unsigned int diffuseNr	= 1;
@@ -88,6 +88,9 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, position);
+	model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)); // Pitch
+	model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f)); // Yaw
+	model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f)); // Roll
 	model = glm::scale(model, scale);
 	shader->setMat4("model", model);
 

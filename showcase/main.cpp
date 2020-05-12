@@ -49,6 +49,7 @@ bool firstMouse = true;
 // player variables
 // ----------------
 Player player;
+Player ground; // dumb initialization, just for now
 PhyxObj2D centre;
 
 // timing variables
@@ -72,7 +73,7 @@ int main(int argc, char **argv)
 	ImGui_ImplOpenGL3_Init("#version 130");
 	//*/
 
-	stbi_set_flip_vertically_on_load(true); // make textures to be flipped (we have to do this, otherwise textures will be messed up)
+	//stbi_set_flip_vertically_on_load(true); // make textures to be flipped (we have to do this, otherwise textures will be messed up)
 
 	// build and compile our shader programs
 	// -------------------------------------
@@ -87,8 +88,8 @@ int main(int argc, char **argv)
 	{
 		"skybox/right.jpg",
 		"skybox/left.jpg",
-		"skybox/bottom.jpg",
 		"skybox/top.jpg",
+		"skybox/bottom.jpg",
 		"skybox/front.jpg",
 		"skybox/back.jpg"
 	};
@@ -128,10 +129,16 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	player.scale = glm::vec3(0.001f);
 	player.loadModel(modelsPath + "ship/V1.obj");
+
+	ground.worldPosition = glm::vec3(0.0f, 15.0f, 0.0f);
+	ground.rotation = glm::vec3(-60.0f, 0.0f, 0.0f);
+	ground.loadModel(modelsPath + "ground/pamu.obj");
 
 	// lighting options
 	// ----------------
+	glm::vec3 lightPosition(20.0f, 21.0f, 20.0f);
 	glm::vec3 lightColor(1.0f);
 	glm::vec3 lDiffuse = lightColor * glm::vec3(0.8f);
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
@@ -166,31 +173,33 @@ int main(int argc, char **argv)
 		lightSourceShader.setMat4("projection", projection);
 		lightSourceShader.setMat4("view", view);
 
-		sunMesh.Draw(&lightSourceShader, glm::vec3(0.0f), glm::vec3(8.0f));
+		sunMesh.Draw(&lightSourceShader, lightPosition, glm::vec3(8.0f));
 
 		// configuring the texture shader and meshes
 		// -----------------------------------------
 		textureShader.use();
 		textureShader.setMat4("projection", projection);
 		textureShader.setMat4("view", view);
-		textureShader.setVec3("light.position", glm::vec3(0.0f));
+		textureShader.setVec3("light.position", lightPosition);
 		textureShader.setVec3("light.ambient", lAmbient);
 		textureShader.setVec3("light.diffuse", lDiffuse);
 		textureShader.setVec3("light.specular", lSpecular);
 		textureShader.setVec3("viewPos", currentCamera->worldPosition);
 
-		
+		ground.Draw(&textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
 		materialShader.use();
 		materialShader.setMat4("projection", projection);
 		materialShader.setMat4("view", view);
-		materialShader.setVec3("light.position", glm::vec3(0.0f));
+		materialShader.setVec3("light.position", lightPosition);
 		materialShader.setVec3("light.ambient", lAmbient);
 		materialShader.setVec3("light.diffuse", lDiffuse);
 		materialShader.setVec3("light.specular", lSpecular);
 		materialShader.setVec3("viewPos", currentCamera->worldPosition);
+
+		player.Draw(&materialShader);
 
 
 		// draw skybox at last
@@ -214,8 +223,7 @@ int main(int argc, char **argv)
 		ImGui::Text("player YV:%f", player.YV());
 		ImGui::Text("player Speed:%f", player.Speed());
 		ImGui::Text("\n");
-		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
-		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
+		ImGui::Text("ground GameObj Pitch:%f", ground.rotation.x);
 
 		//ImGui::Text("player  xG:%f", g.x);
 		//ImGui::Text("player  yG:%f", g.y);
@@ -276,6 +284,14 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(DOWN, deltaTime); }
+	}
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+	{
+		ground.rotation.x += 1.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+	{
+		ground.rotation.x -= 1.0f;
 	}
 }
 

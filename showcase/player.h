@@ -6,6 +6,7 @@
 #include "ENG/includes/glm/gtc/matrix_transform.hpp"
 
 #include "ENG/camera/camOrt.h"
+#include "ENG/camera/cam3rd.h"
 
 #include "ENG/shaders/shader.h"
 #include "ENG/model/model.h"
@@ -28,8 +29,9 @@ class Player : public PhyxObj2D, public CollisionObj, public InputObj, public Re
 {
 public:
 
-	CamOrt camera;
+	Cam3rd camera;
 	float MovementSpeed;
+	glm::vec3 Direction;
 
 	Player(glm::vec3 position = glm::vec3(0.0f));
 	//void draw(Shader *shader);

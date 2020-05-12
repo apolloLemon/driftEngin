@@ -21,6 +21,7 @@ set(SOURCES
 			"${SRC_DIR}/ENG/camera/camera.cpp"
 			"${SRC_DIR}/ENG/camera/freecam.cpp"
 			"${SRC_DIR}/ENG/camera/camOrt.cpp"
+			"${SRC_DIR}/ENG/camera/cam3rd.cpp"
 
 			"${SRC_DIR}/ENG/mesh/mesh.cpp"
 			"${SRC_DIR}/ENG/mesh/cube.cpp"
