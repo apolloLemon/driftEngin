@@ -121,8 +121,8 @@ int main(int argc, char **argv)
 	// instantiate meshes
 	// ------------------
 	Cube texturedCube(cubeTextures);
-	Cube materialCube(std::vector<Texture>(), &emerald);
-	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
+	Cube materialCube(emerald);
+	Sphere materialSphere(50, 50, emerald);
 	Sphere sunMesh(50, 50, sunTextures);
 
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
@@ -132,8 +132,9 @@ int main(int argc, char **argv)
 
 	// initializing the player
 	// -----------------------
-	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
-	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
+	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
+	player.scale = glm::vec3(0.001f);
+	player.loadModel(modelsPath + "ship/V1.obj");
 	player.YV(-2); // starting velocity
 	player.Mass(1.f);
 
@@ -191,14 +192,7 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
-		player.AddForce(g);
-//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
-		player.Update();
-		player.ResetA();
-
-		player.Draw(&textureShader);
-		player.camera.updateCameraVectors(player.worldPosition);
+		
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -210,6 +204,16 @@ int main(int argc, char **argv)
 		materialShader.setVec3("light.diffuse", lDiffuse);
 		materialShader.setVec3("light.specular", lSpecular);
 		materialShader.setVec3("viewPos", currentCamera->worldPosition);
+
+		
+		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
+		player.AddForce(g);
+//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
+		player.Update();
+		player.ResetA();
+
+		player.Draw(&materialShader);
+		player.camera.updateCameraVectors(player.worldPosition);
 
 
 		//* Imgui 3/4
