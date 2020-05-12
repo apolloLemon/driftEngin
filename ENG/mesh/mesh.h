@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 
 struct Vertex
 {
@@ -36,6 +37,7 @@ struct Texture
 
 struct Material
 {
+	bool untextured = false;
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;
@@ -51,17 +53,18 @@ public:
 	std::vector<Vertex>			vertices;
 	std::vector<unsigned int>	indices;
 	std::vector<Texture>		textures;
-	Material*					material;
+	Material					material;
 
 	unsigned int VAO;
 
 	// constructors
 	Mesh();
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material *material = nullptr);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material material);
 	// render the mesh
 	void Draw(Shader* shader, glm::vec3 position = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
 	// initialize all the buffer objects/arrays
 	void setupMesh();
+	//void normalizeMesh();
 
 private:
 	// render data

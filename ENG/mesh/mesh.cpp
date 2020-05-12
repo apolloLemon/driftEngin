@@ -6,12 +6,14 @@ Mesh::Mesh()
 	
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material* material)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material material)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
 	this->material = material;
+
+	//normalizeMesh();
 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
@@ -64,7 +66,7 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 	}
-	else if (material != nullptr)
+	else if (material.untextured)
 	{
 		/*
 		std::cout << "MATERIAL INFO:" << std::endl;
@@ -73,9 +75,9 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 		std::cout << "\tSpecular: [x:" << material->specular.x << ", y:" << material->specular.y << ", z:" << material->specular.z << "]" << std::endl;
 		std::cout << "\tShininess: " << material->shininess << std::endl;
 		//*/
-		shader->setVec3("material.ambient", material->ambient);
-		shader->setVec3("material.diffuse", material->diffuse);
-		shader->setVec3("material.specular", material->specular);
+		shader->setVec3("material.ambient", material.ambient);
+		shader->setVec3("material.diffuse", material.diffuse);
+		shader->setVec3("material.specular", material.specular);
 		shader->setFloat("material.shininess", 32.0f);
 	}
 	
@@ -176,3 +178,15 @@ unsigned int TextureFromFile(const char* path, const std::string &directory, boo
 
 	return textureID;
 }
+/*
+void Mesh::normalizeMesh()
+{
+	for (unsigned int i = 0; i < vertices.size(); i++)
+	{
+		glm::vec3 pos = vertices[i].Position;
+		float length = sqrt(pow(pos.x, 2) + pow(pos.y, 2) + pow(pos.z, 2));
+		vertices[i].Position /= length;
+		//std::cout << "Vertex [x:" << vertices[i].Position.x << "y:"<<vertices[i].Position.y << "z:"<<vertices[i].Position.z << "]" << std::endl;
+	}
+}
+//*/
