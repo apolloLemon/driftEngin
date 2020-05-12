@@ -156,6 +156,7 @@ int main(int argc, char **argv)
 
 	planet.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	planet.Mass(1.f);
+	planet.scale = glm::vec3(8);
 	planet.collider.Dim(8);
 
 	// lighting options
@@ -227,7 +228,7 @@ int main(int argc, char **argv)
 		player.Draw(&textureShader);
 		player.camera.updateCameraVectors(player.worldPosition);
 
-		planet.meshes[0]->Draw(&textureShader, glm::vec3(0.0f), glm::vec3(8.0f));
+		planet.Draw(&textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
