@@ -7,9 +7,9 @@
 #include <vector>
 #include <limits>
 
-#include "shaders/shader.h"
-#include "mesh/mesh.h"
-#include "objects/game.h"
+#include "ENG/shaders/shader.h"
+#include "ENG/mesh/mesh.h"
+#include "ENG/objects/game.h"
 
 class Model
 {

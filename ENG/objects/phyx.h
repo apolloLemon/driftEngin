@@ -1,8 +1,8 @@
 #ifndef PHYX_OBJ_H
 #define PHYX_OBJ_H
 
-#include "includes/glm/glm.hpp"
-#include "includes/glm/ext.hpp"
+#include "ENG/includes/glm/glm.hpp"
+#include "ENG/includes/glm/ext.hpp"
 #include <chrono>
 
 #include "game.h"

@@ -4,9 +4,9 @@
 #include "game.h"
 #include <vector>
 
-#include "model/model.h"
-#include "mesh/mesh.h"
-#include "shaders/shader.h"
+#include "ENG/model/model.h"
+#include "ENG/mesh/mesh.h"
+#include "ENG/shaders/shader.h"
 
 /*
 enum of RenderObj States
