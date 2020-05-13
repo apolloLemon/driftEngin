@@ -6,14 +6,21 @@ Mesh::Mesh()
 	
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material material)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
-	this->material = material;
 
-	//normalizeMesh();
+	// now that we have all the required data, set the vertex buffers and its attribute pointers.
+	setupMesh();
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material material)
+{
+	this->vertices = vertices;
+	this->indices = indices;
+	this->material = material;
 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
@@ -63,11 +70,13 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale, glm::vec3 r
 			{
 				number = "";
 			}
+
 			// now set the sampler to the correct texture unit
 			glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), i);
 			shader->setFloat("material.shininess", 32.0f);
 			// and finally bind the texture
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
+
 		}
 	}
 	else if (material.untextured)

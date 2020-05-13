@@ -16,6 +16,9 @@
 
 //drift
 #include "player.h"
+#include "asteroid.h"
+
+#include <cstdlib>
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
@@ -50,6 +53,7 @@ bool firstMouse = true;
 // ----------------
 Player player;
 Player ground; // dumb initialization, just for now
+std::vector<Asteroid> asteroids;
 PhyxObj2D centre;
 
 // timing variables
@@ -72,6 +76,10 @@ int main(int argc, char **argv)
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 130");
 	//*/
+
+	// initialize random
+	// -----------------
+	srand(time(NULL));
 
 	//stbi_set_flip_vertically_on_load(true); // make textures to be flipped (we have to do this, otherwise textures will be messed up)
 
@@ -105,6 +113,11 @@ int main(int argc, char **argv)
 	tSun.type = "texture_diffuse";
 	tSun.path = "sun/sun.jpg";
 
+	Texture tAst;
+	tAst.id = TextureFromFile("asteroid/asteroid.jpg", texturesPath);
+	tAst.type = "texture_diffuse";
+	tAst.path = "asteroid/asteroid.jpg";
+
 	// adding our materals
 	// -------------------
 	Material emerald;
@@ -119,6 +132,8 @@ int main(int argc, char **argv)
 	sunTextures.push_back(tSun);
 	std::vector<Texture> skyboxTextures;
 	skyboxTextures.push_back(tSkybox);
+	std::vector<Texture> astTextures;
+	astTextures.push_back(tAst);
 
 	// instantiate meshes
 	// ------------------	
@@ -134,7 +149,15 @@ int main(int argc, char **argv)
 
 	ground.worldPosition = glm::vec3(0.0f, 15.0f, 0.0f);
 	ground.rotation = glm::vec3(-60.0f, 0.0f, 0.0f);
-	ground.loadModel(modelsPath + "ground/pamu.obj");
+	//ground.loadModel(modelsPath + "ground/pamu.obj");
+
+	for (unsigned int i = 0; i < 20; i++)
+	{
+		asteroids.push_back(Asteroid());
+		glm::vec3 pos = glm::vec3(rand() % 21 - 10, rand() % 5 - 2, rand() % 21 - 10);
+		asteroids[i].worldPosition = pos;
+		asteroids[i].Generate(astTextures);
+	}
 
 	// lighting options
 	// ----------------
@@ -186,7 +209,9 @@ int main(int argc, char **argv)
 		textureShader.setVec3("light.specular", lSpecular);
 		textureShader.setVec3("viewPos", currentCamera->worldPosition);
 
-		ground.Draw(&textureShader);
+		//ground.Draw(&textureShader);
+
+		asteroids[0].Draw(&textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -223,7 +248,7 @@ int main(int argc, char **argv)
 		ImGui::Text("player YV:%f", player.YV());
 		ImGui::Text("player Speed:%f", player.Speed());
 		ImGui::Text("\n");
-		ImGui::Text("ground GameObj Pitch:%f", ground.rotation.x);
+		ImGui::Text("Asteroid size:%i", asteroids[0].size);
 
 		//ImGui::Text("player  xG:%f", g.x);
 		//ImGui::Text("player  yG:%f", g.y);
@@ -312,6 +337,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		freecamMode = !freecamMode;
 		if (freecamMode)	{ currentCamera = &freecam; }
 		else				{ currentCamera = &player.camera; }
+	}
+	if (key == GLFW_KEY_P && action == GLFW_PRESS)
+	{
+		asteroids[0].Break(rand() % 100 + 1);
 	}
 }
 

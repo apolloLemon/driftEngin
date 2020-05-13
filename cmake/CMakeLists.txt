@@ -7,6 +7,7 @@ set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
 			"${SRC_DIR}/showcase/main.cpp"
 			"${SRC_DIR}/showcase/player.cpp"
+			"${SRC_DIR}/showcase/asteroid.cpp"
 
 			"${SRC_DIR}/ENG/init.cpp"
 
