@@ -47,11 +47,11 @@ void Asteroid::Break(unsigned int indice)
 		activeLayer[indice].layer--;
 
 	unsigned int size = activeLayer[indice].layer;
-	std::cout << size << std::endl;
+	//std::cout << size << std::endl;
 
-	std::cout << "Before: [x:" << activeLayer[indice].vertex.Position.x << ", y:" << activeLayer[indice].vertex.Position.y << ", z:" << activeLayer[indice].vertex.Position.z << "]" << std::endl;
+	//std::cout << "Before: [x:" << activeLayer[indice].vertex.Position.x << ", y:" << activeLayer[indice].vertex.Position.y << ", z:" << activeLayer[indice].vertex.Position.z << "]" << std::endl;
 	activeLayer[indice].vertex = this->layers[size-1][indice];
-	std::cout << "After: [x:" << this->layers[size-1][indice].Position.x << ", y:" << this->layers[size-1][indice].Position.y << ", z:" << this->layers[size-1][indice].Position.z << "]" << std::endl;
+	//std::cout << "After: [x:" << this->layers[size-1][indice].Position.x << ", y:" << this->layers[size-1][indice].Position.y << ", z:" << this->layers[size-1][indice].Position.z << "]" << std::endl;
 
 	std::vector<Vertex> vertices;
 	for (unsigned int i = 0; i < activeLayer.size(); i++)

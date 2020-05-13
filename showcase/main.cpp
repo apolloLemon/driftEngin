@@ -318,6 +318,10 @@ void processInput(GLFWwindow* window)
 	{
 		ground.rotation.x -= 1.0f;
 	}
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		asteroids[0].Break(rand() % 121);
+	}
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -337,10 +341,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		freecamMode = !freecamMode;
 		if (freecamMode)	{ currentCamera = &freecam; }
 		else				{ currentCamera = &player.camera; }
-	}
-	if (key == GLFW_KEY_P && action == GLFW_PRESS)
-	{
-		asteroids[0].Break(rand() % 100 + 1);
 	}
 }
 
