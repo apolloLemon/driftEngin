@@ -62,6 +62,8 @@ public:
 	//	<std::chrono::steady_clock> t;
 
 	float mass;
+
+	bool actif;
 //private:
 
 };

@@ -27,14 +27,36 @@ void PhyxENG::Update(){
 	t=tn;
 
 	for(auto p : managed){
+		//if(!(p->actif)) continue;
 		if(p->orbiting){
 			glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
 			p->AddForce(g);
+			if(p->orbiting->collider.isin(p->collider)){
+				CollisionMsg collisiondata = p->orbiting->collider.collision(p->collider);
+				
+
+				//std::cout << "Collision: " << collisiondata.overlap<<" deep" << std::endl;
+				
+
+				p->pos2D += glm::normalize(collisiondata.dir) * collisiondata.overlap;
+				
+				glm::dvec2 tangent = glm::normalize(glm::vec2(collisiondata.dir.y*-1.,collisiondata.dir.x));
+				double dot = glm::dot(tangent,p->V());
+				p->XV(tangent.x*dot*.8);
+				p->YV(tangent.y*dot*.8);
+				p->AddForce(g*-1.f);
+
+			}
 		}
 		p->Update(dd);
 		p->ResetA();
 	}
-
+	/*for(auto p : managed)
+		for(auto q : managed)
+			if(p!=q){
+				if(p.)
+			}
+	*/	
 }
 
 void PhyxObj2D::Update(double dt){

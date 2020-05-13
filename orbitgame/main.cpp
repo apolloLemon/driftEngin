@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player->worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
-	player->pos2D = glm::vec2(player->worldPosition.x, player->worldPosition.y);
+	player->Init();
 	player->loadModel(modelsPath + "sputnik/sputnik1.obj");
 	player->YV(-2); // starting velocity
 	player->Mass(1.f);
@@ -175,6 +175,7 @@ int main(int argc, char **argv)
 	OrbitGame.gameobjects.push_back(player);
 	OrbitGame.gameobjects.push_back(planet);
 	OrbitGame.Init();
+	bool skip=true;
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
