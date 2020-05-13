@@ -1,4 +1,5 @@
 #include "phyx.h"
+#include <iostream>
 
 /*/
 PhyxObj2D::PhyxObj2D()
@@ -8,29 +9,46 @@ PhyxObj2D::PhyxObj2D()
 	xa = 0;
 	ya = 0;
 }//*/
+void PhyxENG::Init(){
+	for(auto go : gameobjects) {
+		PhyxObj2D* cast = dynamic_cast<PhyxObj2D *>(go);
+		if(cast) managed.push_back(cast);
+	}
+}
 
-void PhyxObj2D::Update(){
+
+void PhyxENG::Update(){
 	auto tn = std::chrono::steady_clock::now();
 	//if(t==NULL) t=tn;
 
 	//double d = std::chrono::duration_cast<double, std::milli> d = tn - t;
 	std::chrono::duration<double, std::milli> d = tn - t;
-	double dd = d.count();
+	double dd = d.count()/1000;
 	t=tn;
 
+	for(auto p : managed){
+		if(p->orbiting){
+			glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
+			p->AddForce(g);
+		}
+		p->Update(dd);
+		p->ResetA();
+	}
 
-	pos2D += v*(dd/1000);
+}
+
+void PhyxObj2D::Update(double dt){
+	pos2D += v*dt;
 	collider.pos = pos2D;
 	worldPosition = glm::vec3(pos2D.x,0,pos2D.y);
 
 
-	v += a * (dd/1000);
+	v += a * dt;
 
 	//if(Speed()<0.00001) v=glm::vec2(0,0);
 }
 
-void PhyxObj2D::InitTime(){
-	t = std::chrono::steady_clock::now();
+void PhyxObj2D::Init(){
 	pos2D=worldPosition;
 	collider.pos = pos2D;
 }

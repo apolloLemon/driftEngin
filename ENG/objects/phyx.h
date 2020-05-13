@@ -16,9 +16,9 @@ public:
 
 	//PhyxObj2D()=default;
 	//Phyx
-	void Update();
-	//void Update(/*but with PhyxENG time*/);
-	void InitTime();
+	//void Update();
+	void Update(double);
+	void Init();
 	void ResetA();
 
 	void AddForce(glm::vec2);
@@ -51,14 +51,15 @@ public:
 	//*/
 
 
+	PhyxObj2D* orbiting;
 	CircleCollider collider;
 	glm::dvec2 pos2D;
 	glm::dvec2 v;
 	glm::dvec2 a;
 	//double xv,yv; //velocity
 	//double xa,ya; //acceleration
-	std::chrono::time_point
-		<std::chrono::steady_clock> t;
+	//std::chrono::time_point
+	//	<std::chrono::steady_clock> t;
 
 	float mass;
 //private:
@@ -66,15 +67,29 @@ public:
 };
 
 
-class PhyxENG /*?: GameENG ?*/{
+class PhyxENG : public Game {
 public:
-	void setGamePtr(/*ptr to gameObjects*/);
- 
+	//void setGamePtr(/*ptr to gameObjects*/);
+	PhyxENG(){t = std::chrono::steady_clock::now();}
+
+	void Init();
+	void Update();
+
 	//built in functions
  	static glm::vec3 Gravity();//Gravity3D()
  	static glm::vec2 Gravity2D(PhyxObj2D,PhyxObj2D);
 
  	static glm::vec3 Drag();
  	static glm::vec2 Drag2D();
+
+
+
+//private:
+ 	std::vector<PhyxObj2D *> managed;
+	std::chrono::time_point
+		<std::chrono::steady_clock> t;	
+	
+	void Collision();
+	void Physics();
 };
 #endif

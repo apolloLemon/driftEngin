@@ -4,7 +4,6 @@ Player::Player(glm::vec3 position): MovementSpeed(PLAYER_SPEED)
 {
 	worldPosition = position;
 	camera.updateCameraVectors(worldPosition);
-	InitTime();
 }
 
 /*/

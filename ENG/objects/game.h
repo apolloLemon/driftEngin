@@ -1,6 +1,7 @@
 #ifndef GAME_OBJ_H
 #define GAME_OBJ_H
 
+#include <vector>
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/gtc/matrix_transform.hpp"
 
@@ -19,9 +20,14 @@ public:
 	// constructors
 	GameObj(); // default
 	GameObj(glm::vec3 wPos, glm::vec3 scale);
+	virtual ~GameObj()=default;
 };
 
-/*?
-class GameENG {};
-?*/
+
+class Game {
+public:
+	std::vector<GameObj*> gameobjects;
+//private:
+};
+
 #endif

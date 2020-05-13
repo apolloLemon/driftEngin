@@ -51,14 +51,15 @@ bool firstMouse = true;
 
 // player variables
 // ----------------
-Player player;
-CelestialBody planet;
+Player * player = new Player();
+CelestialBody * planet = new CelestialBody();
 
 // timing variables
 // ----------------
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+PhyxENG OrbitGame;
 
 int main(int argc, char **argv)
 {
@@ -85,6 +86,7 @@ int main(int argc, char **argv)
 
 	// adding our textures
 	// -------------------
+	/*/
 	Texture tSquare;
 	tSquare.id = TextureFromFile("square/square.png", texturesPath);
 	tSquare.type = "texture_diffuse";
@@ -99,7 +101,7 @@ int main(int argc, char **argv)
 	tSquare2_specular.id = TextureFromFile("square2/square2_specular.png", texturesPath);
 	tSquare2_specular.type = "texture_diffuse";
 	tSquare2_specular.path = "square2/square2_specular.png";
-
+	//*/
 	Texture tSun;
 	tSun.id = TextureFromFile("sun/sun.jpg", texturesPath);
 	tSun.type = "texture_diffuse";
@@ -120,9 +122,11 @@ int main(int argc, char **argv)
 
 	// creating texture vectors
 	// ------------------------
+	/*/
 	std::vector<Texture> cubeTextures;
 	cubeTextures.push_back(tSquare2);
 	cubeTextures.push_back(tSquare2_specular);
+	//*/
 	std::vector<Texture> sunTextures;
 	sunTextures.push_back(tSun);
 
@@ -131,11 +135,12 @@ int main(int argc, char **argv)
 
 	// instantiate meshes
 	// ------------------
-	Cube texturedCube(cubeTextures);
-	Cube materialCube(std::vector<Texture>(), &emerald);
-	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
+//	Cube texturedCube(cubeTextures);
+//	Cube materialCube(std::vector<Texture>(), &emerald);
+//	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
 	Sphere sunMesh(50, 50, sunTextures);
-	planet.meshes.push_back(new Sphere(50,50,moonTextures));
+	
+	planet->meshes.push_back(new Sphere(50,50,moonTextures));
 /*
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
@@ -143,21 +148,22 @@ int main(int argc, char **argv)
 	}
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
-		planet.meshes[0]->vertices[i].Position += glm::vec3(2.0f);
+		planet->meshes[0]->vertices[i].Position += glm::vec3(2.0f);
 	}*/
 	// initializing the player
 	// -----------------------
-	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
-	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.y);
-	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-2); // starting velocity
-	player.Mass(1.f);
-	player.collider.Dim(1);
+	player->worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
+	player->pos2D = glm::vec2(player->worldPosition.x, player->worldPosition.y);
+	player->loadModel(modelsPath + "sputnik/sputnik1.obj");
+	player->YV(-2); // starting velocity
+	player->Mass(1.f);
+	player->collider.Dim(1);
+	player->orbiting = planet;
 
-	planet.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	planet.Mass(1.f);
-	planet.scale = glm::vec3(8);
-	planet.collider.Dim(8);
+	planet->worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	planet->Mass(1.f);
+	planet->scale = glm::vec3(8);
+	planet->collider.Dim(8);
 
 	// lighting options
 	// ----------------
@@ -166,7 +172,9 @@ int main(int argc, char **argv)
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
 	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
 
-
+	OrbitGame.gameobjects.push_back(player);
+	OrbitGame.gameobjects.push_back(planet);
+	OrbitGame.Init();
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -208,27 +216,29 @@ int main(int argc, char **argv)
 		textureShader.setVec3("light.specular", lSpecular);
 		textureShader.setVec3("viewPos", currentCamera->worldPosition);
 
-		texturedCube.Draw(&textureShader);
+		//texturedCube.Draw(&textureShader);
 
-		glm::vec2 g = PhyxENG::Gravity2D(player,planet);
-		player.AddForce(g);
+//		glm::vec2 g = PhyxENG::Gravity2D(player,planet);
+//		player->AddForce(g);
 		
-		if(planet.collider.boolin(player.collider)){
-			CollisionMsg collisiondata = planet.collider.collision(player.collider);
-			player.pos2D += collisiondata.dir * collisiondata.overlap;
-			player.XV(0);
-			player.YV(0);
-			player.AddForce(g*-1.f);
-		}
+		/*if(planet->collider.boolin(player->collider)){
+			CollisionMsg collisiondata = planet->collider.collision(player->collider);
+			player->pos2D += collisiondata.dir * collisiondata.overlap;
+			player->XV(0);
+			player->YV(0);
+			player->AddForce(g*-1.f);
+		}*/
 
-//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
-		player.Update();
-		player.ResetA();
+//		player->AddForce(glm::vec2(player->X()*-.5f,player->Y()*-.5f));
+//		player->Update();
+//		player->ResetA();
 
-		player.Draw(&textureShader);
-		player.camera.updateCameraVectors(player.worldPosition);
+		OrbitGame.Update();
 
-		planet.Draw(&textureShader);
+		player->Draw(&textureShader);
+		player->camera.updateCameraVectors(player->worldPosition);
+
+		planet->Draw(&textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -248,17 +258,17 @@ int main(int argc, char **argv)
 		ImGui::NewFrame();
 
 		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
-		ImGui::Text("player XV:%f", player.XV());
-		ImGui::Text("player YV:%f", player.YV());
-		ImGui::Text("player Speed:%f", player.Speed());
+		ImGui::Text("player XV:%f", player->XV());
+		ImGui::Text("player YV:%f", player->YV());
+		ImGui::Text("player Speed:%f", player->Speed());
 		ImGui::Text("\n");
-		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
-		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
+		ImGui::Text("player GameObj xpos:%f", player->worldPosition.x);
+		ImGui::Text("player GameObj ypos:%f", player->worldPosition.z);
 
 		//ImGui::Text("player  xG:%f", g.x);
 		//ImGui::Text("player  yG:%f", g.y);
 
-		ImGui::Text("player in Sun:%d", planet.collider.boolin(player.collider));
+		ImGui::Text("player in Sun:%d", planet->collider.isin(player->collider));
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -292,22 +302,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
-		else				{ player.ProcessKeyboard(playerUP, deltaTime); }
+		else				{ player->ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
-		else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
+		else				{ player->ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
-		else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
+		else				{ player->ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
-		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
+		else				{ player->ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 	{
@@ -335,7 +345,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		freecamMode = !freecamMode;
 		if (freecamMode)	{ currentCamera = &freecam; }
-		else				{ currentCamera = &player.camera; }
+		else				{ currentCamera = &player->camera; }
 	}
 }
 
