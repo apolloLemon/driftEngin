@@ -17,6 +17,9 @@
 //drift
 #include "drift/player.h"
 
+//orbitgame
+#include "CelestialBody.h"
+
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
 //#define N
@@ -33,7 +36,7 @@
 std::string srcPath = PWD;
 std::string vShadersPath = srcPath + "ENG/shaders/vertex/";
 std::string fShadersPath = srcPath + "ENG/shaders/fragment/";
-std::string texturesPath = srcPath + "drift/textures/";
+std::string texturesPath = srcPath + "orbitgame/textures/";
 std::string modelsPath = srcPath + "drift/models/";
 
 // camera variables
@@ -49,7 +52,7 @@ bool firstMouse = true;
 // player variables
 // ----------------
 Player player;
-PhyxObj2D centre;
+CelestialBody planet;
 
 // timing variables
 // ----------------
@@ -102,6 +105,11 @@ int main(int argc, char **argv)
 	tSun.type = "texture_diffuse";
 	tSun.path = "sun/sun.jpg";
 
+	Texture tMoon;
+	tMoon.id = TextureFromFile("moon/moon.jpg", texturesPath);
+	tMoon.type = "texture_diffuse";
+	tMoon.path = "moon/moon.jpg";
+
 	// adding our materals
 	// -------------------
 	Material emerald;
@@ -118,27 +126,38 @@ int main(int argc, char **argv)
 	std::vector<Texture> sunTextures;
 	sunTextures.push_back(tSun);
 
+	std::vector<Texture> moonTextures;
+	moonTextures.push_back(tMoon);
+
 	// instantiate meshes
 	// ------------------
 	Cube texturedCube(cubeTextures);
 	Cube materialCube(std::vector<Texture>(), &emerald);
 	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
 	Sphere sunMesh(50, 50, sunTextures);
-
+	planet.meshes.push_back(new Sphere(50,50,moonTextures));
+/*
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
-		sunMesh.vertices[i].Position += glm::vec3(2.0f);
+		sunMesh.vertices[i].Position += glm::vec3(20.0f);
 	}
-
+	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
+	{
+		planet.meshes[0]->vertices[i].Position += glm::vec3(2.0f);
+	}*/
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
+	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.y);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
 	player.YV(-2); // starting velocity
 	player.Mass(1.f);
+	player.collider.Dim(1);
 
-	centre.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	centre.Mass(1.f);
+	planet.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	planet.Mass(1.f);
+	planet.scale = glm::vec3(8);
+	planet.collider.Dim(8);
 
 	// lighting options
 	// ----------------
@@ -176,7 +195,7 @@ int main(int argc, char **argv)
 		lightSourceShader.setMat4("projection", projection);
 		lightSourceShader.setMat4("view", view);
 
-		sunMesh.Draw(&lightSourceShader, glm::vec3(0.0f), glm::vec3(8.0f));
+		sunMesh.Draw(&lightSourceShader, glm::vec3(30.0f), glm::vec3(10.0f));
 
 		// configuring the texture shader and meshes
 		// -----------------------------------------
@@ -191,14 +210,25 @@ int main(int argc, char **argv)
 
 		texturedCube.Draw(&textureShader);
 
-		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
+		glm::vec2 g = PhyxENG::Gravity2D(player,planet);
 		player.AddForce(g);
+		
+		if(planet.collider.boolin(player.collider)){
+			CollisionMsg collisiondata = planet.collider.collision(player.collider);
+			player.pos2D += collisiondata.dir * collisiondata.overlap;
+			player.XV(0);
+			player.YV(0);
+			player.AddForce(g*-1.f);
+		}
+
 //		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
 		player.Update();
 		player.ResetA();
 
 		player.Draw(&textureShader);
 		player.camera.updateCameraVectors(player.worldPosition);
+
+		planet.Draw(&textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -225,8 +255,10 @@ int main(int argc, char **argv)
 		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
 		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
 
-		ImGui::Text("player  xG:%f", g.x);
-		ImGui::Text("player  yG:%f", g.y);
+		//ImGui::Text("player  xG:%f", g.x);
+		//ImGui::Text("player  yG:%f", g.y);
+
+		ImGui::Text("player in Sun:%d", planet.collider.boolin(player.collider));
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
