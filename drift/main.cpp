@@ -133,9 +133,9 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
-	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.y);
+	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.z);
 	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player.YV(-2); // starting velocity
+//	player.YV(2); // starting velocity
 	player.Mass(1.f);
 	player.collider.Dim(1);
 
@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
 	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
 
-
+	bool ANDskip = false; 
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -197,15 +197,18 @@ int main(int argc, char **argv)
 		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
 		player.AddForce(g);
 		
-		if(centre.collider.boolin(player.collider)){
+		if(centre.collider.boolin(player.collider) && ANDskip){
 			CollisionMsg collisiondata = centre.collider.collision(player.collider);
-			player.pos2D += collisiondata.dir * collisiondata.overlap;
-			player.XV(0);
-			player.YV(0);
+			player.pos2D += glm::normalize(collisiondata.dir) * collisiondata.overlap;
+			
+			glm::dvec2 tangent = glm::normalize(glm::vec2(collisiondata.dir.y*-1.,collisiondata.dir.x));
+			double dot = glm::dot(tangent,player.V());
+			player.XV(tangent.x*dot*.8);
+			player.YV(tangent.y*dot*.8);
 			player.AddForce(g*-1.f);
-		}
 
-//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
+		}
+		ANDskip=true;
 		player.Update();
 		player.ResetA();
 
@@ -230,6 +233,7 @@ int main(int argc, char **argv)
 		ImGui::NewFrame();
 
 		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Text("dTime:%f", deltaTime*1000);
 		ImGui::Text("player XV:%f", player.XV());
 		ImGui::Text("player YV:%f", player.YV());
 		ImGui::Text("player Speed:%f", player.Speed());

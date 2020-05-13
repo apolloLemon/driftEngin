@@ -14,17 +14,19 @@ void PhyxObj2D::Update(){
 	//if(t==NULL) t=tn;
 
 	//double d = std::chrono::duration_cast<double, std::milli> d = tn - t;
-	std::chrono::duration<float, std::milli> d = tn - t;
-	float dd = d.count();
+	std::chrono::duration<double, std::milli> d = tn - t;
+	double dd = d.count();
 	t=tn;
 
 
-	pos2D += v*(float)(dd/1000);
+	pos2D += v*(dd/1000);
 	collider.pos = pos2D;
 	worldPosition = glm::vec3(pos2D.x,0,pos2D.y);
 
 
-	v += a * (float)(dd/1000);
+	v += a * (dd/1000);
+
+	//if(Speed()<0.00001) v=glm::vec2(0,0);
 }
 
 void PhyxObj2D::InitTime(){
