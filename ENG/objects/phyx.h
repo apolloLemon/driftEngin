@@ -21,7 +21,7 @@ public:
 	void Init();
 	void ResetA();
 
-	void AddForce(glm::vec2);
+	void AddForce(glm::dvec2);
 	//void AddForce(double x, double y);
 
 	//GettersSetters
@@ -61,7 +61,7 @@ public:
 	//std::chrono::time_point
 	//	<std::chrono::steady_clock> t;
 
-	float mass;
+	double mass;
 
 	bool actif;
 //private:

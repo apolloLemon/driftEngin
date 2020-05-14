@@ -29,43 +29,75 @@ void PhyxENG::Update(){
 	for(auto p : managed){
 		//if(!(p->actif)) continue;
 		if(p->orbiting){
-			glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
-			p->AddForce(g);
+			//glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
+			//p->AddForce(g);
 			if(p->orbiting->collider.isin(p->collider)){
-				CollisionMsg collisiondata = p->orbiting->collider.collision(p->collider);
+				CollisionMsg colmsg = p->orbiting->collider.collision(p->collider);
 				
 
-				//std::cout << "Collision: " << collisiondata.overlap<<" deep" << std::endl;
+				//std::cout << "Collision: " << colmsg.overlap<<" deep" << std::endl;
 				
 
-				p->pos2D += glm::normalize(collisiondata.dir) * collisiondata.overlap;
-				
-				glm::dvec2 tangent = glm::normalize(glm::vec2(collisiondata.dir.y*-1.,collisiondata.dir.x));
-				double dot = glm::dot(tangent,p->V());
-				p->XV(tangent.x*dot*.8);
-				p->YV(tangent.y*dot*.8);
-				p->AddForce(g*-1.f);
+				p->pos2D += colmsg.nor * colmsg.overlap;
+				double dot = glm::dot(colmsg.tan,p->V());
+				p->XV(colmsg.tan.x*dot*.8);
+				p->YV(colmsg.tan.y*dot*.8);
+			//	p->AddForce(g*-1.f);
 
 			}
 		}
-		p->Update(dd);
-		p->ResetA();
 	}
 	for(auto p : managed)
 		for(auto q : managed)
 			if(p!=q && p->orbiting!=q && q->orbiting!=p)
 				if(p->collider.isin(q->collider)){
-					CollisionMsg collisiondata = p->collider.collision(q->collider);
+					std::cout <<"normal col\n";
+					CollisionMsg colmsg = p->collider.collision(q->collider);
 
-					p->pos2D -= glm::normalize(collisiondata.dir) * collisiondata.overlap/2.;
-					q->pos2D += glm::normalize(collisiondata.dir) * collisiondata.overlap/2.;
+					p->pos2D -= colmsg.nor * colmsg.overlap/2.;
+					q->pos2D += colmsg.nor * colmsg.overlap/2.;
 
-					//glm::dvec2 tangent = glm::normalize(glm::vec2(collisiondata.dir.y*-1.,collisiondata.dir.x));
-					//double dot = glm::dot(tangent,p->V());
-					//p->XV(tangent.x*dot*.8);
-					//p->YV(tangent.y*dot*.8);
+					//*
+					double pdottan = glm::dot(p->V(),colmsg.tan);
+					double qdottan = glm::dot(q->V(),colmsg.tan);
+					double pdotnor = glm::dot(p->V(),colmsg.nor);
+					double qdotnor = glm::dot(q->V(),colmsg.nor);
+
+					double pmomentum = (pdotnor*(p->mass - q->mass) + 2.*q->mass*qdotnor)/(p->mass+q->mass);
+					double qmomentum = (qdotnor*(q->mass - p->mass) + 2.*p->mass*pdotnor)/(p->mass+q->mass);
+
+					std::cout <<"0 "<<p->name<<": "<< glm::length(p->v) <<"\t"<<q->name<<": "<< glm::length(q->v)<<std::endl;
+					p->v = (colmsg.tan*pdottan + colmsg.nor*pmomentum);
+					q->v = (colmsg.tan*qdottan + colmsg.nor*qmomentum);
+					std::cout <<"1 "<<p->name<<": "<< glm::length(p->v) <<"\t"<<q->name<<": "<< glm::length(q->v)<<std::endl;
+					//*/
+					/*/wikipedia method:
+					glm::dvec2 px2qx = p->pos2D-q->pos2D;
+					double px2qxl = glm::length(px2qx);
+					double px2qxl2 = px2qxl*px2qxl;
+					glm::dvec2 pv2qv = p->v-q->v;
+					double masssum =p->mass+q->mass;
+					p->v -= (
+							(2*q->mass/(masssum))
+							*(
+								glm::dot(pv2qv, px2qx) / px2qxl2
+							) * px2qx
+						);
+
+
+					p->v -= (
+							(2*p->mass/(masssum))
+							*(
+								glm::dot(pv2qv*-1., px2qx*-1.) / px2qxl2
+							) * px2qx*-1.
+						);
+					//*/
 				}
-		
+
+	for(auto p : managed){
+		p->Update(dd);
+		p->ResetA();
+	}
 }
 
 void PhyxObj2D::Update(double dt){
@@ -97,7 +129,7 @@ void PhyxObj2D::ResetA(){
 }
 
 
-void PhyxObj2D::AddForce(glm::vec2 _a) {
+void PhyxObj2D::AddForce(glm::dvec2 _a) {
 	a+=_a/mass;
 }
 /*/

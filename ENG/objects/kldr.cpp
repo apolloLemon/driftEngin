@@ -2,7 +2,8 @@
 
 CollisionMsg CircleCollider::collision(CircleCollider g){
 	CollisionMsg out;
-	out.dir = g.pos-pos;
+	out.nor = glm::normalize(g.pos-pos);
+	out.tan = glm::vec2(out.nor.y*-1.,out.nor.x);
 	out.overlap = (dim+g.dim)-glm::distance(pos,g.pos);
 	return out;
 }

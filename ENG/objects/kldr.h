@@ -14,7 +14,8 @@ struct CollisionMsg {
 	// vec : obj1 - obj2
 	// tangents, etc..
 	// overlap amount
-	glm::dvec2 dir;
+	glm::dvec2 nor;
+	glm::dvec2 tan;
 	double overlap;
 };
 /*struct CollisionTransform2D {

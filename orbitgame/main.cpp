@@ -162,6 +162,7 @@ int main(int argc, char **argv)
 	player->Mass(1.f);
 	player->collider.Dim(1);
 	player->orbiting = planet;
+	player->name="stan";
 
 	planet->worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	planet->Mass(1.f);
@@ -175,6 +176,7 @@ int main(int argc, char **argv)
 	planet2->scale = glm::vec3(2);
 	planet2->collider.Dim(2);
 	planet2->orbiting = planet;
+	planet2->name="nats";
 
 	// lighting options
 	// ----------------
@@ -275,6 +277,7 @@ int main(int argc, char **argv)
 		ImGui::Text("player XV:%f", player->XV());
 		ImGui::Text("player YV:%f", player->YV());
 		ImGui::Text("player Speed:%f", player->Speed());
+		ImGui::Text("planet2 Speed:%f", planet2->Speed());
 		ImGui::Text("\n");
 		ImGui::Text("player GameObj xpos:%f", player->worldPosition.x);
 		ImGui::Text("player GameObj ypos:%f", player->worldPosition.z);
