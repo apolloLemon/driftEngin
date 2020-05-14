@@ -53,6 +53,7 @@ bool firstMouse = true;
 // ----------------
 Player * player = new Player();
 CelestialBody * planet = new CelestialBody();
+CelestialBody * planet2 = new CelestialBody();
 
 // timing variables
 // ----------------
@@ -140,7 +141,9 @@ int main(int argc, char **argv)
 //	Sphere materialSphere(50, 50, std::vector<Texture>(), &emerald);
 	Sphere sunMesh(50, 50, sunTextures);
 	
+	player->meshes.push_back(new Sphere(50,50,moonTextures));
 	planet->meshes.push_back(new Sphere(50,50,moonTextures));
+	planet2->meshes.push_back(new Sphere(50,50,moonTextures));
 /*
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
@@ -154,8 +157,8 @@ int main(int argc, char **argv)
 	// -----------------------
 	player->worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
 	player->Init();
-	player->loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player->YV(-2); // starting velocity
+	//player->loadModel(modelsPath + "sputnik/sputnik1.obj");
+	player->YV(0); // starting velocity
 	player->Mass(1.f);
 	player->collider.Dim(1);
 	player->orbiting = planet;
@@ -164,6 +167,14 @@ int main(int argc, char **argv)
 	planet->Mass(1.f);
 	planet->scale = glm::vec3(8);
 	planet->collider.Dim(8);
+
+	planet2->worldPosition = glm::vec3(20.0f, 0.0f, 0.0f);
+	planet2->Init();
+	planet2->YV(0);
+	planet2->Mass(1.f);
+	planet2->scale = glm::vec3(2);
+	planet2->collider.Dim(2);
+	planet2->orbiting = planet;
 
 	// lighting options
 	// ----------------
@@ -174,8 +185,9 @@ int main(int argc, char **argv)
 
 	OrbitGame.gameobjects.push_back(player);
 	OrbitGame.gameobjects.push_back(planet);
+	OrbitGame.gameobjects.push_back(planet2);
 	OrbitGame.Init();
-	bool skip=true;
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -204,14 +216,14 @@ int main(int argc, char **argv)
 		lightSourceShader.setMat4("projection", projection);
 		lightSourceShader.setMat4("view", view);
 
-		sunMesh.Draw(&lightSourceShader, glm::vec3(30.0f), glm::vec3(10.0f));
+		sunMesh.Draw(&lightSourceShader, glm::vec3(50.0f,0.f,0.f), glm::vec3(10.0f));
 
 		// configuring the texture shader and meshes
 		// -----------------------------------------
 		textureShader.use();
 		textureShader.setMat4("projection", projection);
 		textureShader.setMat4("view", view);
-		textureShader.setVec3("light.position", glm::vec3(0.0f));
+		textureShader.setVec3("light.position", glm::vec3(50.0f,0.f,0.f));
 		textureShader.setVec3("light.ambient", lAmbient);
 		textureShader.setVec3("light.diffuse", lDiffuse);
 		textureShader.setVec3("light.specular", lSpecular);
@@ -240,6 +252,7 @@ int main(int argc, char **argv)
 		player->camera.updateCameraVectors(player->worldPosition);
 
 		planet->Draw(&textureShader);
+		planet2->Draw(&textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------

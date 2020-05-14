@@ -51,12 +51,21 @@ void PhyxENG::Update(){
 		p->Update(dd);
 		p->ResetA();
 	}
-	/*for(auto p : managed)
+	for(auto p : managed)
 		for(auto q : managed)
-			if(p!=q){
-				if(p.)
-			}
-	*/	
+			if(p!=q && p->orbiting!=q && q->orbiting!=p)
+				if(p->collider.isin(q->collider)){
+					CollisionMsg collisiondata = p->collider.collision(q->collider);
+
+					p->pos2D -= glm::normalize(collisiondata.dir) * collisiondata.overlap/2.;
+					q->pos2D += glm::normalize(collisiondata.dir) * collisiondata.overlap/2.;
+
+					//glm::dvec2 tangent = glm::normalize(glm::vec2(collisiondata.dir.y*-1.,collisiondata.dir.x));
+					//double dot = glm::dot(tangent,p->V());
+					//p->XV(tangent.x*dot*.8);
+					//p->YV(tangent.y*dot*.8);
+				}
+		
 }
 
 void PhyxObj2D::Update(double dt){
