@@ -11,11 +11,10 @@ set(SOURCES
 			"${SRC_DIR}/drift/player.cpp"
 			"${SRC_DIR}/drift/asteroid.cpp"
 
-			"${SRC_DIR}/ENG/init.cpp"
-
 			"${SRC_DIR}/ENG/shaders/shader.cpp"
 			
 			"${SRC_DIR}/ENG/objects/game.cpp"
+			"${SRC_DIR}/ENG/objects/gameobj.cpp"
 			"${SRC_DIR}/ENG/objects/phyx.cpp"
 			"${SRC_DIR}/ENG/objects/kldr.cpp"
 			"${SRC_DIR}/ENG/objects/ctrl.cpp"

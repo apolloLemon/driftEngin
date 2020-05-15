@@ -1,4 +1,5 @@
 #include "freecam.h"
+#include "ENG/objects/game.h"
 
 Freecam::Freecam(glm::vec3 position, glm::vec3 up, float yaw, float pitch):
 	Camera(position, up, yaw, pitch), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY)
@@ -6,22 +7,18 @@ Freecam::Freecam(glm::vec3 position, glm::vec3 up, float yaw, float pitch):
 	updateCameraVectors();
 }
 
-// Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-void Freecam::ProcessKeyboard(Camera_Movement direction, float deltaTime)
+void Freecam::inputCallback(GLFWwindow* window)
 {
-	float velocity = MovementSpeed * deltaTime;
-	if (direction == FORWARD)
-		worldPosition += Front * velocity;
-	if (direction == BACKWARD)
-		worldPosition -= Front * velocity;
-	if (direction == LEFT)
-		worldPosition -= Right * velocity;
-	if (direction == RIGHT)
-		worldPosition += Right * velocity;
-	if (direction == DOWN)
-		worldPosition -= Up * velocity;
-	if (direction == UP)
-		worldPosition += Up * velocity;
+	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+	if (game->cameraMode == FREECAM_MODE)
+	{
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)		{ worldPosition += Front * 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)		{ worldPosition -= Right * 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)		{ worldPosition -= Front * 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)		{ worldPosition += Right * 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)		{ worldPosition += Up * 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)		{ worldPosition -= Up * 0.1f; }
+	}
 }
 
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.

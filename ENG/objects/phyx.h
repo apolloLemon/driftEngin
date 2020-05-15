@@ -4,7 +4,7 @@
 #include "ENG/includes/glm/ext.hpp"
 #include <chrono>
 
-#include "game.h"
+#include "gameobj.h"
 #include "kldr.h"
 
 
@@ -87,7 +87,7 @@ public:
 	//void setGamePtr(/*ptr to gameObjects*/);
 	PhyxENG(){t = std::chrono::steady_clock::now();}
 
-	void Init(std::vector<GameObj*>);
+	void Init(std::vector<GameObj*>*);
 	void Update();
 
 	//built in functions

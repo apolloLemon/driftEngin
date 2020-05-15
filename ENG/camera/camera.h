@@ -8,7 +8,7 @@
 #include <vector>
 #include <iostream>
 
-#include "ENG/objects/game.h"
+#include "ENG/objects/ctrl.h"
 
 // Default camera values
 const float YAW			= -90.0f;
@@ -18,7 +18,7 @@ const float SENSITIVITY =   0.1f;
 const float ZOOM		=  45.0f;
 
 // An abstract camera class that processes and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
-class Camera : public GameObj
+class Camera : public InputObj
 {
 public:
 	//Camera Attributes
