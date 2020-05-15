@@ -1,12 +1,12 @@
 #include "kldr.h"
-
+/*
 CollisionMsg CircleCollider::collision(CircleCollider g){
 	CollisionMsg out;
 	out.nor = glm::normalize(g.pos-pos);
 	out.tan = glm::vec2(out.nor.y*-1.,out.nor.x);
 	out.overlap = (dim+g.dim)-glm::distance(pos,g.pos);
 	return out;
-}
+}*/
 
 bool CircleCollider::isin(CircleCollider g){
 	return (glm::distance(pos,g.pos) <= (dim+g.dim));

@@ -1,23 +1,9 @@
 #pragma once
-
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
-
-#include "game.h"
-
 /*
 enum of CollisionObj States?
 */
-
-struct CollisionMsg {
-	//vectors representing collision
-	// vec : obj1 - obj2
-	// tangents, etc..
-	// overlap amount
-	glm::dvec2 nor;
-	glm::dvec2 tan;
-	double overlap;
-};
 /*struct CollisionTransform2D {
 	glm::vec2 pos;
 	//rot
@@ -32,22 +18,17 @@ public:
 	//virtual bool collision(CollisionObj2D)=0;
 //private:
 
-	void Dim(float x){dim=x;}
-	void Pos(glm::vec2 x){pos=x;}
+	void Dim(double x){dim=x;}
+	void Pos(glm::dvec2 x){pos=x;}
 
 	glm::dvec2 pos;
-	float dim; //dimention0 or radius
+	double dim; //dimention0 or radius
 };
-
-
-class CollisionENG /*?: GameENG ?*/ {};
-
-
 
 //particular colliders
 class CircleCollider : public CollisionObj2D {
 public:
-	CollisionMsg collision(CircleCollider) /*override*/;
+	//CollisionMsg collision(CircleCollider) /*override*/;
 //private:
 	bool isin(CircleCollider);
 	bool isin(glm::dvec2);
@@ -60,4 +41,3 @@ public:
 
 //class BoxCollider2D : public CollisionObj {};
 //class BoxCollider3D : public CollisionObj {};
-

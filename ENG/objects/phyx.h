@@ -1,5 +1,4 @@
-#ifndef PHYX_OBJ_H
-#define PHYX_OBJ_H
+#pragma once
 
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
@@ -20,7 +19,6 @@ public:
 	void Update(double);
 	void Init();
 	void ResetA();
-
 	void AddForce(glm::dvec2);
 	//void AddForce(double x, double y);
 
@@ -68,6 +66,21 @@ public:
 
 };
 
+struct CollisionActors {
+	//vectors representing collision
+	// vec : obj1 - obj2
+	// tangents, etc..
+	// overlap amount
+	PhyxObj2D * p;
+	CircleCollider * c;
+	//PhyxObj2D * q;
+	//glm::dvec2 nor;
+	//glm::dvec2 tan;
+	//double overlap;
+	//glm::dvec2 ron(){return nor*-1.;}
+	//glm::dvec2 nat(){return tan*-1.;}
+};
+
 
 class PhyxENG : public Game {
 public:
@@ -87,6 +100,7 @@ public:
 
 
 //private:
+ 	//std::vector<CollisionPairs> collisions;
  	std::vector<PhyxObj2D *> managed;
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;	
@@ -94,4 +108,3 @@ public:
 	void Collision();
 	void Physics();
 };
-#endif
