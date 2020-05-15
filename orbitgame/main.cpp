@@ -34,6 +34,7 @@ int main(int argc, char **argv)
 	orbitgame.gameobjects.push_back(player);
 	orbitgame.gameobjects.push_back(planet);
 	orbitgame.gameobjects.push_back(planet2);
+	orbitgame.gameobjects.push_back(orbitgame.freecam);
 
 	GLFWwindow* window = orbitgame.Initialize();
 
