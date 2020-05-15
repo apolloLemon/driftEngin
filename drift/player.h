@@ -24,7 +24,7 @@ enum Player_Movement {
 	playerRIGHT
 };
 
-class Player : public PhyxObj2D, public CollisionObj, public InputObj, public RenderObj
+class Player : public PhyxObj2D, public InputObj, public RenderObj
 {
 public:
 

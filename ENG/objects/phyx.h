@@ -1,11 +1,11 @@
-#ifndef PHYX_OBJ_H
-#define PHYX_OBJ_H
+#pragma once
 
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
 #include <chrono>
 
 #include "game.h"
+#include "kldr.h"
 
 
 
@@ -15,12 +15,11 @@ public:
 
 	//PhyxObj2D()=default;
 	//Phyx
-	void Update();
-	//void Update(/*but with global time*/);
-	void InitTime();
+	//void Update();
+	void Update(double);
+	void Init();
 	void ResetA();
-
-	void AddForce(glm::vec2);
+	void AddForce(glm::dvec2);
 	//void AddForce(double x, double y);
 
 	//GettersSetters
@@ -31,14 +30,14 @@ public:
 	float const 	Y()			{ return worldPosition.z; }
 	void			Y(float y)	{ worldPosition.z = y; }
 
-	glm::vec2		V(){return v;}
+	glm::dvec2		V(){return v;}
 	float const 	XV()		{return v.x;}
 	void 			XV(float _xv){v.x=_xv;}
 	float const 	YV()		{return v.y;}
 	void 			YV(float _yv){v.y=_yv;}
 	float 			Speed() {return glm::length(v);}
 
-	glm::vec2		A(){return a;}
+	glm::dvec2		A(){return a;}
 	float const 	XA()		{return a.x;}
 	void 			XA(float _xa){a.x=_xa;}
 	float const 	YA()		{return a.y;}
@@ -48,28 +47,64 @@ public:
 	float const 	Mass()		{return mass;}
 	void 			Mass(float _m){mass=_m;}
 	//*/
-	glm::vec2 v;
-	glm::vec2 a;
+
+
+	PhyxObj2D* orbiting;
+	CircleCollider collider;
+	glm::dvec2 pos2D;
+	glm::dvec2 v;
+	glm::dvec2 a;
 	//double xv,yv; //velocity
 	//double xa,ya; //acceleration
-	std::chrono::time_point
-		<std::chrono::steady_clock> t;
+	//std::chrono::time_point
+	//	<std::chrono::steady_clock> t;
 
-	float mass;
+	double mass;
+
+	bool actif;
 //private:
 
 };
 
+struct CollisionActors {
+	//vectors representing collision
+	// vec : obj1 - obj2
+	// tangents, etc..
+	// overlap amount
+	PhyxObj2D * p;
+	CircleCollider * c;
+	//PhyxObj2D * q;
+	//glm::dvec2 nor;
+	//glm::dvec2 tan;
+	//double overlap;
+	//glm::dvec2 ron(){return nor*-1.;}
+	//glm::dvec2 nat(){return tan*-1.;}
+};
 
-class PhyxENG /*?: GameENG ?*/{
+
+class PhyxENG : public Game {
 public:
-	void setGamePtr(/*ptr to gameObjects*/);
- 
+	//void setGamePtr(/*ptr to gameObjects*/);
+	PhyxENG(){t = std::chrono::steady_clock::now();}
+
+	void Init();
+	void Update();
+
 	//built in functions
  	static glm::vec3 Gravity();//Gravity3D()
  	static glm::vec2 Gravity2D(PhyxObj2D,PhyxObj2D);
 
  	static glm::vec3 Drag();
  	static glm::vec2 Drag2D();
+
+
+
+//private:
+ 	//std::vector<CollisionPairs> collisions;
+ 	std::vector<PhyxObj2D *> managed;
+	std::chrono::time_point
+		<std::chrono::steady_clock> t;	
+	
+	void Collision();
+	void Physics();
 };
-#endif
