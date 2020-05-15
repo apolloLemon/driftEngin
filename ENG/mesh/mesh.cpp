@@ -6,21 +6,28 @@ Mesh::Mesh()
 	
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material material)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
-	this->material = material;
 
-	//normalizeMesh();
+	// now that we have all the required data, set the vertex buffers and its attribute pointers.
+	setupMesh();
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material material)
+{
+	this->vertices = vertices;
+	this->indices = indices;
+	this->material = material;
 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
 }
 
 // render the mesh
-void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
+void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation)
 {
 	// bind appropriate textures
 	unsigned int diffuseNr	= 1;
@@ -54,6 +61,11 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 			{
 				number = std::to_string(heightNr++);
 			}
+			else if (name == "texture_skybox")
+			{
+				name = "skybox";
+				number = "";
+			}
 			else if (name == "texture_light")
 			{
 				number = "";
@@ -64,6 +76,7 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 			shader->setFloat("material.shininess", 32.0f);
 			// and finally bind the texture
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
+
 		}
 	}
 	else if (material.untextured)
@@ -84,6 +97,9 @@ void Mesh::Draw(Shader* shader, glm::vec3 position, glm::vec3 scale)
 
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, position);
+	model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)); // Pitch
+	model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f)); // Yaw
+	model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f)); // Roll
 	model = glm::scale(model, scale);
 	shader->setMat4("model", model);
 
@@ -178,15 +194,35 @@ unsigned int TextureFromFile(const char* path, const std::string &directory, boo
 
 	return textureID;
 }
-/*
-void Mesh::normalizeMesh()
+
+unsigned int loadCubemap(std::vector<std::string> faces, const std::string &directory)
 {
-	for (unsigned int i = 0; i < vertices.size(); i++)
+	unsigned int textureID;
+	std::string filename;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+	int width, height, nrChannels;
+	for (unsigned int i = 0; i < faces.size(); i++)
 	{
-		glm::vec3 pos = vertices[i].Position;
-		float length = sqrt(pow(pos.x, 2) + pow(pos.y, 2) + pow(pos.z, 2));
-		vertices[i].Position /= length;
-		//std::cout << "Vertex [x:" << vertices[i].Position.x << "y:"<<vertices[i].Position.y << "z:"<<vertices[i].Position.z << "]" << std::endl;
+		filename = directory + '/' + faces[i];
+		unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Cubemap texture failed to load at path: " << filename << std::endl;
+			stbi_image_free(data);
+		}
 	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	return textureID;
 }
-//*/

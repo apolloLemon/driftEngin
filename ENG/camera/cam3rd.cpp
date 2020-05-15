@@ -9,8 +9,8 @@ Cam3rd::Cam3rd() : Camera()
 // Calculates the front vector from the Camera's (updated) Eular Angles
 void Cam3rd::updateCameraVectors(glm::vec3 pos, glm::vec3 dir)
 {
-	glm::vec3 newPos = pos - 2.0f*dir;
-	Position = glm::vec3(newPos.x, newPos.y + 0.8f, newPos.z);
+	glm::vec3 newPos = pos - 4.0f*dir;
+	worldPosition = glm::vec3(newPos.x, newPos.y + 1.5f, newPos.z);
 	// Calculate the new Front vector
 	glm::vec3 front;
 	front.x = dir.x;

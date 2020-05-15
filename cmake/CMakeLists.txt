@@ -5,8 +5,9 @@ project(driftEngine)
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
 set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
-			"${SRC_DIR}/drift/main.cpp"
-			"${SRC_DIR}/drift/player.cpp"
+			"${SRC_DIR}/showcase/main.cpp"
+			"${SRC_DIR}/showcase/player.cpp"
+			"${SRC_DIR}/showcase/asteroid.cpp"
 
 			"${SRC_DIR}/ENG/init.cpp"
 
@@ -21,6 +22,7 @@ set(SOURCES
 			"${SRC_DIR}/ENG/camera/camera.cpp"
 			"${SRC_DIR}/ENG/camera/freecam.cpp"
 			"${SRC_DIR}/ENG/camera/camOrt.cpp"
+			"${SRC_DIR}/ENG/camera/cam3rd.cpp"
 
 			"${SRC_DIR}/ENG/mesh/mesh.cpp"
 			"${SRC_DIR}/ENG/mesh/cube.cpp"

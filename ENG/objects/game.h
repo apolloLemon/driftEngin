@@ -15,6 +15,7 @@ public:
 	// Transformation variables
 	glm::vec3 worldPosition;
 	glm::vec3 scale;
+	glm::vec3 rotation; // Picth / Yaw / Roll
 
 	// constructors
 	GameObj(); // default
