@@ -8,7 +8,7 @@
 
 #include "ENG/shaders/shader.h"
 
-#include "ENG/objects/game.h"
+#include "ENG/objects/gameobj.h"
 #include "ENG/objects/kldr.h"
 
 #include <string>

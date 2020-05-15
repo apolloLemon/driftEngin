@@ -10,9 +10,11 @@ PhyxObj2D::PhyxObj2D()
 	ya = 0;
 }//*/
 
-void PhyxENG::Init(std::vector<GameObj*> gameobjects){
+void PhyxENG::Init(std::vector<GameObj*>* gameobjects){
 	managed.clear();
-	for(auto go : gameobjects) {
+	for (unsigned int i = 0; i < gameobjects->size(); i++)
+	{
+		GameObj* go = gameobjects->at(i);
 		PhyxObj2D* cast = dynamic_cast<PhyxObj2D *>(go);
 		if(cast) managed.push_back(cast);
 	}

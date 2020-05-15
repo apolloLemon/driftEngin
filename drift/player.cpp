@@ -20,6 +20,7 @@ void Player::draw(Shader* shader)
 }
 //*/
 
+/*
 void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
@@ -45,4 +46,18 @@ void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 	}
 
 	//camera.updateCameraVectors(worldPosition);
+}
+*/
+
+void Player::inputCallback(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)		{ AddForce(glm::vec2( 0,  1)); }
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)		{ AddForce(glm::vec2( 1,  0)); }
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)		{ AddForce(glm::vec2( 0, -1)); }
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)		{ AddForce(glm::vec2(-1,  0)); }
+}
+
+void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	
 }

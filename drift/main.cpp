@@ -19,8 +19,8 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-//#define N
-#define M
+#define N
+//#define M
 #if defined(N)
 	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 #elif defined(M)
@@ -296,22 +296,22 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
-		else				{ player.ProcessKeyboard(playerUP, deltaTime); }
+		//else				{ player.ProcessKeyboard(playerUP, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
-		else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
+		//else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
-		else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
+		//else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
-		else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
+		//else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
 	}
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 	{
@@ -335,12 +335,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // --------------------------------------
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_N && action == GLFW_PRESS)
-	{
-		freecamMode = !freecamMode;
-		if (freecamMode)	{ currentCamera = &freecam; }
-		else				{ currentCamera = &player.camera; }
-	}
+	player.inputCallback(window, key, scancode, action, mods);
 }
 
 // glfw: whenever the mouse moves, this callback is called
