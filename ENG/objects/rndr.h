@@ -15,7 +15,7 @@ enum of RenderObj States
 class RenderObj : public virtual GameObj
 {
 public:
-	std::vector<Mesh> meshes;
+	std::vector<Mesh*> meshes;
 	Model model;
 
 	void loadModel(std::string path);
