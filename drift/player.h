@@ -33,7 +33,7 @@ public:
 
 	Player(glm::vec3 position = glm::vec3(0.0f));
 	//void draw(Shader *shader);
-	void ProcessKeyboard(Player_Movement direction, float deltaTime);
+	void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mods) override;
 
 private:
 
