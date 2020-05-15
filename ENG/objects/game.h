@@ -3,14 +3,15 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
-//#define PWD "/home/melon/driftEngin/"
+//#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
+#define PWD "/home/melon/driftEngin/"
 
 //* Imgui 1/4
 #include "ENG/includes/imgui/imgui.h"
 #include "ENG/includes/imgui/imgui_impl_glfw.h"
 #include "ENG/includes/imgui/imgui_impl_opengl3.h"
 //*/
+
 
 #include "ENG/includes/glad/glad.h"
 #include <GLFW/glfw3.h>
