@@ -82,12 +82,12 @@ struct CollisionActors {
 };
 
 
-class PhyxENG : public Game {
+class PhyxENG {
 public:
 	//void setGamePtr(/*ptr to gameObjects*/);
 	PhyxENG(){t = std::chrono::steady_clock::now();}
 
-	void Init();
+	void Init(std::vector<GameObj*>);
 	void Update();
 
 	//built in functions
