@@ -49,14 +49,15 @@ void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 }
 */
 
-void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Player::inputCallback(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)		{ std::cout << "up" << std::endl; }
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)		{ std::cout << "left" << std::endl; }
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)		{ std::cout << "down" << std::endl; }
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)		{ std::cout << "right" << std::endl; }
-
-
-	if (key == GLFW_KEY_N && action == GLFW_PRESS)			{ std::cout << "right" << std::endl; }
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)		{ AddForce(glm::vec2( 0,  1)); }
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)		{ AddForce(glm::vec2( 1,  0)); }
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)		{ AddForce(glm::vec2( 0, -1)); }
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)		{ AddForce(glm::vec2(-1,  0)); }
 }
 
+void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	
+}

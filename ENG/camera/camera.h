@@ -8,7 +8,7 @@
 #include <vector>
 #include <iostream>
 
-#include "ENG/objects/game.h"
+#include "ENG/objects/gameobj.h"
 
 // Default camera values
 const float YAW			= -90.0f;
