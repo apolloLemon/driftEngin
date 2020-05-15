@@ -38,6 +38,21 @@ int main(int argc, char **argv)
 
 	GLFWwindow* window = orbitgame.Initialize();
 
+	// creating our skybox
+	// -------------------
+	std::vector<std::string> faces
+	{
+		"skybox/right.png",
+		"skybox/left.png",
+		"skybox/top.png",
+		"skybox/bottom.png",
+		"skybox/front.png",
+		"skybox/back.png"
+	};
+	Texture tSkybox;
+	tSkybox.id = loadCubemap(faces, orbitgame.texturesPath);
+	tSkybox.type = "texture_skybox";
+	tSkybox.path = "skybox";
 
 	Texture tSun;
 	tSun.id = TextureFromFile("sun/sun.jpg", orbitgame.texturesPath);
@@ -54,12 +69,16 @@ int main(int argc, char **argv)
 	std::vector<Texture> sunTextures;
 	sunTextures.push_back(tSun);
 
+	std::vector<Texture> skyboxTextures;
+	skyboxTextures.push_back(tSkybox);
+
 	std::vector<Texture> moonTextures;
 	moonTextures.push_back(tMoon);
 
 	// instantiate meshes
 	// ------------------
 	Sphere sunMesh(50, 50, sunTextures);
+	Cube skyboxMesh(skyboxTextures);
 	
 	player->meshes.push_back(new Sphere(50,50,moonTextures));
 	planet->meshes.push_back(new Sphere(50,50,moonTextures));
@@ -156,6 +175,16 @@ int main(int argc, char **argv)
 		orbitgame.materialShader->setVec3("light.diffuse", lDiffuse);
 		orbitgame.materialShader->setVec3("light.specular", lSpecular);
 		orbitgame.materialShader->setVec3("viewPos", orbitgame.currentCamera->worldPosition);
+
+		// draw skybox at last
+		// -------------------
+		glDepthFunc(GL_LEQUAL);
+		orbitgame.skyboxShader->use();
+		view = glm::mat4(glm::mat3(orbitgame.currentCamera->GetViewMatrix()));
+		orbitgame.skyboxShader->setMat4("view", view);
+		orbitgame.skyboxShader->setMat4("projection", projection);
+		skyboxMesh.Draw(orbitgame.skyboxShader);
+		glDepthFunc(GL_LESS);
 
 		orbitgame.displayImGui();
 

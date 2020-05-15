@@ -54,6 +54,7 @@ public:
 	Shader* textureShader;
 	Shader* materialShader;
 	Shader* lightSourceShader;
+	Shader* skyboxShader;
 
 	// Window informations
 	unsigned int screenWidth;

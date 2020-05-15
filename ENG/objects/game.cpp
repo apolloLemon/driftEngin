@@ -59,6 +59,7 @@ GLFWwindow* Game::Initialize()
 	textureShader = new Shader((vShadersPath + "textureShader.vs").c_str(), (fShadersPath + "textureShader.fs").c_str());
 	materialShader = new Shader((vShadersPath + "materialShader.vs").c_str(), (fShadersPath + "materialShader.fs").c_str());
 	lightSourceShader = new Shader((vShadersPath + "lightSourceShader.vs").c_str(), (fShadersPath + "lightSourceShader.fs").c_str());
+	skyboxShader = new Shader((vShadersPath + "skyboxShader.vs").c_str(), (fShadersPath + "skyboxShader.fs").c_str());
 
 	//* Imgui 2/4
 	ImGui::CreateContext();
