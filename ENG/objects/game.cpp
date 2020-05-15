@@ -132,11 +132,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (key == GLFW_KEY_N && action == GLFW_PRESS)
 	{
-		for (auto go : game->gameobjects)
+		if (game->cameraMode == FREECAM_MODE)
 		{
-			Player* cast = dynamic_cast<Player*>(go);
-			if(cast) { game->currentCamera = &cast->camera; }
+			for (auto go : game->gameobjects)
+			{
+				Player* cast = dynamic_cast<Player*>(go);
+				if(cast) { game->currentCamera = &cast->camera; break; }
+			}
+			game->cameraMode = ORTCAM_MODE;
 		}
+		else if (game->cameraMode == ORTCAM_MODE)
+		{
+			game->currentCamera = game->freecam;
+			game->cameraMode = FREECAM_MODE;
+		}
+		
 	}
 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)	{ glfwSetWindowShouldClose(window, true); }
@@ -160,7 +170,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	game->lastX = xpos;
 	game->lastY = ypos;
 
-	game->freecam->ProcessMouseMovement(xoffset, yoffset);
+	if (game->cameraMode == FREECAM_MODE)
+		game->freecam->ProcessMouseMovement(xoffset, yoffset);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
@@ -168,5 +179,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
-	game->freecam->ProcessMouseScroll(yoffset);
+	if (game->cameraMode == FREECAM_MODE)
+		game->freecam->ProcessMouseScroll(yoffset);
 }
