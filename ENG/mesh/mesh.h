@@ -9,6 +9,7 @@
 #include "ENG/shaders/shader.h"
 
 #include "ENG/objects/game.h"
+#include "ENG/objects/kldr.h"
 
 #include <string>
 #include <vector>
@@ -73,5 +74,7 @@ private:
 	unsigned int VBO, EBO;
 	
 };
+
+class MeshCollider : public CollisionObj{};
 
 #endif

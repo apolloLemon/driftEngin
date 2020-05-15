@@ -4,7 +4,6 @@ Player::Player(glm::vec3 position): MovementSpeed(PLAYER_SPEED)
 {
 	worldPosition = position;
 	camera.updateCameraVectors(worldPosition);
-	InitTime();
 }
 
 /*/
@@ -27,18 +26,22 @@ void Player::ProcessKeyboard(Player_Movement direction, float deltaTime)
 	if (direction == playerUP)
 	{
 		AddForce(glm::vec2(0,1));
+		//YV(1);
 	}
 	if (direction == playerDOWN)
 	{
 		AddForce(glm::vec2(0,-1));
+		//YV(-1);
 	}
 	if (direction == playerLEFT)
 	{
 		AddForce(glm::vec2(1,0));
+		//XV(1);
 	}
 	if (direction == playerRIGHT)
 	{
 		AddForce(glm::vec2(-1,0));
+		//XV(-1);
 	}
 
 	//camera.updateCameraVectors(worldPosition);
