@@ -28,15 +28,13 @@ void Asteroid::Generate(std::vector<Texture> textures)
 
 	layerVertices = layers[size-1];
 
-	Mesh layerMesh(layerVertices, core.indices, textures);
-
-	this->meshes.push_back(layerMesh);
+	this->meshes.push_back(new Mesh(layerVertices, core.indices, textures));
 
 	AsteroidVertex astVertex;
-	for (unsigned int i = 0; i < layerMesh.vertices.size(); i++)
+	for (unsigned int i = 0; i < this->meshes[0]->vertices.size(); i++)
 	{
 		astVertex.layer = size;
-		astVertex.vertex = layerMesh.vertices[i];
+		astVertex.vertex = this->meshes[0]->vertices[i];
 		this->activeLayer.push_back(astVertex);
 	}
 }
@@ -59,7 +57,5 @@ void Asteroid::Break(unsigned int indice)
 		vertices.push_back(activeLayer[i].vertex);
 	}
 
-	Mesh newLayer(vertices, this->meshes[0].indices, this->meshes[0].textures);
-
-	this->meshes[0] = newLayer;
+	this->meshes[0] = new Mesh(vertices, this->meshes[0]->indices, this->meshes[0]->textures);
 }
