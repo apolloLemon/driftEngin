@@ -3,34 +3,29 @@
 
 #include <vector>
 #include <string>
-#include "ENG/includes/glm/glm.hpp"
-#include "ENG/includes/glm/gtc/matrix_transform.hpp"
+#include <GLFW/glfw3.h>
 
-/*
-enum of GameObj States
-*/
+#include "ENG/camera/camera.h"
+#include "ENG/objects/gameobj.h"
+
+struct CameraMode
+{
+	FREE_CAM,
+	ORT_CAM,
+	THIRD_CAM
+};
 
 
-class GameObj
+class Game
 {
 public:
-	std::string name;
-	// Transformation variables
-	glm::vec3 worldPosition;
-	glm::vec3 scale;
-	glm::vec3 rotation; // Picth / Yaw / Roll
-
-	// constructors
-	GameObj(); // default
-	GameObj(glm::vec3 wPos, glm::vec3 scale);
-	virtual ~GameObj()=default;
-};
-
-
-class Game {
-public:
 	std::vector<GameObj*> gameobjects;
-//private:
+	Camera* currentCamera;
+	CameraMode cameraMode;
+
+	GLFWwindow* Initialize();
 };
+
+
 
 #endif

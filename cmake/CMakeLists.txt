@@ -5,7 +5,7 @@ project(driftEngine)
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
 set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
-			"${SRC_DIR}/orbitgame/main.cpp"
+			"${SRC_DIR}/drift/main.cpp"
 			"${SRC_DIR}/orbitgame/CelestialBody.cpp"
 			
 			"${SRC_DIR}/drift/player.cpp"
@@ -16,6 +16,7 @@ set(SOURCES
 			"${SRC_DIR}/ENG/shaders/shader.cpp"
 			
 			"${SRC_DIR}/ENG/objects/game.cpp"
+			"${SRC_DIR}/ENG/objects/gameobj.cpp"
 			"${SRC_DIR}/ENG/objects/phyx.cpp"
 			"${SRC_DIR}/ENG/objects/kldr.cpp"
 			"${SRC_DIR}/ENG/objects/ctrl.cpp"

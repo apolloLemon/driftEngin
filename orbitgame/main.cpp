@@ -4,6 +4,8 @@
 #include "ENG/includes/imgui/imgui_impl_opengl3.h"
 //*/
 
+#include "ENG/objects/game.h"
+
 //ENG
 #include "ENG/init.h"
 #include "ENG/camera/freecam.h"
@@ -30,7 +32,7 @@
 	#define PWD "/home/melon/driftEngin/"
 #endif
 
-
+Game orbitgame;
 // path variables
 // --------------
 std::string srcPath = PWD;
