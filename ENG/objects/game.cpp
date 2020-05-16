@@ -1,7 +1,7 @@
 #include "game.h"
 
 
-Game::Game(unsigned int width, unsigned int height)
+Game::Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath)
 {
 	this->screenWidth = width;
 	this->screenHeight = height;
@@ -9,8 +9,8 @@ Game::Game(unsigned int width, unsigned int height)
 	this->srcPath = PWD;
 	this->vShadersPath = srcPath + "ENG/shaders/vertex/";
 	this->fShadersPath = srcPath + "ENG/shaders/fragment/";
-	this->texturesPath = srcPath + "orbitgame/textures/";
-	this->modelsPath = srcPath + "drift/models/";
+	this->texturesPath = srcPath + tPath;
+	this->modelsPath =	 srcPath + mPath;
 
 	this->lastX = width / 2.0f;
 	this->lastY = height / 2.0f;

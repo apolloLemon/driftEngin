@@ -75,7 +75,7 @@ public:
 	std::string texturesPath;
 	std::string modelsPath;
 
-	Game(unsigned int width, unsigned int height);
+	Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath);
 	GLFWwindow* Initialize();
 	void displayImGui();
 	void Terminate();

@@ -14,7 +14,7 @@
 #include "CelestialBody.h"
 
 
-Game orbitgame(1280, 720);
+Game orbitgame(1280, 720, "orbitgame/textures/", "orbitgame/models/");
 
 // GameObjects
 // ----------------
