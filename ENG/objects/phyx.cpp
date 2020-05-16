@@ -38,6 +38,9 @@ void PhyxENG::Update(){
 			glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
 			p->AddForce(g);
 			if(p->orbiting->collider.isin(p->collider)){
+				if(soundENG && glm::length(p->v)>0.5){
+						soundENG->Play(2, false);
+					}
 				cols++;
 				glm::dvec2 p2o = p->pos2D - p->orbiting->pos2D;
 				glm::dvec2 nor = glm::normalize(p2o);

@@ -11,4 +11,5 @@ public:
 	irrklang::ISoundEngine * sound;
 	std::vector<std::string> soundFiles;
 
+	
 };
