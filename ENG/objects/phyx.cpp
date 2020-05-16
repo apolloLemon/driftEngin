@@ -10,7 +10,7 @@ PhyxObj2D::PhyxObj2D()
 	ya = 0;
 }//*/
 
-void PhyxENG::Init(std::vector<GameObj*>* gameobjects){
+void PhyxENG::Init(std::vector<GameObj*>* gameobjects, irrklang::ISoundEngine * se){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)
 	{
@@ -18,6 +18,7 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects){
 		PhyxObj2D* cast = dynamic_cast<PhyxObj2D *>(go);
 		if(cast) managed.push_back(cast);
 	}
+	SoundENG = se;
 }
 
 
@@ -59,6 +60,10 @@ void PhyxENG::Update(){
 		for(auto q : managed)
 			if(p!=q && p->orbiting!=q && q->orbiting!=p)
 				if(p->collider.isin(q->collider)){
+					if(SoundENG){
+						std::cout << "make sound" <<std::endl;
+						SoundENG->play2D("/home/melon/driftEngin/orbitgame/sounds/bleep.ogg", false);
+					}
 					std::cout <<"normal col\n";
 					cols++;
 					glm::dvec2 p2o = p->collider.pos - q->collider.pos;
