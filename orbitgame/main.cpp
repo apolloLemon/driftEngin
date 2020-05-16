@@ -34,7 +34,11 @@ CelestialBody * planet2 = new CelestialBody();
 
 int main(int argc, char **argv)
 {
-	orbitgame.SoundENG->play2D((orbitgame.soundsPath + "track0.ogg").c_str(), true);
+	orbitgame.soundENG.soundFiles.push_back(orbitgame.soundsPath + "track0.ogg");
+	orbitgame.soundENG.soundFiles.push_back(orbitgame.soundsPath + "bleep.ogg");
+	orbitgame.soundENG.soundFiles.push_back(orbitgame.soundsPath + "solid.ogg");
+	orbitgame.soundENG.Play(0,1);
+//	orbitgame.soundENG->play2D((orbitgame.soundsPath + "track0.ogg").c_str(), true);
 	//if(!alutInit(0,NULL)) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError())<<std::endl;
     // Load pcm data into buffer
     //audiobuffer = alutCreateBufferFromFile("/home/melon/driftEngin/orbitgame/sounds/track0.ogg");

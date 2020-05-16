@@ -3,8 +3,8 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
-//#define PWD "/home/melon/driftEngin/"
+//#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
+#define PWD "/home/melon/driftEngin/"
 
 //* Imgui 1/4
 #include "ENG/includes/imgui/imgui.h"
@@ -25,6 +25,7 @@
 #include "ENG/objects/phyx.h"
 #include "ENG/objects/ctrl.h"
 #include "ENG/objects/rndr.h"
+#include "ENG/objects/sound.h"
 
 #include "ENG/shaders/shader.h"
 
@@ -68,7 +69,7 @@ public:
 	RenderENG rndrENG;
 	PhyxENG phyxENG;
 	InputENG inputENG;
-	irrklang::ISoundEngine* SoundENG;
+	SoundENG soundENG;
 
 	// Path Variables
 	std::string srcPath;
