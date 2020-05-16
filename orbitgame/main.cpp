@@ -7,9 +7,10 @@
 #include "ENG/mesh/cube.h"
 #include "ENG/model/model.h"
 
-#include "AL/al.h"
-#include "AL/alc.h"
-#include "AL/alut.h"
+//#include "ENG/includes/IrrKlang/irrKlang.h"
+//#include "AL/al.h"
+//#include "AL/alc.h"
+//#include "AL/alut.h"
 
 //drift
 #include "drift/player.h"
@@ -17,28 +18,30 @@
 //orbitgame
 #include "CelestialBody.h"
 
-
+#pragma comment(lib, "irrKalng.lib")
+using namespace irrklang;
 Game orbitgame(1280, 720);
-
 // GameObjects
 // ----------------
 Player * player = new Player();
 CelestialBody * planet = new CelestialBody();
 CelestialBody * planet2 = new CelestialBody();
 
-ALuint audiobuffer, audiosrc;
-ALint state;
+//ALuint audiobuffer, audiosrc;
+//ALint state;
+
 
 int main(int argc, char **argv)
 {
-	if(!alutInit(0,NULL)) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError())<<std::endl;
+	orbitgame.SoundENG->play2D("/home/melon/driftEngin/orbitgame/sounds/track0.ogg", true);
+	//if(!alutInit(0,NULL)) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError())<<std::endl;
     // Load pcm data into buffer
-    audiobuffer = alutCreateBufferFromFile("/home/melon/driftEngin/orbitgame/sounds/track0.ogg");
+    //audiobuffer = alutCreateBufferFromFile("/home/melon/driftEngin/orbitgame/sounds/track0.ogg");
     //audiobuffer = alutCreateBufferFromFile("/home/rakl/Repository/spaceProject/driftEngin/orbitgame/sounds/track0.wav");
     // Create sound source (use buffer to fill source)
-    if(!audiobuffer) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError()) <<std::endl;
-    alGenSources(1, &audiosrc);
-    alSourcei(audiosrc, AL_BUFFER, audiobuffer);
+    //if(!audiobuffer) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError()) <<std::endl;
+    //alGenSources(1, &audiosrc);
+    //alSourcei(audiosrc, AL_BUFFER, audiobuffer);
     // Play
     // Wait for the song to complete
     //do {
@@ -131,8 +134,8 @@ int main(int argc, char **argv)
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		alGetSourcei(audiosrc, AL_SOURCE_STATE, &state);
-		if(state != AL_PLAYING) alSourcePlay(audiosrc);
+		//alGetSourcei(audiosrc, AL_SOURCE_STATE, &state);
+		//if(state != AL_PLAYING) alSourcePlay(audiosrc);
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -193,10 +196,10 @@ int main(int argc, char **argv)
 	orbitgame.Terminate();
 	
 	// Clean up sources and buffers
-    alDeleteSources(1, &audiosrc);
-    alDeleteBuffers(1, &audiobuffer);
+   // alDeleteSources(1, &audiosrc);
+   // alDeleteBuffers(1, &audiobuffer);
     // Exit everything
-    alutExit();
+  //  alutExit();
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
 	glfwTerminate();

@@ -15,6 +15,7 @@ Game::Game(unsigned int width, unsigned int height)
 	this->lastX = width / 2.0f;
 	this->lastY = height / 2.0f;
 	this->firstMouse = true;
+	SoundENG = irrklang::createIrrKlangDevice();
 }
 
 GLFWwindow* Game::Initialize()
@@ -72,8 +73,7 @@ GLFWwindow* Game::Initialize()
 	glfwSetWindowUserPointer(window, this);
 
 	this->inputENG.Init(&gameobjects);
-	this->phyxENG.Init(&gameobjects);
-
+	this->phyxENG.Init(&gameobjects,SoundENG);
 	return window;
 }
 
@@ -110,6 +110,7 @@ void Game::Terminate()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	//*/
+	SoundENG->drop();
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

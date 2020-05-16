@@ -11,6 +11,7 @@
 #include "ENG/includes/imgui/imgui_impl_glfw.h"
 #include "ENG/includes/imgui/imgui_impl_opengl3.h"
 //*/
+#include "ENG/includes/IrrKlang/irrKlang.h"
 
 #include "ENG/includes/glad/glad.h"
 #include <GLFW/glfw3.h>
@@ -66,6 +67,7 @@ public:
 	RenderENG rndrENG;
 	PhyxENG phyxENG;
 	InputENG inputENG;
+	irrklang::ISoundEngine* SoundENG;
 
 	// Path Variables
 	std::string srcPath;
