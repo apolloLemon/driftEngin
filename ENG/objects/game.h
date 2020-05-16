@@ -3,8 +3,8 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-//#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
-#define PWD "/home/melon/driftEngin/"
+#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
+//#define PWD "/home/melon/driftEngin/"
 
 //* Imgui 1/4
 #include "ENG/includes/imgui/imgui.h"
@@ -76,8 +76,9 @@ public:
 	std::string fShadersPath;
 	std::string texturesPath;
 	std::string modelsPath;
+	std::string soundsPath;
 
-	Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath);
+	Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath, std::string sPath);
 	GLFWwindow* Initialize();
 	void displayImGui();
 	void Terminate();

@@ -1,7 +1,7 @@
 #include "game.h"
 
 
-Game::Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath)
+Game::Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath, std::string sPath)
 {
 	this->screenWidth = width;
 	this->screenHeight = height;
@@ -10,7 +10,8 @@ Game::Game(unsigned int width, unsigned int height, std::string tPath, std::stri
 	this->vShadersPath = srcPath + "ENG/shaders/vertex/";
 	this->fShadersPath = srcPath + "ENG/shaders/fragment/";
 	this->texturesPath = srcPath + tPath;
-	this->modelsPath =	 srcPath + mPath;
+	this->modelsPath = srcPath + mPath;
+	this->soundsPath = srcPath + sPath;
 
 	this->lastX = width / 2.0f;
 	this->lastY = height / 2.0f;

@@ -21,7 +21,7 @@
 
 #pragma comment(lib, "irrKalng.lib")
 using namespace irrklang;
-Game orbitgame(1280, 720);
+Game orbitgame(1280, 720, "orbitgame/textures/", "orbitgame/models/", "orbitgame/sounds/");
 // GameObjects
 // ----------------
 Player * player = new Player();
@@ -34,7 +34,7 @@ CelestialBody * planet2 = new CelestialBody();
 
 int main(int argc, char **argv)
 {
-	orbitgame.SoundENG->play2D("/home/melon/driftEngin/orbitgame/sounds/track0.ogg", true);
+	orbitgame.SoundENG->play2D((orbitgame.soundsPath + "track0.ogg").c_str(), true);
 	//if(!alutInit(0,NULL)) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError())<<std::endl;
     // Load pcm data into buffer
     //audiobuffer = alutCreateBufferFromFile("/home/melon/driftEngin/orbitgame/sounds/track0.ogg");
