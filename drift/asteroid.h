@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ASTEROID_MESH_H
 #define ASTEROID_MESH_H
 
@@ -7,6 +8,7 @@
 #include "ENG/objects/kldr.h"
 #include "ENG/objects/ctrl.h"
 #include "ENG/objects/rndr.h"
+#include "ENG/objects/perlin.h"
 
 #include <ctime>
 #include <cstdlib>
@@ -24,6 +26,7 @@ public:
 	unsigned int size;
 	std::vector<std::vector<Vertex>> layers;
 	std::vector<AsteroidVertex> activeLayer;
+	Perlin3D perlin;
 
 	Asteroid();
 	void Generate(std::vector<Texture> textures);

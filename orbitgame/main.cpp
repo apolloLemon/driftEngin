@@ -9,6 +9,7 @@
 
 //drift
 #include "drift/player.h"
+#include "drift/asteroid.h"
 
 //orbitgame
 #include "CelestialBody.h"
@@ -20,8 +21,7 @@ Game orbitgame(1280, 720, "orbitgame/textures/", "orbitgame/models/");
 // ----------------
 Player * player = new Player();
 CelestialBody * planet = new CelestialBody();
-CelestialBody * planet2 = new CelestialBody();
-
+Asteroid * planet2 = new Asteroid();
 
 int main(int argc, char **argv)
 {
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 	
 	player->meshes.push_back(new Sphere(50,50,moonTextures));
 	planet->meshes.push_back(new Sphere(50,50,moonTextures));
-	planet2->meshes.push_back(new Sphere(50,50,moonTextures));
+	planet2->Generate(moonTextures);
 /*
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 	player->YV(0); // starting velocity
 	player->Mass(1.f);
 	player->collider.Dim(1);
-	player->orbiting = planet;
+	player->orbiting;// = planet;
 	player->name="stan";
 
 	planet->worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -112,9 +112,9 @@ int main(int argc, char **argv)
 	planet2->Init();
 	planet2->YV(0);
 	planet2->Mass(1.f);
-	planet2->scale = glm::vec3(2);
+	planet2->scale = glm::vec3(3);
 	planet2->collider.Dim(2);
-	planet2->orbiting = planet;
+	planet2->orbiting;// = planet;
 	planet2->name="nats";
 
 	// lighting options
