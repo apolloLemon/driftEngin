@@ -183,4 +183,9 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
 	if (game->cameraMode == FREECAM_MODE)
 		game->freecam->ProcessMouseScroll(yoffset);
+	else if (game->cameraMode == ORTCAM_MODE)
+	{
+		CamOrt* camort = dynamic_cast<CamOrt*>(game->currentCamera);
+		camort->ProcessMouseScroll(yoffset);
+	}
 }

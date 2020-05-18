@@ -22,7 +22,7 @@ void Model::loadModel(std::string path)
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
 
-	//calculateOffsets();
+	normalizeModel();
 }
 
 // processes a node in a recursive fashion. Processes each individual mesh located at the node
@@ -201,4 +201,46 @@ Material Model::loadMaterial(aiMaterial* mat)
 
 
 	return material;
+}
+
+void Model::normalizeModel()
+{
+	glm::vec3 min(9999.0f);
+	glm::vec3 max(-9999.0f);
+
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		for (unsigned int j = 0; j < meshes[i].vertices.size(); j++)
+		{
+			glm::vec3 pos = meshes[i].vertices[j].Position;
+			if (pos.x > max.x)	{ max.x = pos.x; }
+			if (pos.y > max.y)	{ max.y = pos.y; }
+			if (pos.z > max.z)	{ max.z = pos.z; }
+			if (pos.x < min.x)	{ min.x = pos.x; }
+			if (pos.y < min.y)	{ min.y = pos.y; }
+			if (pos.z < min.z)	{ min.z = pos.z; }
+		}
+	}
+
+	glm::vec3 center;
+	center.x = min.x + (max.x - min.x) / 2.0f;
+	center.y = min.y + (max.y - min.y) / 2.0f;
+	center.z = min.z + (max.z - min.z) / 2.0f;
+	//std::cout << "Center: [x:" << center.x << ", y:" << center.y << ", z:" << center.z << "]" << std::endl;
+
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		Mesh mesh;
+		for (unsigned int j = 0; j < meshes[i].vertices.size(); j++)
+		{
+			Vertex vertex = meshes[i].vertices[j];
+			vertex.Position -= center;
+			mesh.vertices.push_back(vertex);
+			mesh.indices = meshes[i].indices;
+			mesh.textures = meshes[i].textures;
+			mesh.material = meshes[i].material;
+		}
+		mesh.setupMesh();
+		meshes[i] = mesh;
+	}
 }
