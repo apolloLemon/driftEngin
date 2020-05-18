@@ -1,5 +1,6 @@
 #pragma once
-
+//#include "ENG/includes/IrrKlang/irrKlang.h"
+#include <ENG/objects/sound.h>
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
 #include <chrono>
@@ -87,7 +88,7 @@ public:
 	//void setGamePtr(/*ptr to gameObjects*/);
 	PhyxENG(){t = std::chrono::steady_clock::now();}
 
-	void Init(std::vector<GameObj*>*);
+	void Init(std::vector<GameObj*>*,SoundENG*);
 	void Update();
 
 	//built in functions
@@ -101,6 +102,7 @@ public:
 
 //private:
  	//std::vector<CollisionPairs> collisions;
+ 	SoundENG * soundENG;
  	std::vector<PhyxObj2D *> managed;
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;	

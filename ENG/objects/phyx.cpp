@@ -10,7 +10,7 @@ PhyxObj2D::PhyxObj2D()
 	ya = 0;
 }//*/
 
-void PhyxENG::Init(std::vector<GameObj*>* gameobjects){
+void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)
 	{
@@ -18,6 +18,7 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects){
 		PhyxObj2D* cast = dynamic_cast<PhyxObj2D *>(go);
 		if(cast) managed.push_back(cast);
 	}
+	soundENG = se;
 }
 
 
@@ -37,6 +38,9 @@ void PhyxENG::Update(){
 			glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
 			p->AddForce(g);
 			if(p->orbiting->collider.isin(p->collider)){
+				if(soundENG && glm::length(p->v)>0.5){
+						soundENG->Play(2, false);
+					}
 				cols++;
 				glm::dvec2 p2o = p->pos2D - p->orbiting->pos2D;
 				glm::dvec2 nor = glm::normalize(p2o);
@@ -59,6 +63,9 @@ void PhyxENG::Update(){
 		for(auto q : managed)
 			if(p!=q && p->orbiting!=q && q->orbiting!=p)
 				if(p->collider.isin(q->collider)){
+					if(soundENG){
+						soundENG->Play(2, false);
+					}
 					std::cout <<"normal col\n";
 					cols++;
 					glm::dvec2 p2o = p->collider.pos - q->collider.pos;

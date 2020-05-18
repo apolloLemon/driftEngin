@@ -19,6 +19,7 @@ set(SOURCES
 			"${SRC_DIR}/ENG/objects/kldr.cpp"
 			"${SRC_DIR}/ENG/objects/ctrl.cpp"
 			"${SRC_DIR}/ENG/objects/rndr.cpp"
+			"${SRC_DIR}/ENG/objects/sound.cpp"
 
 			"${SRC_DIR}/ENG/camera/camera.cpp"
 			"${SRC_DIR}/ENG/camera/freecam.cpp"
@@ -50,4 +51,4 @@ add_executable(${PROJECT_NAME}.exe ${SOURCES})
 target_include_directories(${PROJECT_NAME}.exe PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 17)
 
-TARGET_LINK_LIBRARIES(driftEngine.exe assimp -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lGLU -lglut -lm)
+TARGET_LINK_LIBRARIES(driftEngine.exe assimp -lglfw -lGL -lX11 -lXrandr -lXi -ldl -lGLU -lglut -lm -L"/usr/lib" "${INC_DIR}/IrrKlang/libIrrKlang.so" -lpthread)

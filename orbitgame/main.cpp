@@ -7,6 +7,11 @@
 #include "ENG/mesh/cube.h"
 #include "ENG/model/model.h"
 
+//#include "ENG/includes/IrrKlang/irrKlang.h"
+//#include "AL/al.h"
+//#include "AL/alc.h"
+//#include "AL/alut.h"
+
 //drift
 #include "drift/player.h"
 
@@ -14,17 +19,41 @@
 #include "CelestialBody.h"
 
 
-Game orbitgame(1280, 720, "orbitgame/textures/", "orbitgame/models/");
-
+#pragma comment(lib, "irrKalng.lib")
+using namespace irrklang;
+Game orbitgame(1280, 720, "orbitgame/textures/", "orbitgame/models/", "orbitgame/sounds/");
 // GameObjects
 // ----------------
 Player * player = new Player();
 CelestialBody * planet = new CelestialBody();
 CelestialBody * planet2 = new CelestialBody();
 
+//ALuint audiobuffer, audiosrc;
+//ALint state;
+
 
 int main(int argc, char **argv)
 {
+	orbitgame.soundENG.soundFiles.push_back(orbitgame.soundsPath + "track0.ogg");
+	orbitgame.soundENG.soundFiles.push_back(orbitgame.soundsPath + "bleep.ogg");
+	orbitgame.soundENG.soundFiles.push_back(orbitgame.soundsPath + "solid.ogg");
+	orbitgame.soundENG.Play(0,1);
+//	orbitgame.soundENG->play2D((orbitgame.soundsPath + "track0.ogg").c_str(), true);
+	//if(!alutInit(0,NULL)) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError())<<std::endl;
+    // Load pcm data into buffer
+    //audiobuffer = alutCreateBufferFromFile("/home/melon/driftEngin/orbitgame/sounds/track0.ogg");
+    //audiobuffer = alutCreateBufferFromFile("/home/rakl/Repository/spaceProject/driftEngin/orbitgame/sounds/track0.wav");
+    // Create sound source (use buffer to fill source)
+    //if(!audiobuffer) std::cout <<"ALerror: "<< alutGetErrorString(alutGetError()) <<std::endl;
+    //alGenSources(1, &audiosrc);
+    //alSourcei(audiosrc, AL_BUFFER, audiobuffer);
+    // Play
+    // Wait for the song to complete
+    //do {
+    //    alGetSourcei(audiosrc, AL_SOURCE_STATE, &state);
+    //} while (state == AL_PLAYING);
+    
+
 	// initialize glfw and game
 	// ------------------------
 	orbitgame.freecam = new Freecam(glm::vec3(0.0f, 7.0f, 10.0f));
@@ -98,7 +127,7 @@ int main(int argc, char **argv)
 	player->scale = glm::vec3(0.001f);
 	player->Init();
 	//player->loadModel(modelsPath + "sputnik/sputnik1.obj");
-	player->YV(0); // starting velocity
+	player->YV(2); // starting velocity
 	player->Mass(1.f);
 	player->collider.Dim(1);
 	player->orbiting = planet;
@@ -106,12 +135,12 @@ int main(int argc, char **argv)
 
 	planet->worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	planet->Mass(1.f);
-	planet->scale = glm::vec3(8);
-	planet->collider.Dim(8);
+	planet->scale = glm::vec3(20);
+	planet->collider.Dim(20);
 
-	planet2->worldPosition = glm::vec3(20.0f, 0.0f, 0.0f);
+	planet2->worldPosition = glm::vec3(40.0f, 0.0f, 0.0f);
 	planet2->Init();
-	planet2->YV(0);
+	planet2->YV(2);
 	planet2->Mass(1.f);
 	planet2->scale = glm::vec3(2);
 	planet2->collider.Dim(2);
@@ -125,10 +154,13 @@ int main(int argc, char **argv)
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
 	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
 
+	bool skip=true;
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
+		//alGetSourcei(audiosrc, AL_SOURCE_STATE, &state);
+		//if(state != AL_PLAYING) alSourcePlay(audiosrc);
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -197,6 +229,12 @@ int main(int argc, char **argv)
 	}
 
 	orbitgame.Terminate();
+	
+	// Clean up sources and buffers
+   // alDeleteSources(1, &audiosrc);
+   // alDeleteBuffers(1, &audiobuffer);
+    // Exit everything
+  //  alutExit();
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
 	glfwTerminate();
