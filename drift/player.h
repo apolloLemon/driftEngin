@@ -30,6 +30,7 @@ public:
 
 	CamOrt camera;
 	float MovementSpeed;
+	glm::vec3 Direction;
 
 	Player(glm::vec3 position = glm::vec3(0.0f));
 	//void draw(Shader *shader);

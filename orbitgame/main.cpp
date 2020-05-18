@@ -80,9 +80,9 @@ int main(int argc, char **argv)
 	Sphere sunMesh(50, 50, sunTextures);
 	Cube skyboxMesh(skyboxTextures);
 	
-	player->meshes.push_back(new Sphere(50,50,moonTextures));
 	planet->meshes.push_back(new Sphere(50,50,moonTextures));
 	planet2->meshes.push_back(new Sphere(50,50,moonTextures));
+	player->loadModel(orbitgame.modelsPath + "ship/V1.obj");
 /*
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
@@ -95,6 +95,7 @@ int main(int argc, char **argv)
 	// initializing the player
 	// -----------------------
 	player->worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
+	player->scale = glm::vec3(0.001f);
 	player->Init();
 	//player->loadModel(modelsPath + "sputnik/sputnik1.obj");
 	player->YV(0); // starting velocity
@@ -159,9 +160,6 @@ int main(int argc, char **argv)
 		orbitgame.phyxENG.Update();
 		orbitgame.inputENG.Update(window);
 
-		player->Draw(orbitgame.textureShader);
-		player->camera.updateCameraVectors(player->worldPosition);
-
 		planet->Draw(orbitgame.textureShader);
 		planet2->Draw(orbitgame.textureShader);
 
@@ -175,6 +173,9 @@ int main(int argc, char **argv)
 		orbitgame.materialShader->setVec3("light.diffuse", lDiffuse);
 		orbitgame.materialShader->setVec3("light.specular", lSpecular);
 		orbitgame.materialShader->setVec3("viewPos", orbitgame.currentCamera->worldPosition);
+
+		player->Draw(orbitgame.materialShader);
+		player->camera.updateCameraVectors(player->worldPosition);
 
 		// draw skybox at last
 		// -------------------

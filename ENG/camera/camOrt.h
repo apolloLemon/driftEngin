@@ -8,6 +8,7 @@ class CamOrt : public Camera
 public:
 	CamOrt();
 	void updateCameraVectors(glm::vec3 pos);
+	void ProcessMouseScroll(float yoffset);
 
 private:
 };
