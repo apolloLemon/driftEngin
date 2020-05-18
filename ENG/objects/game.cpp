@@ -15,6 +15,8 @@ Game::Game(unsigned int width, unsigned int height, std::string tPath, std::stri
 	this->lastX = width / 2.0f;
 	this->lastY = height / 2.0f;
 	this->firstMouse = true;
+
+	srand(glfwGetTime());
 }
 
 GLFWwindow* Game::Initialize()
@@ -151,6 +153,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)	{ glfwSetWindowShouldClose(window, true); }
+
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+		Asteroid* asteroid = dynamic_cast<Asteroid*>(game->gameobjects[2]);
+		unsigned int id = rand() % 91 + 10;
+		asteroid->Break(id);
+		//std::cout << "id: " << id << std::endl;
+	}
 }
 
 // glfw: whenever the mouse moves, this callback is called

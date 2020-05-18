@@ -3,7 +3,7 @@
 
 // Simple process to switch between Matthew's and Nathan's directories
 // -------------------------------------------------------------------
-//#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
+#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
 //#define PWD "/home/melon/driftEngin/"
 
 //* Imgui 1/4
@@ -18,6 +18,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 #include "ENG/includes/glm/glm.hpp"
 
@@ -31,6 +32,7 @@
 #include "ENG/camera/freecam.h"
 
 #include "drift/player.h"
+#include "drift/asteroid.h"
 
 
 enum CameraMode

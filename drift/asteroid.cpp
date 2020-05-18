@@ -7,7 +7,7 @@ Asteroid::Asteroid()
 
 void Asteroid::Generate(std::vector<Texture> textures)
 {
-	core = Sphere(50, 50);
+	core = Sphere(10, 10);
 
 	srand(time(NULL));
 	size = rand() % 5 + 1;
