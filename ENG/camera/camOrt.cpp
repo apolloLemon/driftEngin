@@ -10,7 +10,7 @@ CamOrt::CamOrt():
 
 void CamOrt::updateCameraVectors(glm::vec3 pos)
 {
-	worldPosition = glm::vec3(pos.x, pos.y + 30.0f, pos.z);
+	worldPosition = glm::vec3(pos.x, pos.y + 95.0f, pos.z);
 	glm::vec3 front;
 	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	front.y = sin(glm::radians(Pitch));
