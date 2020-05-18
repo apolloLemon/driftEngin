@@ -226,7 +226,7 @@ void Model::normalizeModel()
 	center.x = min.x + (max.x - min.x) / 2.0f;
 	center.y = min.y + (max.y - min.y) / 2.0f;
 	center.z = min.z + (max.z - min.z) / 2.0f;
-	std::cout << "Center: [x:" << center.x << ", y:" << center.y << ", z:" << center.z << "]" << std::endl;
+	//std::cout << "Center: [x:" << center.x << ", y:" << center.y << ", z:" << center.z << "]" << std::endl;
 
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
