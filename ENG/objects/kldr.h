@@ -1,7 +1,7 @@
 #pragma once
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
-#include "game.h"
+#include "gameobj.h"
 /**
 Single Colliders
 **/
@@ -12,15 +12,18 @@ public:
 	Collider(GameObj *,int);
 //	void Move(glm::dvec2 delta); //if has parent moves parent//move to gameObj
 };
-
+/*
 class Collider2D : public Collider {
 public:
 	void Dim(double x){dim=x;}
 	double dim; //dimention0 or radius
-};
+};*/
 
 class CircleCollider : public Collider {
 public:
+	double Dim(){return this->scale.x;}
+	void Dim(double s){this->scale = glm::dvec3(s);}
+	CircleCollider(GameObj* a,int l): Collider(a,l){}
 };
 
 class CollisionObj : virtual public GameObj {
@@ -48,6 +51,7 @@ public:
 	std::vector<CollisionObj *> managed;
 	std::vector<CollisionMsg *> events;
 
+	void Init(std::vector<GameObj*>*);
 	void Update();
 	std::vector<CollisionMsg *> EventsOf(GameObj *);
 	CollisionMsg * CollisionBetween(GameObj *, GameObj *,int);

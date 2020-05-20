@@ -2,7 +2,7 @@
 #include <iostream>
 static const int PHYX_LAYER=0;
 
-void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se, CollisionENG *ce){
+void PhyxENG::Init(std::vector<GameObj*>* gameobjects, CollisionENG *ce,SoundENG *se){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)
 	{
@@ -10,8 +10,8 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se, CollisionEN
 		PhyxObj2D* cast = dynamic_cast<PhyxObj2D *>(go);
 		if(cast) managed.push_back(cast);
 	}
-	soundENG = se;
 	collisionENG = ce;
+	soundENG = se;
 }
 
 void PhyxENG::Update(){
@@ -39,12 +39,12 @@ void PhyxENG::Update(){
 				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.5){
 						soundENG->Play(2, false);
 					}
-				StaticResolution(pqData.P.second,pqData.Q.second);
-				DynamicResolution(p,pqData.P.second, q,pqData.Q.second);
+				StaticResolution(pqData->P.second,pqData->Q.second);
+				DynamicResolution(p,pqData->P.second, q,pqData->Q.second);
 			}
 		}
 		//now that i has seen all the other phyxObj, he's finished working
-		p->Update();
+		p->Update(dd);
 		p->ResetA();
 	}
 //	if(cols) std::cout<<"collision count"<<cols<<std::endl;
@@ -54,10 +54,10 @@ void PhyxENG::StaticResolution(Collider *p,Collider *q){
 	glm::dvec2 p2q = p->worldPosition() - q->worldPosition();
 	glm::dvec2 nor = glm::normalize(p2q);
 
-	CircleCollider *pc = dynamic_cast<CircleCollider>(p);
-	CircleCollider *qc = dynamic_cast<CircleCollider>(q);
+	CircleCollider *pc = dynamic_cast<CircleCollider *>(p);
+	CircleCollider *qc = dynamic_cast<CircleCollider *>(q);
 	if(pc&&qc){
-		double overlap = (pc->dim + qc->dim)-glm::length(p2q);
+		double overlap = (pc->Dim() + qc->Dim())-glm::length(p2q);
 		p->Move(nor * overlap*.5);
 		q->Move(nor*-1. * overlap*.5);
 	} else {
@@ -72,8 +72,8 @@ void DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
 	glm::dvec2 p2q = pc->worldPosition() - qc->worldPosition();
 	glm::dvec2 nor = glm::normalize(p2q);
 
-	CircleCollider *pcc = dynamic_cast<CircleCollider>(pc);
-	CircleCollider *qcc = dynamic_cast<CircleCollider>(qc);
+	CircleCollider *pcc = dynamic_cast<CircleCollider *>(pc);
+	CircleCollider *qcc = dynamic_cast<CircleCollider *>(qc);
 	if(pcc&&qcc){
 		glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
 		
@@ -113,10 +113,10 @@ void DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
 
 	} else {
 		//at least try
-		P->ResetV();
-		Q->ResetV();
-		P->ResetA();
-		Q->ResetA();
+		p->ResetV();
+		q->ResetV();
+		p->ResetA();
+		q->ResetA();
 	}
 }
 

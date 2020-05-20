@@ -5,9 +5,7 @@ project(driftEngine)
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
 set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
-			"${SRC_DIR}/orbitgame/main.cpp"
-			"${SRC_DIR}/orbitgame/CelestialBody.cpp"
-			
+			"${SRC_DIR}/drift/main.cpp"
 			"${SRC_DIR}/drift/player.cpp"
 			"${SRC_DIR}/drift/asteroid.cpp"
 

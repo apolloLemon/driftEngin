@@ -73,8 +73,9 @@ GLFWwindow* Game::Initialize()
 
 	glfwSetWindowUserPointer(window, this);
 
+	this->collENG.Init(&gameobjects);
 	this->inputENG.Init(&gameobjects);
-	this->phyxENG.Init(&gameobjects,&soundENG);
+	this->phyxENG.Init(&gameobjects,&collENG, &soundENG);
 	return window;
 }
 
@@ -84,7 +85,7 @@ void Game::displayImGui()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-
+/*
 	ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text("player XV:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->XV());
 	ImGui::Text("player YV:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->YV());
@@ -98,7 +99,7 @@ void Game::displayImGui()
 	//ImGui::Text("player  yG:%f", g.y);
 
 	ImGui::Text("player in Sun:%d", dynamic_cast<PhyxObj2D*>(gameobjects[1])->collider.isin(dynamic_cast<PhyxObj2D*>(gameobjects[0])->collider));
-	ImGui::End();
+*/	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	//*/

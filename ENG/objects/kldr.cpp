@@ -4,6 +4,7 @@
 Collider::Collider(GameObj* p,int l){
 	parent=p;
 	layer=l;
+	scale = glm::vec3(1);
 }
 
 std::vector<Collider *> CollisionObj::collidersLayer(int l){
@@ -12,9 +13,19 @@ std::vector<Collider *> CollisionObj::collidersLayer(int l){
 	return out;
 }
 void CollisionObj::CreateCollider(glm::dvec3 pos,int l){
-	Collider in = new CircleCollider(this,l);
-	in.position = pos;
+	Collider *in = new CircleCollider(this,l);
+	in->position = pos;
 	colliders.push_back(in);
+}
+
+void CollisionENG::Init(std::vector<GameObj*>* gameobjects){
+	managed.clear();
+	for (unsigned int i = 0; i < gameobjects->size(); i++)
+	{
+		GameObj* go = gameobjects->at(i);
+		CollisionObj* cast = dynamic_cast<CollisionObj *>(go);
+		if(cast) managed.push_back(cast);
+	}
 }
 
 void CollisionENG::Update(){
@@ -24,10 +35,10 @@ void CollisionENG::Update(){
 
 void CollisionENG::CheckCollisions(){
 	for(int i=0;i<managed.size();i++){
-			ColliderObj * p = managed[i];
+			CollisionObj * p = managed[i];
 		for(int j=i+1;j<managed.size();j++){ //this kind of loop allows us to only check a couple once
 			for(int l=0;l<LAYERS;l++){
-				ColliderObj * q = managed[j];
+				CollisionObj * q = managed[j];
 				CollisionMsg * coll = Collision(p,q,l);
 				if(coll) events.push_back(coll);
 			}
@@ -41,7 +52,7 @@ void CollisionENG::CleanEvents(){
 			events.erase(e); //carefull of memory..
 }
 
-CollisionMsg * Collision(ColliderObj* p,ColliderObj* q,l){
+CollisionMsg * Collision(CollisionObj* p,CollisionObj* q,int l){
 	std::vector<Collider *> pcs = p->collidersLayer(l);
 	std::vector<Collider *> qcs = q->collidersLayer(l);
 	for(auto pc : pcs)
@@ -59,7 +70,7 @@ bool CollisionENG::Collision(Collider * A,Collider * B){
 }
 
 bool CollisionENG::Collision(CircleCollider * A,CircleCollider * B){
-	return (glm::distance(A->pos,B->pos) <= (A->dim+B->dim)); 
+	return (glm::distance(A->position,B->position) <= (A->Dim()+B->Dim())); 
 }
 
 CollisionMsg::CollisionMsg(CollPair p, CollPair q, int l){

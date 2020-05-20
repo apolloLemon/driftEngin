@@ -25,9 +25,9 @@ public:
 	//*/
 //	glm::vec2		Position()	{return glm::vec2(worldPosition.x,worldPosition.z);}
 	float const 	X()			{ return worldPosition().x; }
-	void			X(float x)	{ worldPosition().x = x; }
+//	void			X(float x)	{ Move(glm::vec2(x,0)); }
 	float const 	Y()			{ return worldPosition().z; }
-	void			Y(float y)	{ worldPosition().z = y; }
+//	void			Y(float y)	{ worldPosition().z = y; }
 
 	glm::dvec2		V(){return v;}
 	void			V(glm::dvec2 _v){v=_v;}
@@ -74,7 +74,7 @@ public:
 	//void setGamePtr(/*ptr to gameObjects*/);
 	PhyxENG(){t = std::chrono::steady_clock::now();}
 
-	void Init(std::vector<GameObj*>*,SoundENG*,CollisionENG *);
+	void Init(std::vector<GameObj*>*,CollisionENG *,SoundENG*);
 	void Update();
 
 //Physics Collisions

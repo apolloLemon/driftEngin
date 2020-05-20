@@ -12,12 +12,12 @@ void Freecam::inputCallback(GLFWwindow* window)
 	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
 	if (game->cameraMode == FREECAM_MODE)
 	{
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)		{ worldPosition += Front * 0.1f; }
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)		{ worldPosition -= Right * 0.1f; }
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)		{ worldPosition -= Front * 0.1f; }
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)		{ worldPosition += Right * 0.1f; }
-		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)		{ worldPosition += Up * 0.1f; }
-		if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)		{ worldPosition -= Up * 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)		{ Move(Front * 0.1f); }
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)		{ Move(Right * -0.1f); }
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)		{ Move(Front * -0.1f); }
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)		{ Move(Right * 0.1f); }
+		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)		{ Move(Up * 0.1f); }
+		if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)		{ Move(Up * -0.1f); }
 	}
 }
 
