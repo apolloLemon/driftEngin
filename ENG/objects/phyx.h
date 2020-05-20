@@ -8,6 +8,7 @@
 #include "gameobj.h"
 #include "kldr.h"
 
+static const int PHYX_LAYER = 0;
 
 
 class PhyxObj2D : virtual public GameObj
@@ -77,7 +78,6 @@ public:
 	void Update();
 
 //Physics Collisions
-	void ReadCollisionMessages();
 	void StaticResolution();
 	void DynamicResolution();
 
@@ -93,6 +93,7 @@ public:
 //private:
  	//std::vector<CollisionPairs> collisions;
  	SoundENG * soundENG;
+ 	CollisionENG * collisionENG;
  	std::vector<PhyxObj2D *> managed;
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;	

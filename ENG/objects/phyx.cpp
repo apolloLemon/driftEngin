@@ -1,15 +1,6 @@
 #include "phyx.h"
 #include <iostream>
 
-/*/
-PhyxObj2D::PhyxObj2D()
-{
-	xv = 0;
-	yv = 0;
-	xa = 0;
-	ya = 0;
-}//*/
-
 void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)
@@ -21,15 +12,14 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se){
 	soundENG = se;
 }
 
-
 void PhyxENG::Update(){
 	auto tn = std::chrono::steady_clock::now();
-	//if(t==NULL) t=tn;
-
-	//double d = std::chrono::duration_cast<double, std::milli> d = tn - t;
 	std::chrono::duration<double, std::milli> d = tn - t;
 	double dd = d.count()/1000;
 	t=tn;
+
+	ReadCollisionMessages();
+
 
 	int cols=0;
 	for(auto p : managed){
@@ -53,7 +43,7 @@ void PhyxENG::Update(){
 				double dot = glm::dot(tan,p->V());
 				p->XV(tan.x*dot*.7);
 				p->YV(tan.y*dot*.7);
-				p->AddForce(g*-1.f);
+				//p->AddForce(g*-1.f);
 				std::cout <<"1 "<<p->name<<": "<< glm::length(p->v)<<std::endl;
 				//also handle Landing Event if need be
 			}

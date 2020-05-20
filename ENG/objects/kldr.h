@@ -15,13 +15,8 @@ public:
 
 class Collider2D : public Collider {
 public:
-	//virtual CollisionMsg * collision(CollisionObj); //null if no collision, ptr
-	//virtual bool collision(Collider2D)=0;
-//private:
-
 	void Dim(double x){dim=x;}
 	void Pos(glm::dvec2 x){pos=x;}
-
 	glm::dvec2 pos;
 	double dim; //dimention0 or radius
 };
@@ -42,7 +37,7 @@ class CollisionObj : virtual public GameObj {
 };
 
 class CollisionMsg {
-	int life = 0; //in frames
+	int life = 1; //in frames
 	std::pair<GameObj*,Collider*> A;
 	std::pair<GameObj*,Collider*> B;
 };
@@ -53,6 +48,8 @@ public:
 	std::vector<CollisionMsg> events;
 
 	void Update();
+	std::vector<CollisionMsg> EventsOf(GameObj *);
+//private:
 	void CheckCollisions();//Generate Events //in update
 	void CleanEvents(); //in update
 
