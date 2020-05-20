@@ -1,21 +1,22 @@
 #pragma once
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
-/*
-enum of CollisionObj States?
-*/
-/*struct CollisionTransform2D {
-	glm::vec2 pos;
-	//rot
-	//scale
-};*/
+#include "game.h"
+static const int LAYERS = 1;
 
-class CollisionObj {};
+/**
+Single Colliders
+**/
+class Collider : public GameObj {
+public:
+	GameObj * parent;
+	int layer;
+};
 
-class CollisionObj2D {
+class Collider2D : public Collider {
 public:
 	//virtual CollisionMsg * collision(CollisionObj); //null if no collision, ptr
-	//virtual bool collision(CollisionObj2D)=0;
+	//virtual bool collision(Collider2D)=0;
 //private:
 
 	void Dim(double x){dim=x;}
@@ -26,18 +27,39 @@ public:
 };
 
 //particular colliders
-class CircleCollider : public CollisionObj2D {
+class CircleCollider : public Collider2D {
 public:
 	//CollisionMsg collision(CircleCollider) /*override*/;
 //private:
-	bool isin(CircleCollider);
-	bool isin(glm::dvec2);
+//	bool isin(CircleCollider);
+//	bool isin(glm::dvec2);
 
 };
-/*class SphereCollider : public CollisionObj {
-public:
-	bool boolin(glm::vec3);	
-};*/
 
-//class BoxCollider2D : public CollisionObj {};
-//class BoxCollider3D : public CollisionObj {};
+class CollisionObj : virtual public GameObj {
+	std::vector<Collider *> colliders;
+	std::vector<Collider *> collidersLayer(int);
+};
+
+class CollisionMsg {
+	int life = 0; //in frames
+	std::pair<GameObj*,Collider*> A;
+	std::pair<GameObj*,Collider*> B;
+};
+
+class CollisionENG {
+public:
+	std::vector<CollisionObj *> managed;
+	std::vector<CollisionMsg> events;
+
+	void Update();
+	void CheckCollisions();//Generate Events //in update
+	void CleanEvents(); //in update
+
+	CollisionMsg Collision(CollisionObj*, CollisionObj*); //used in CheckCollisions to fill events
+
+	bool Collision(CircleCollider*,CircleCollider*);
+	//add more for specific collider types
+	bool Collision(Collider*,Collider*); //last check for collidertypes
+
+}

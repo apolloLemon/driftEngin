@@ -67,29 +67,19 @@ public:
 
 };
 
-struct CollisionActors {
-	//vectors representing collision
-	// vec : obj1 - obj2
-	// tangents, etc..
-	// overlap amount
-	PhyxObj2D * p;
-	CircleCollider * c;
-	//PhyxObj2D * q;
-	//glm::dvec2 nor;
-	//glm::dvec2 tan;
-	//double overlap;
-	//glm::dvec2 ron(){return nor*-1.;}
-	//glm::dvec2 nat(){return tan*-1.;}
-};
-
 
 class PhyxENG {
 public:
 	//void setGamePtr(/*ptr to gameObjects*/);
 	PhyxENG(){t = std::chrono::steady_clock::now();}
 
-	void Init(std::vector<GameObj*>*,SoundENG*);
+	void Init(std::vector<GameObj*>*,SoundENG*,CollisionENG *);
 	void Update();
+
+//Physics Collisions
+	void ReadCollisionMessages();
+	void StaticResolution();
+	void DynamicResolution();
 
 	//built in functions
  	static glm::vec3 Gravity();//Gravity3D()
