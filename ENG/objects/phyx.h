@@ -7,10 +7,6 @@
 
 #include "gameobj.h"
 #include "kldr.h"
-
-static const int PHYX_LAYER = 0;
-
-
 class PhyxObj2D : virtual public GameObj
 {
 public:
@@ -66,6 +62,8 @@ public:
 	double mass;
 
 	bool actif;
+	
+	int PHYX_LAYER=0;
 //private:
 
 };

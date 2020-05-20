@@ -2,8 +2,6 @@
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/ext.hpp"
 #include "game.h"
-static const int LAYERS = 1;
-
 /**
 Single Colliders
 **/
@@ -27,28 +25,28 @@ public:
 
 class CollisionObj : virtual public GameObj {
 public:
-	std::vector<Collider *> colliders;
 	std::vector<Collider *> collidersLayer(int);
-
-	void CreateCollider(glm::dvec3 pos,int l){
-		Collider in = new CircleCollider(this,l);
-		in.position = pos;
-		colliders.push_back(in);
-	}
+	void CreateCollider(glm::dvec3,int);
+//private:
+	std::vector<Collider *> colliders;
 };
 
+using CollPair = std::pair<GameObj*,Collider*>;
 class CollisionMsg {
 public:
-	int life = 1; //in frames
+	CollisionMsg(CollPair,CollPair,int);
+
+	int life; //in frames
 	int layer;
-	std::pair<GameObj*,Collider*> P;
-	std::pair<GameObj*,Collider*> Q;
+	CollPair P;
+	CollPair Q;
 };
 
 class CollisionENG {
 public:
+	int LAYERS = 1;
 	std::vector<CollisionObj *> managed;
-	std::vector<CollisionMsg> events;
+	std::vector<CollisionMsg *> events;
 
 	void Update();
 	std::vector<CollisionMsg *> EventsOf(GameObj *);
@@ -57,10 +55,10 @@ public:
 	void CheckCollisions();//Generate Events //in update
 	void CleanEvents(); //in update
 
-	CollisionMsg Collision(CollisionObj*, CollisionObj*); //used in CheckCollisions to fill events
+	CollisionMsg * Collision(CollisionObj*, CollisionObj*,int); //used in CheckCollisions to fill events
 
 	bool Collision(CircleCollider*,CircleCollider*);
 	//add more for specific collider types
 	bool Collision(Collider*,Collider*); //last check for collidertypes
 
-}
+};

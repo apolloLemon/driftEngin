@@ -1,5 +1,6 @@
 #include "phyx.h"
 #include <iostream>
+static const int PHYX_LAYER=0;
 
 void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se, CollisionENG *ce){
 	managed.clear();
@@ -73,7 +74,7 @@ void DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
 
 	CircleCollider *pcc = dynamic_cast<CircleCollider>(pc);
 	CircleCollider *qcc = dynamic_cast<CircleCollider>(qc);
-	if(pc&&qc){
+	if(pcc&&qcc){
 		glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
 		
 		double pdottan = glm::dot(p->V(),tan);
