@@ -1,4 +1,16 @@
 #include "kldr.h"
+
+Collider::Collider(GameObj* p,int l){
+	parent=p;
+	layer=l;
+}
+
+
+
+bool CollisionENG::Collision(CircleCollider * A,CircleCollider * B){
+	return (glm::distance(A->pos,B->pos) <= (A->dim+B->dim)); 
+}
+
 /*
 CollisionMsg CircleCollider::collision(CircleCollider g){
 	CollisionMsg out;
@@ -23,7 +35,3 @@ bool CircleCollider::isin(glm::dvec2 other){
 		glm::distance(transform.pos,other)
 		<= dim);
 }*/
-
-bool CollisionENG::Collision(CircleCollider * A,CircleCollider * B){
-	return (glm::distance(A->pos,B->pos) <= (A->dim+B->dim)); 
-}

@@ -10,10 +10,9 @@ Single Colliders
 class Collider : public GameObj {
 public:
 	int layer;
-
+	Collider()=default;
 	Collider(GameObj *,int);
-	void Move(glm::dvec2 delta); //if has parent moves parent
-
+//	void Move(glm::dvec2 delta); //if has parent moves parent//move to gameObj
 };
 
 class Collider2D : public Collider {
@@ -22,11 +21,12 @@ public:
 	double dim; //dimention0 or radius
 };
 
-class CircleCollider : public Collider2D {
+class CircleCollider : public Collider {
 public:
 };
 
 class CollisionObj : virtual public GameObj {
+public:
 	std::vector<Collider *> colliders;
 	std::vector<Collider *> collidersLayer(int);
 
@@ -38,9 +38,11 @@ class CollisionObj : virtual public GameObj {
 };
 
 class CollisionMsg {
+public:
 	int life = 1; //in frames
-	std::pair<GameObj*,Collider*> A;
-	std::pair<GameObj*,Collider*> B;
+	int layer;
+	std::pair<GameObj*,Collider*> P;
+	std::pair<GameObj*,Collider*> Q;
 };
 
 class CollisionENG {
@@ -49,7 +51,8 @@ public:
 	std::vector<CollisionMsg> events;
 
 	void Update();
-	std::vector<CollisionMsg> EventsOf(GameObj *);
+	std::vector<CollisionMsg *> EventsOf(GameObj *);
+	CollisionMsg * CollisionBetween(GameObj *, GameObj *,int);
 //private:
 	void CheckCollisions();//Generate Events //in update
 	void CleanEvents(); //in update
