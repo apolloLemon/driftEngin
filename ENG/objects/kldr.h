@@ -9,31 +9,32 @@ Single Colliders
 **/
 class Collider : public GameObj {
 public:
-	GameObj * parent;
 	int layer;
+
+	Collider(GameObj *,int);
+	void Move(glm::dvec2 delta); //if has parent moves parent
+
 };
 
 class Collider2D : public Collider {
 public:
 	void Dim(double x){dim=x;}
-	void Pos(glm::dvec2 x){pos=x;}
-	glm::dvec2 pos;
 	double dim; //dimention0 or radius
 };
 
-//particular colliders
 class CircleCollider : public Collider2D {
 public:
-	//CollisionMsg collision(CircleCollider) /*override*/;
-//private:
-//	bool isin(CircleCollider);
-//	bool isin(glm::dvec2);
-
 };
 
 class CollisionObj : virtual public GameObj {
 	std::vector<Collider *> colliders;
 	std::vector<Collider *> collidersLayer(int);
+
+	void CreateCollider(glm::dvec3 pos,int l){
+		Collider in = new CircleCollider(this,l);
+		in.position = pos;
+		colliders.push_back(in);
+	}
 };
 
 class CollisionMsg {
