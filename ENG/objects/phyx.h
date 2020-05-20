@@ -19,7 +19,8 @@ public:
 	//Phyx
 	//void Update();
 	void Update(double);
-	void Init();
+//	void Init();
+	void ResetV();
 	void ResetA();
 	void AddForce(glm::dvec2);
 	//void AddForce(double x, double y);
@@ -27,12 +28,13 @@ public:
 	//GettersSetters
 	//*/
 //	glm::vec2		Position()	{return glm::vec2(worldPosition.x,worldPosition.z);}
-	float const 	X()			{ return worldPosition.x; }
-	void			X(float x)	{ worldPosition.x = x; }
-	float const 	Y()			{ return worldPosition.z; }
-	void			Y(float y)	{ worldPosition.z = y; }
+	float const 	X()			{ return worldPosition().x; }
+	void			X(float x)	{ worldPosition().x = x; }
+	float const 	Y()			{ return worldPosition().z; }
+	void			Y(float y)	{ worldPosition().z = y; }
 
 	glm::dvec2		V(){return v;}
+	void			V(glm::dvec2 _v){v=_v;}
 	float const 	XV()		{return v.x;}
 	void 			XV(float _xv){v.x=_xv;}
 	float const 	YV()		{return v.y;}
@@ -52,8 +54,8 @@ public:
 
 
 	PhyxObj2D* orbiting;
-	CircleCollider collider;
-	glm::dvec2 pos2D;
+
+//	glm::dvec2 pos2D; //now directly use gameObejct stuff
 	glm::dvec2 v;
 	glm::dvec2 a;
 	//double xv,yv; //velocity
@@ -78,8 +80,9 @@ public:
 	void Update();
 
 //Physics Collisions
-	void StaticResolution();
-	void DynamicResolution();
+	void StaticResolution(Collider *, Collider *);
+//	void StaticResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *); //uses weight in resolution
+	void DynamicResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *);
 
 	//built in functions
  	static glm::vec3 Gravity();//Gravity3D()

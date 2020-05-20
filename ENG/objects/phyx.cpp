@@ -1,7 +1,7 @@
 #include "phyx.h"
 #include <iostream>
 
-void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se){
+void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se, CollisionENG *ce){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)
 	{
@@ -10,6 +10,7 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects, SoundENG *se){
 		if(cast) managed.push_back(cast);
 	}
 	soundENG = se;
+	collisionENG = ce;
 }
 
 void PhyxENG::Update(){
@@ -18,142 +19,105 @@ void PhyxENG::Update(){
 	double dd = d.count()/1000;
 	t=tn;
 
-	ReadCollisionMessages();
-
-
 	int cols=0;
-	for(auto p : managed){
-		//if(!(p->actif)) continue;
-		if(p->orbiting){
-			glm::vec2 g = PhyxENG::Gravity2D(*p,(*(p->orbiting)));
-			p->AddForce(g);
-			if(p->orbiting->collider.isin(p->collider)){
-				if(soundENG && glm::length(p->v)>0.5){
+	for(int i=0;i<managed.size();i++){
+			PhyxObj2D * p = managed[i];
+		for(int j=i+1;j<managed.size();j++){ //this kind of loop allows us to only check a couple once
+			PhyxObj2D * q = managed[j];
+			
+			//Global Forces between all objects
+			//maybe give the PhyxENG settings to toggle these
+//			glm::dvec2 g = PhyxENG::Gravity2D(*p,*q);
+//			p->AddForce(g);
+//			q->AddForce(-g);
+
+
+			CollisionMsg * pqData = collisionENG->CollisionBetween(p,q,PHYX_LAYER);
+			if(pqData){
+				cols++;
+				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.5){
 						soundENG->Play(2, false);
 					}
-				cols++;
-				glm::dvec2 p2o = p->pos2D - p->orbiting->pos2D;
-				glm::dvec2 nor = glm::normalize(p2o);
-				glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
-				double overlap = (p->collider.dim+p->orbiting->collider.dim)-glm::length(p2o);
-				std::cout<<"orbiter col"<<std::endl;
-				
-				std::cout <<"0 "<<p->name<<": "<< glm::length(p->v)<<std::endl;
-				p->pos2D += nor * overlap;
-				double dot = glm::dot(tan,p->V());
-				p->XV(tan.x*dot*.7);
-				p->YV(tan.y*dot*.7);
-				//p->AddForce(g*-1.f);
-				std::cout <<"1 "<<p->name<<": "<< glm::length(p->v)<<std::endl;
-				//also handle Landing Event if need be
+				StaticResolution(pqData.P.second,pqData.Q.second);
+				DynamicResolution(p,pqData.P.second, q,pqData.Q.second);
 			}
 		}
-	}
-	for(auto p : managed)
-		for(auto q : managed)
-			if(p!=q && p->orbiting!=q && q->orbiting!=p)
-				if(p->collider.isin(q->collider)){
-					if(soundENG){
-						soundENG->Play(2, false);
-					}
-					std::cout <<"normal col\n";
-					cols++;
-					glm::dvec2 p2o = p->collider.pos - q->collider.pos;
-					glm::dvec2 nor = glm::normalize(p2o);
-					glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
-					double overlap = (p->collider.dim + q->collider.dim)-glm::length(p2o);
-
-					std::cout << overlap << std::endl;
-				
-					p->pos2D += nor * overlap*3.;
-					q->pos2D -= nor * overlap*3.;
-
-					p->collider.pos = p->pos2D;
-					q->collider.pos = q->pos2D;
-
-					std::cout << (p->collider.dim + q->collider.dim)-glm::length(p2o) << std::endl;
-					//p=p;
-					//p=q;
-
-					//*
-					double pdottan = glm::dot(p->V(),tan);
-					double qdottan = glm::dot(q->V(),tan);
-					double pdotnor = glm::dot(p->V(),nor);
-					double qdotnor = glm::dot(q->V(),nor);
-
-					double pmomentum = (pdotnor*(p->mass - q->mass) + 2.*q->mass*qdotnor)/(p->mass+q->mass);
-					double qmomentum = (qdotnor*(q->mass - p->mass) + 2.*p->mass*pdotnor)/(p->mass+q->mass);
-
-					std::cout <<"0 "<<p->name<<": "<< glm::length(p->v) <<"\t"<<q->name<<": "<< glm::length(q->v)<<std::endl;
-					p->v = (tan*pdottan + nor*pmomentum);
-					q->v = (tan*qdottan + nor*qmomentum);
-					std::cout <<"1 "<<p->name<<": "<< glm::length(p->v) <<"\t"<<q->name<<": "<< glm::length(q->v)<<std::endl;
-					//*/
-					/*/wikipedia method2:
-					glm::dvec2 px2qx = p->pos2D-q->pos2D;
-					double px2qxl = glm::length(px2qx);
-					double px2qxl2 = px2qxl*px2qxl;
-					glm::dvec2 pv2qv = p->v-q->v;
-					double masssum =p->mass+q->mass;
-					p->v -= (
-							(2*q->mass/(masssum))
-							*(
-								glm::dot(pv2qv, px2qx) / px2qxl2
-							) * px2qx
-						);
-
-
-					p->v -= (
-							(2*p->mass/(masssum))
-							*(
-								glm::dot(pv2qv*-1., px2qx*-1.) / px2qxl2
-							) * px2qx*-1.
-						);
-					//*/
-				}
-
-	for(auto p : managed){
-		p->Update(dd);
+		//now that i has seen all the other phyxObj, he's finished working
+		p->Update();
 		p->ResetA();
 	}
-	if(cols) std::cout<<"collision count"<<cols<<std::endl;
+//	if(cols) std::cout<<"collision count"<<cols<<std::endl;
 }
 
-void PhyxObj2D::Update(double dt){
-	pos2D += v*dt;
-	collider.pos = pos2D;
-	worldPosition = glm::vec3(pos2D.x,0,pos2D.y);
-	v += a * dt;
-	//if(Speed()<0.00001) v=glm::vec2(0,0);
+void PhyxENG::StaticResolution(Collider *p,Collider *q){
+	glm::dvec2 p2q = p->worldPosition() - q->worldPosition();
+	glm::dvec2 nor = glm::normalize(p2q);
+
+	CircleCollider *pc = dynamic_cast<CircleCollider>(p);
+	CircleCollider *qc = dynamic_cast<CircleCollider>(q);
+	if(pc&&qc){
+		double overlap = (pc->dim + qc->dim)-glm::length(p2q);
+		p->Move(nor * overlap*.5);
+		q->Move(nor*-1. * overlap*.5);
+	} else {
+		//at least try
+		p->Move(nor);
+		q->Move(nor*-1.);
+	}
+
 }
 
-void PhyxObj2D::Init(){
-	pos2D=worldPosition;
-	collider.pos = pos2D;
-}
+void DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
+	glm::dvec2 p2q = pc->worldPosition() - qc->worldPosition();
+	glm::dvec2 nor = glm::normalize(p2q);
 
-/*/
-double const PhyxObj2D::V() {
-	return std::pow(
-				std::pow(xv,2)+std::pow(yv,2),
-			.5);
-}//*/
+	CircleCollider *pcc = dynamic_cast<CircleCollider>(pc);
+	CircleCollider *qcc = dynamic_cast<CircleCollider>(qc);
+	if(pc&&qc){
+		glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
+		
+		double pdottan = glm::dot(p->V(),tan);
+		double qdottan = glm::dot(q->V(),tan);
+		double pdotnor = glm::dot(p->V(),nor);
+		double qdotnor = glm::dot(q->V(),nor);
 
-void PhyxObj2D::ResetA(){
-	a=glm::vec2(0,0);
-	//xa=0; ya=0;
-}
+		double pmomentum = (pdotnor*(p->mass - q->mass) + 2.*q->mass*qdotnor)/(p->mass+q->mass);
+		double qmomentum = (qdotnor*(q->mass - p->mass) + 2.*p->mass*pdotnor)/(p->mass+q->mass);
+
+		p->v = (tan*pdottan + nor*pmomentum);
+		q->v = (tan*qdottan + nor*qmomentum);
+		//*/
+		/*/wikipedia method2:
+		glm::dvec2 px2qx = p->pos2D-q->pos2D;
+		double px2qxl = glm::length(px2qx);
+		double px2qxl2 = px2qxl*px2qxl;
+		glm::dvec2 pv2qv = p->v-q->v;
+		double masssum =p->mass+q->mass;
+		p->v -= (
+				(2*q->mass/(masssum))
+				*(
+					glm::dot(pv2qv, px2qx) / px2qxl2
+				) * px2qx
+			);
 
 
-void PhyxObj2D::AddForce(glm::dvec2 _a) {
-	a+=_a/mass;
+		p->v -= (
+				(2*p->mass/(masssum))
+				*(
+					glm::dot(pv2qv*-1., px2qx*-1.) / px2qxl2
+				) * px2qx*-1.
+			);
+		//*/
+
+
+	} else {
+		//at least try
+		P->ResetV();
+		Q->ResetV();
+		P->ResetA();
+		Q->ResetA();
+	}
 }
-/*/
-void PhyxObj2D::AddForce(double _x, double _y) {
-	xa += _x;
-	ya += _y;
-}
-//*/
 
 glm::vec2 PhyxENG::Gravity2D(PhyxObj2D a,PhyxObj2D b) {
 	glm::vec2 a2 = glm::vec2(a.X(),a.Y());
@@ -164,4 +128,19 @@ glm::vec2 PhyxENG::Gravity2D(PhyxObj2D a,PhyxObj2D b) {
 	float d = glm::length(a2b);
 	float r2 = (d*d)/4.f;
 	return a2b*(G*(Mm/r2));
+}
+
+
+
+
+void PhyxObj2D::Update(double dt){	
+	v += a * dt;
+	Move(v*dt);
+//	position += glm::vec3(v.x*dt,0,v.y*dt);
+	//if(Speed()<0.00001) v=glm::vec2(0,0);
+}
+void PhyxObj2D::ResetA(){a=glm::vec2(0);}
+void PhyxObj2D::ResetV(){v=glm::vec2(0);}
+void PhyxObj2D::AddForce(glm::dvec2 _a) {
+	a+=_a/mass;
 }
