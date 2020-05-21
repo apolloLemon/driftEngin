@@ -68,6 +68,13 @@ CollisionMsg * CollisionENG::Collision(CollisionObj* p,CollisionObj* q,int l){
 	return nullptr;
 }
 
+CollisionMsg * CollisionENG::CollisionBetween(GameObj* p,GameObj* q,int l){
+	for(auto& e : events)
+		if((e->P.first==p)&&(e->Q.first==q)&&(e->layer==l))
+			return e;
+	return nullptr;
+}
+
 bool CollisionENG::ColliderCollision(Collider * A,Collider * B){
 	CircleCollider *Ac = dynamic_cast<CircleCollider *>(A);
 	CircleCollider *Bc = dynamic_cast<CircleCollider *>(B);
