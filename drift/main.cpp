@@ -100,24 +100,30 @@ int main(int argc, char **argv)
 	player->name="stan";
 */
 	A->name="A";
-	A->MoveTo(glm::vec3(1.0f, 0.0f, 0.0f));
+	A->MoveTo(glm::vec3(0.0f, 0.0f, 0.0f));
 	A->CreateCollider(glm::dvec3(0),0);
 	A->YV(0);
+	A->XV(0);
 	A->Mass(1.f);
+	A->isKinematic(true);
 
 //	TESTLOG(dynamic_cast<CircleCollider *>(A->collidersLayer(0)[0])->Dim());
 
 	B->name="B";
-	B->MoveTo(glm::vec3(-1.0f, 0.0f, 0.0f));
+	B->MoveTo(glm::vec3(-5.0f, 0.0f, 1.0f));
 	B->CreateCollider(glm::dvec3(0),0);
-	B->YV(0);
-	B->Mass(1.f);
+	B->YV(1.8);
+	B->Mass(.1f);
+//	B->orbiting=A;
 
 	C->name="C";
-	C->MoveTo(glm::vec3(10.0f, 0.0f, 0.0f));
+	C->MoveTo(glm::vec3(4.0f, 0.0f, 1.0f));
 	C->CreateCollider(glm::dvec3(0),0);
-	C->XV(1);
-	C->Mass(1.f);	
+//	C->XV(-1);
+	C->YV(-1.9);
+	C->Mass(.1f);
+//	C->orbiting=A;
+//	C->isKinematic(true);	
 
 	// lighting options
 	// ----------------
@@ -134,13 +140,13 @@ int main(int argc, char **argv)
 		driftgame.inputENG.Update(window);
 		driftgame.phyxENG.Update();
 
-		for(auto e : driftgame.collENG.events)		
+/*		for(auto e : driftgame.collENG.events)		
 			std::cout
 				<< "collision event \t" << e << std::endl  
 				<< "life \t" << e->life << "layer \t" << e->layer << std::endl
 				<< "Pname \t" << e->P.first->name << std::endl
 				<< "Qname \t" << e->Q.first->name << std::endl;
-
+//*/
 
 		// render
 		// ------

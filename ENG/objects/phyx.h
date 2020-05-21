@@ -48,6 +48,8 @@ public:
 	void 			Mass(float _m){mass=_m;}
 	//*/
 
+	bool const 		isKinematic() {return kinematic;}
+	void 	 		isKinematic(bool b) {kinematic=b;}
 
 	PhyxObj2D* orbiting;
 
@@ -62,8 +64,7 @@ public:
 	double mass;
 
 	bool actif;
-	
-	int PHYX_LAYER=0;
+	bool kinematic=false;
 //private:
 
 };
@@ -79,7 +80,7 @@ public:
 
 //Physics Collisions
 	void StaticResolution(Collider *, Collider *);
-//	void StaticResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *); //uses weight in resolution
+	void StaticResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *); //uses weight in resolution and checks for kinematics
 	void DynamicResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *);
 
 	//built in functions
@@ -98,7 +99,9 @@ public:
  	std::vector<PhyxObj2D *> managed;
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;	
-	
-	void Collision();
-	void Physics();
+	int PHYX_LAYER=0;
+	double colEl = .9; //collisionElasticity
+
+//	void Collision();
+//	void Physics();
 };
