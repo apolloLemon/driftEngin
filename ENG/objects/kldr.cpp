@@ -47,9 +47,16 @@ void CollisionENG::CheckCollisions(){
 }
 
 void CollisionENG::CleanEvents(){
-	for(auto e : events)
-		if(e->life<=0)
-			events.erase(e); //carefull of memory..
+	for(auto& e : events)
+		if(e->life<=0){
+			delete e;
+			e=nullptr;
+		}
+					
+	events.erase(
+		std::remove(events.begin(), events.end(), nullptr),
+		events.end()
+		);
 }
 
 CollisionMsg * Collision(CollisionObj* p,CollisionObj* q,int l){
@@ -63,10 +70,10 @@ CollisionMsg * Collision(CollisionObj* p,CollisionObj* q,int l){
 }
 
 bool CollisionENG::Collision(Collider * A,Collider * B){
-	CircleCollider *Ac = dynamic_cast<CircleCollider>(A);
-	CircleCollider *Bc = dynamic_cast<CircleCollider>(B);
+	CircleCollider *Ac = dynamic_cast<CircleCollider *>(A);
+	CircleCollider *Bc = dynamic_cast<CircleCollider *>(B);
 	if(Ac&&Bc) return Collision(Ac,Bc);
-	else false;
+	return false;
 }
 
 bool CollisionENG::Collision(CircleCollider * A,CircleCollider * B){
