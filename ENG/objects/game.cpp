@@ -99,8 +99,8 @@ void Game::displayImGui()
 	//ImGui::Text("player  yG:%f", g.y);
 
 	ImGui::Text("player in Sun:%d", dynamic_cast<PhyxObj2D*>(gameobjects[1])->collider.isin(dynamic_cast<PhyxObj2D*>(gameobjects[0])->collider));
-*/	ImGui::End();
-	ImGui::Render();
+	ImGui::End();
+*/	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	//*/
 }

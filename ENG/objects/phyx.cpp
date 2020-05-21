@@ -68,7 +68,7 @@ void PhyxENG::StaticResolution(Collider *p,Collider *q){
 
 }
 
-void DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
+void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
 	glm::dvec2 p2q = pc->worldPosition() - qc->worldPosition();
 	glm::dvec2 nor = glm::normalize(p2q);
 
