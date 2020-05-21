@@ -16,6 +16,6 @@ void RenderObj::Draw(Shader* shader)
 	//std::cout << "Position: [x:" << this->worldPosition.x << ", y:" << this->worldPosition.y << ", z:" << this->worldPosition.z << "]" << std::endl;
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i]->Draw(shader, worldPosition, scale, rotation);
+		meshes[i]->Draw(shader, worldPosition(), scale, rotation);
 	}
 }

@@ -27,6 +27,11 @@ public:
 		if(parent) out += parent->worldPosition();
 		return out;
 	};
+	glm::vec3 worldPositionf(){
+		glm::vec3 out = position;
+		if(parent) out += parent->worldPositionf();
+		return out;
+	};
 	glm::dvec2 worldPosition2D(){
 		glm::dvec2 out = glm::dvec2(position.x,position.z);
 		if(parent) out += parent->worldPosition2D();
@@ -39,6 +44,14 @@ public:
 	void Move(glm::dvec3 delta){
 		if(parent) parent->Move(delta);
 		else position += delta;
+	}
+	void Move(glm::vec3 delta){
+		if(parent) parent->Move(delta);
+		else position += delta;
+	}
+	void MoveTo(glm::vec3 pos){
+		if(parent) parent->Move(pos);
+		else position = pos;
 	}
 
 	glm::dvec3 worldRotation(){

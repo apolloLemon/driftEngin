@@ -10,5 +10,5 @@ Camera::Camera(glm::vec3 _position, glm::vec3 up, float yaw, float pitch) : Fron
 
 glm::mat4 Camera::GetViewMatrix()
 {
-	return glm::lookAt(worldPosition, worldPosition + Front, Up);
+	return glm::lookAt(worldPositionf(), worldPositionf() + Front, Up);
 }
