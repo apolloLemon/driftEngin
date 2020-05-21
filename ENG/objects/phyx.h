@@ -7,7 +7,7 @@
 
 #include "gameobj.h"
 #include "kldr.h"
-class PhyxObj2D : virtual public GameObj
+class PhyxObj2D : virtual public GameObj, public CollisionObj
 {
 public:
 

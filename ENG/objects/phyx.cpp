@@ -28,9 +28,9 @@ void PhyxENG::Update(){
 			
 			//Global Forces between all objects
 			//maybe give the PhyxENG settings to toggle these
-//			glm::dvec2 g = PhyxENG::Gravity2D(*p,*q);
-//			p->AddForce(g);
-//			q->AddForce(-g);
+			glm::dvec2 g = PhyxENG::Gravity2D(*p,*q);
+			p->AddForce(g);
+			q->AddForce(-g);
 
 
 			CollisionMsg * pqData = collisionENG->CollisionBetween(p,q,PHYX_LAYER);

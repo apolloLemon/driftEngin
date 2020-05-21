@@ -9,14 +9,15 @@
 
 //drift
 #include "player.h"
+#include "simplebody.h"
 
 Game driftgame(1280, 720, "drift/textures/", "drift/models/", "drift/sounds/");
 // GameObjects
 // ----------------
 //Player * player = new Player();
-
-
-
+SimpleBody * A = new SimpleBody();
+SimpleBody * B = new SimpleBody();
+SimpleBody * C = new SimpleBody(); 
 
 int main(int argc, char **argv)
 {
@@ -33,11 +34,15 @@ int main(int argc, char **argv)
 
 	driftgame.gameobjects.push_back(driftgame.freecam);
 //	driftgame.gameobjects.push_back(player);
+	driftgame.gameobjects.push_back(A);
+	driftgame.gameobjects.push_back(B);
+	driftgame.gameobjects.push_back(C);
 
 	GLFWwindow* window = driftgame.Initialize();
 
 	// creating our skybox
 	// -------------------
+/*
 	std::vector<std::string> faces
 	{
 		"skybox/right.png",
@@ -47,20 +52,15 @@ int main(int argc, char **argv)
 		"skybox/front.png",
 		"skybox/back.png"
 	};
-/*	Texture tSkybox;
+	Texture tSkybox;
 	tSkybox.id = loadCubemap(faces, driftgame.texturesPath);
 	tSkybox.type = "texture_skybox";
 	tSkybox.path = "skybox";
-
-	Texture tSun;
-	tSun.id = TextureFromFile("sun/sun.jpg", driftgame.texturesPath);
-	tSun.type = "texture_diffuse";
-	tSun.path = "sun/sun.jpg";
-*/
-	Texture tMoon;
-	tMoon.id = TextureFromFile("moon/moon.jpg", driftgame.texturesPath);
-	tMoon.type = "texture_diffuse";
-	tMoon.path = "moon/moon.jpg";
+//*/
+	Texture tSquare;
+	tSquare.id = TextureFromFile("square/square.png", driftgame.texturesPath);
+	tSquare.type = "texture_diffuse";
+	tSquare.path = "square/square.png";
 
 	// creating texture vectors
 	// ------------------------
@@ -70,8 +70,8 @@ int main(int argc, char **argv)
 	std::vector<Texture> skyboxTextures;
 	skyboxTextures.push_back(tSkybox);
 */
-	std::vector<Texture> moonTextures;
-	moonTextures.push_back(tMoon);
+	std::vector<Texture> squareTextures;
+	squareTextures.push_back(tSquare);
 
 	// instantiate meshes
 	// ------------------
@@ -80,6 +80,10 @@ int main(int argc, char **argv)
 	
 //	planet->meshes.push_back(new Sphere(50,50,moonTextures));
 //	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
+
+	A->meshes.push_back(new Sphere(50,50,squareTextures));
+	B->meshes.push_back(new Sphere(50,50,squareTextures));
+	C->meshes.push_back(new Sphere(50,50,squareTextures));
 
 	// initializing the player
 	// -----------------------
@@ -93,6 +97,21 @@ int main(int argc, char **argv)
 	player->orbiting = planet;
 	player->name="stan";
 */
+	A->MoveTo(glm::vec3(3.0f, 0.0f, 0.0f));
+	A->CreateCollider(glm::dvec3(0),0);
+	A->YV(1);
+	A->Mass(1.f);
+
+	B->MoveTo(glm::vec3(-3.0f, 0.0f, 0.0f));
+	B->CreateCollider(glm::dvec3(0),0);
+	B->YV(-1);
+	B->Mass(1.f);
+
+	C->MoveTo(glm::vec3(0.0f, 0.0f, -1.0f));
+	C->CreateCollider(glm::dvec3(0),0);
+	C->XV(1);
+	C->Mass(1.f);	
+
 	// lighting options
 	// ----------------
 	glm::vec3 lightColor(1.0f);
@@ -104,6 +123,7 @@ int main(int argc, char **argv)
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
+		driftgame.collENG.Update();
 		driftgame.inputENG.Update(window);
 		driftgame.phyxENG.Update();
 
@@ -139,6 +159,11 @@ int main(int argc, char **argv)
 
 //		planet->Draw(driftgame.textureShader);
 //		planet2->Draw(driftgame.textureShader);
+
+
+		A->Draw(driftgame.textureShader);
+		B->Draw(driftgame.textureShader);
+		C->Draw(driftgame.textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
