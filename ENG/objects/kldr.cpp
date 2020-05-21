@@ -59,30 +59,28 @@ void CollisionENG::CleanEvents(){
 		);
 }
 
-CollisionMsg * Collision(CollisionObj* p,CollisionObj* q,int l){
+CollisionMsg * CollisionENG::Collision(CollisionObj* p,CollisionObj* q,int l){
 	std::vector<Collider *> pcs = p->collidersLayer(l);
 	std::vector<Collider *> qcs = q->collidersLayer(l);
-	for(auto pc : pcs)
-		for(auto qc : qcs)
-			if(Collision(pc,qc)){
-				return new CollisionMsg(std::make_pair<p,pc>,std::make_pair<q,qc>,l);
-			}
+	for(auto& pc : pcs) for(auto& qc : qcs) 
+		if(ColliderCollision(pc,qc))
+			return new CollisionMsg(std::make_pair(p,pc),std::make_pair(q,qc),l);
+	return nullptr;
 }
 
-bool CollisionENG::Collision(Collider * A,Collider * B){
+bool CollisionENG::ColliderCollision(Collider * A,Collider * B){
 	CircleCollider *Ac = dynamic_cast<CircleCollider *>(A);
 	CircleCollider *Bc = dynamic_cast<CircleCollider *>(B);
-	if(Ac&&Bc) return Collision(Ac,Bc);
+	if(Ac&&Bc) return CircleCollision(Ac,Bc);
 	return false;
 }
 
-bool CollisionENG::Collision(CircleCollider * A,CircleCollider * B){
+bool CollisionENG::CircleCollision(CircleCollider * A,CircleCollider * B){
 	return (glm::distance(A->position,B->position) <= (A->Dim()+B->Dim())); 
 }
 
-CollisionMsg::CollisionMsg(CollPair p, CollPair q, int l){
-	P=p; Q=q; layer=l; life=1;
-}
+CollisionMsg::CollisionMsg(CollPair p, CollPair q, int l)
+: P(p), Q(q), layer(l), life(1) {}
 
 /*
 CollisionMsg CircleCollider::collision(CircleCollider g){

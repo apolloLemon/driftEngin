@@ -60,10 +60,10 @@ public:
 	void CheckCollisions();//Generate Events //in update
 	void CleanEvents(); //in update
 
-	CollisionMsg * Collision(CollisionObj*, CollisionObj*,int); //used in CheckCollisions to fill events
 
-	bool Collision(CircleCollider*,CircleCollider*);
+	bool CircleCollision(CircleCollider*,CircleCollider*);
 	//add more for specific collider types
-	bool Collision(Collider*,Collider*); //last check for collidertypes
+	bool ColliderCollision(Collider*,Collider*); //last check for collidertypes
 
+	CollisionMsg * Collision(CollisionObj*, CollisionObj*,int); //used in CheckCollisions to fill events
 };
