@@ -11,6 +11,8 @@
 #include "player.h"
 #include "simplebody.h"
 
+#include <iostream>
+
 Game driftgame(1280, 720, "drift/textures/", "drift/models/", "drift/sounds/");
 // GameObjects
 // ----------------
@@ -97,17 +99,22 @@ int main(int argc, char **argv)
 	player->orbiting = planet;
 	player->name="stan";
 */
-	A->MoveTo(glm::vec3(3.0f, 0.0f, 0.0f));
+	A->name="A";
+	A->MoveTo(glm::vec3(1.0f, 0.0f, 0.0f));
 	A->CreateCollider(glm::dvec3(0),0);
-	A->YV(1);
+	A->YV(0);
 	A->Mass(1.f);
 
-	B->MoveTo(glm::vec3(-3.0f, 0.0f, 0.0f));
+//	TESTLOG(dynamic_cast<CircleCollider *>(A->collidersLayer(0)[0])->Dim());
+
+	B->name="B";
+	B->MoveTo(glm::vec3(-1.0f, 0.0f, 0.0f));
 	B->CreateCollider(glm::dvec3(0),0);
-	B->YV(-1);
+	B->YV(0);
 	B->Mass(1.f);
 
-	C->MoveTo(glm::vec3(0.0f, 0.0f, -1.0f));
+	C->name="C";
+	C->MoveTo(glm::vec3(10.0f, 0.0f, 0.0f));
 	C->CreateCollider(glm::dvec3(0),0);
 	C->XV(1);
 	C->Mass(1.f);	
@@ -126,6 +133,13 @@ int main(int argc, char **argv)
 		driftgame.collENG.Update();
 		driftgame.inputENG.Update(window);
 		driftgame.phyxENG.Update();
+
+		for(auto e : driftgame.collENG.events)		
+			std::cout
+				<< "collision event \t" << e << std::endl  
+				<< "life \t" << e->life << "layer \t" << e->layer << std::endl
+				<< "Pname \t" << e->P.first->name << std::endl
+				<< "Qname \t" << e->Q.first->name << std::endl;
 
 
 		// render

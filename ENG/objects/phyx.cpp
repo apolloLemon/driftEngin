@@ -37,8 +37,10 @@ void PhyxENG::Update(){
 			if(pqData){
 				cols++;
 				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.5){
-						soundENG->Play(2, false);
+					//	soundENG->Play(2, false);
 					}
+				p->AddForce(-g);
+				q->AddForce(g);
 				StaticResolution(pqData->P.second,pqData->Q.second);
 				DynamicResolution(p,pqData->P.second, q,pqData->Q.second);
 			}
@@ -47,7 +49,8 @@ void PhyxENG::Update(){
 		p->Update(dd);
 		p->ResetA();
 	}
-//	if(cols) std::cout<<"collision count"<<cols<<std::endl;
+	if(cols) TESTLOG("collisions managed" TAB cols);
+//	 std::cout<<"collision count"<<cols<<std::endl;
 }
 
 void PhyxENG::StaticResolution(Collider *p,Collider *q){
@@ -85,8 +88,8 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 		double pmomentum = (pdotnor*(p->mass - q->mass) + 2.*q->mass*qdotnor)/(p->mass+q->mass);
 		double qmomentum = (qdotnor*(q->mass - p->mass) + 2.*p->mass*pdotnor)/(p->mass+q->mass);
 
-		p->v = (tan*pdottan + nor*pmomentum);
-		q->v = (tan*qdottan + nor*qmomentum);
+		p->v = (tan*pdottan + nor*pmomentum)*.85;
+		q->v = (tan*qdottan + nor*qmomentum)*.85;
 		//*/
 		/*/wikipedia method2:
 		glm::dvec2 px2qx = p->pos2D-q->pos2D;

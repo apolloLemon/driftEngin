@@ -3,6 +3,14 @@
 #include "ENG/includes/glm/ext.hpp"
 #include "gameobj.h"
 #include <algorithm>
+#if 0
+	#include <iostream>
+	#define TAB <<"\t"<<
+	#define TESTLOG(X) std::cout << X << std::endl
+#else
+	#define TAB 
+	#define TESTLOG(X)
+#endif
 /**
 Single Colliders
 **/
@@ -24,7 +32,10 @@ class CircleCollider : public Collider {
 public:
 	double Dim(){return this->scale.x;}
 	void Dim(double s){this->scale = glm::dvec3(s);}
-	CircleCollider(GameObj* a,int l): Collider(a,l){}
+	CircleCollider(GameObj* a,int l): Collider(a,l){
+		TESTLOG("CircleCollider Created for " TAB this->parent->name);
+		scale = glm::vec3(1);
+	}
 };
 
 class CollisionObj : virtual public GameObj {
