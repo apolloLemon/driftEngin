@@ -134,7 +134,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (key == GLFW_KEY_N && action == GLFW_PRESS)
 	{
-		game->soundENG.Play(1,0);
+//		game->soundENG.Play(1,0);
 		if (game->cameraMode == FREECAM_MODE)
 		{
 			for (auto go : game->gameobjects)
@@ -142,10 +142,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				Player* cast = dynamic_cast<Player*>(go);
 				if(cast) { game->currentCamera = &cast->camera; break; }
 			}
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			game->cameraMode = ORTCAM_MODE;
 		}
 		else if (game->cameraMode == ORTCAM_MODE)
 		{
+
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			game->currentCamera = game->freecam;
 			game->cameraMode = FREECAM_MODE;
 		}
