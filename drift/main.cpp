@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 	A->CreateCollider(glm::dvec3(0),0);
 	A->YV(0);
 	A->XV(0);
-	A->Mass(1.f);
+	A->Mass(10000.f);
 	A->isKinematic(true);
 
 //	TESTLOG(dynamic_cast<CircleCollider *>(A->collidersLayer(0)[0])->Dim());
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 	B->name="B";
 	B->MoveTo(glm::vec3(-5.0f, 0.0f, 1.0f));
 	B->CreateCollider(glm::dvec3(0),0);
-	B->YV(1.8);
+	B->YV(.5);
 	B->Mass(.1f);
 //	B->orbiting=A;
 
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 	C->MoveTo(glm::vec3(4.0f, 0.0f, 1.0f));
 	C->CreateCollider(glm::dvec3(0),0);
 //	C->XV(-1);
-	C->YV(-1.9);
+	C->YV(-.5);
 	C->Mass(.1f);
 //	C->orbiting=A;
 //	C->isKinematic(true);	

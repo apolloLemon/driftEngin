@@ -15,6 +15,7 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects, CollisionENG *ce,SoundENG
 }
 
 void PhyxENG::Update(){
+	TESTLOG("PhyxUpdate");
 	auto tn = std::chrono::steady_clock::now();
 	std::chrono::duration<double, std::milli> d = tn - t;
 	double dd = d.count()/1000;
@@ -29,6 +30,7 @@ void PhyxENG::Update(){
 			//Global Forces between all objects
 			//maybe give the PhyxENG settings to toggle these
 			glm::dvec2 g = PhyxENG::Gravity2D(*p,*q);
+			TESTLOG("Gravity" TAB p->name TAB q->name TAB glm::length(g));
 //			if(p->orbiting == q) p->AddForce(g);
 //			if(q->orbiting == p) q->AddForce(-g);
 			if(!p->isKinematic()) p->AddForce(g);
@@ -116,7 +118,7 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 	CircleCollider *qcc = dynamic_cast<CircleCollider *>(qc);
 	if(pcc&&qcc){
 		glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
-		if(!p->isKinematic() && !q->isKinematic()){
+//		if(!p->isKinematic() && !q->isKinematic()){
 			
 			double pdottan = glm::dot(p->V(),tan);
 			double qdottan = glm::dot(q->V(),tan);
@@ -126,10 +128,10 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 			double pmomentum = (pdotnor*(p->mass - q->mass) + 2.*q->mass*qdotnor)/(p->mass+q->mass);
 			double qmomentum = (qdotnor*(q->mass - p->mass) + 2.*p->mass*pdotnor)/(p->mass+q->mass);
 
-			p->v = (tan*pdottan + nor*pmomentum)*colEl;
-			q->v = (tan*qdottan + nor*qmomentum)*colEl;
+			if(!p->isKinematic()) p->v = (tan*pdottan + nor*pmomentum)*colEl;
+			if(!q->isKinematic()) q->v = (tan*qdottan + nor*qmomentum)*colEl;
 
-		} else if((p->isKinematic() || q->orbiting==p) && !q->isKinematic()){
+/*		} else if((p->isKinematic() || q->orbiting==p) && !q->isKinematic()){
 			double dot = glm::dot(tan,q->V());
 			q->XV(tan.x*dot*colEl);
 			q->YV(tan.y*dot*colEl);
@@ -138,7 +140,7 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 			double dot = glm::dot(tan,p->V());
 			p->XV(tan.x*dot*colEl);
 			p->YV(tan.y*dot*colEl);
-		}
+		}*/
 
 	} else {
 		//at least try
@@ -153,7 +155,7 @@ glm::vec2 PhyxENG::Gravity2D(PhyxObj2D a,PhyxObj2D b) {
 	glm::vec2 a2 = glm::vec2(a.X(),a.Y());
 	glm::vec2 b2 = glm::vec2(b.X(),b.Y());
 	glm::vec2 a2b = b2-a2;
-	float G = 1;//6.67408/100000000000.;
+	float G = 1.0E-5;//6.67408/100000000000.;
 	float Mm = a.Mass()*b.Mass();
 	float d = glm::length(a2b);
 	float r2 = (d*d)/4.f;
