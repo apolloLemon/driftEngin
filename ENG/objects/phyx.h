@@ -77,7 +77,8 @@ public:
 enum GravityMode {
 	Everything,
 	Orbiting,
-	Directional
+	Directional,
+	None
 };
 
 
