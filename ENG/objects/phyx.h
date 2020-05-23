@@ -84,11 +84,11 @@ public:
 	void DynamicResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *);
 
 	//built in functions
- 	glm::vec3 Gravity();//Gravity3D()
- 	glm::vec2 Gravity2D(PhyxObj2D,PhyxObj2D);
+// 	glm::vec3 Gravity();//Gravity3D()
+ 	glm::dvec2 Gravity2D(PhyxObj2D *,PhyxObj2D*);
 
- 	glm::vec3 Drag();
- 	glm::vec2 Drag2D();
+// 	glm::vec3 Drag();
+// 	glm::vec2 Drag2D();
 
 
 
@@ -100,6 +100,7 @@ public:
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;	
 	int PHYX_LAYER=0;
+	bool clipping=true;
 	double timescale=1;
 	float G = 1.0E-5;
 	double colEl = .9; //collisionElasticity

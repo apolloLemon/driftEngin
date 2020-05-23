@@ -81,7 +81,7 @@ GLFWwindow* Game::Initialize()
 
 
 
-void Game::displayImGui()
+void Game::phyxGui()
 {
 
 	ImGui_ImplOpenGL3_NewFrame();
@@ -89,16 +89,20 @@ void Game::displayImGui()
 	ImGui::NewFrame();
 	ImGui::Begin("driftEngine", 0, ImGuiWindowFlags_AlwaysAutoResize);
 	
-	static bool showPhyxObj = false;
-	if (ImGui::Button("Show PhyxObj2D Data")) showPhyxObj = !showPhyxObj;
-
 	static bool showPhyxSettings = false;
 	if (ImGui::Button("Show Phyx Settings")) showPhyxSettings = !showPhyxSettings;
 
+	static bool showPhyxObj = false;
+	if (ImGui::Button("Show PhyxObj2D Data")) showPhyxObj = !showPhyxObj;
+
+	static bool setPhyxObj = false;
+	if (ImGui::Button("Set PhyxObj2D Data")) setPhyxObj = !setPhyxObj;
+
 	if(showPhyxSettings){
+		ImGui::Begin("Phyx Settings", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		static double ts = phyxENG.timescale;
 		ImGui::InputDouble("##ts", &ts, 0.01f, 1.0f, "%.8f");
-		if (ImGui::Button("Set / Play")) phyxENG.timescale = ts;
+		if (ImGui::Button("Time Scale Set / Play")) phyxENG.timescale = ts;
 		ImGui::SameLine();
 		if (ImGui::Button("pause")) phyxENG.timescale = 0;
 
@@ -109,49 +113,57 @@ void Game::displayImGui()
 		static double colEl = phyxENG.colEl;
 		ImGui::InputDouble("##colEl", &colEl, 0.01f, 1.0f, "%.8f");
 		if (ImGui::Button("Set collision elasticity")) phyxENG.colEl = colEl;
+
+//		static bool clipping = ;
+		ImGui::Text("%s",((phyxENG.clipping)? "clip":"noclip"));
+		if (ImGui::Button("toggle collisions")) phyxENG.clipping = !phyxENG.clipping;
+
+		ImGui::End();
 	}
 
-	ImGui::Begin("set obj", 0, ImGuiWindowFlags_AlwaysAutoResize);
-	static double m=1;
-	static double s=1;
-	static double x=0;
-	static double y=0;
-	static double xv=0;
-	static double yv=0;
-	ImGui::InputDouble("mass", &m, 0.01f, 1.0f, "%.4f");
-	ImGui::InputDouble("scale", &s, 0.01f, 1.0f, "%.4f");
-	ImGui::InputDouble("x pos", &x, 0.01f, 1.0f, "%.4f");
-	ImGui::InputDouble("y pos", &y, 0.01f, 1.0f, "%.4f");
-	ImGui::InputDouble("x speed", &xv, 0.01f, 1.0f, "%.4f");
-	ImGui::InputDouble("y speed", &yv, 0.01f, 1.0f, "%.4f");
-	if(ImGui::Button("*-1.")){
-		x*=-1.; y*=-1.; xv*=-1.; yv*=-1.;
-	}
-	for(auto go : gameobjects){
-		auto po = dynamic_cast<PhyxObj2D*>(go);
-		if(po) {
-			ImGui::PushID(po);
-			ImGui::Text(po->name.c_str());
-			ImGui::SameLine();
-/*			if (ImGui::Button("Load###po->name.c_str()[0]")){
-				x = po->X();
-				y = po->Y();
-				xv = po->XV();
-				yv = po->YV();
-			}*/
-			ImGui::SameLine();
-			if (ImGui::Button("Set###po->name.c_str()[0]")){
-				po->MoveTo(glm::dvec2(x,y));
-				po->XV(xv);
-				po->YV(yv);
-				po->Mass(m);
-				po->scale=glm::dvec3(s);
-				po->colliders[0]->scale=glm::dvec3(s);
-			}
-			ImGui::PopID();
+	if(setPhyxObj){
+		ImGui::Begin("set obj", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		static double m=1;
+		static double s=1;
+		static double x=0;
+		static double y=0;
+		static double xv=0;
+		static double yv=0;
+		ImGui::InputDouble("mass", &m, 0.01f, 1.0f, "%.4f");
+		ImGui::InputDouble("scale", &s, 0.01f, 1.0f, "%.4f");
+		ImGui::InputDouble("x pos", &x, 0.01f, 1.0f, "%.4f");
+		ImGui::InputDouble("y pos", &y, 0.01f, 1.0f, "%.4f");
+		ImGui::InputDouble("x speed", &xv, 0.01f, 1.0f, "%.4f");
+		ImGui::InputDouble("y speed", &yv, 0.01f, 1.0f, "%.4f");
+		if(ImGui::Button("*-1.")){
+			x*=-1.; y*=-1.; xv*=-1.; yv*=-1.;
 		}
+		for(auto go : gameobjects){
+			auto po = dynamic_cast<PhyxObj2D*>(go);
+			if(po) {
+				ImGui::PushID(po);
+				ImGui::Text(po->name.c_str());
+				ImGui::SameLine();
+	/*			if (ImGui::Button("Load###po->name.c_str()[0]")){
+					x = po->X();
+					y = po->Y();
+					xv = po->XV();
+					yv = po->YV();
+				}*/
+				ImGui::SameLine();
+				if (ImGui::Button("Set###po->name.c_str()[0]")){
+					po->MoveTo(glm::dvec2(x,y));
+					po->XV(xv);
+					po->YV(yv);
+					po->Mass(m);
+					po->scale=glm::dvec3(s);
+					po->colliders[0]->scale=glm::dvec3(s);
+				}
+				ImGui::PopID();
+			}
+		}
+		ImGui::End();
 	}
-	ImGui::End();
 
 	if(showPhyxObj) for(auto go : gameobjects) {
 		auto po = dynamic_cast<PhyxObj2D*>(go);
