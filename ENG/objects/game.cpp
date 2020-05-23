@@ -79,30 +79,52 @@ GLFWwindow* Game::Initialize()
 	return window;
 }
 
+
+
 void Game::displayImGui()
 {
-	//* Imgui 3/4
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-/*
-	ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::Text("player XV:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->XV());
-	ImGui::Text("player YV:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->YV());
-	ImGui::Text("player Speed:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->Speed());
-	ImGui::Text("planet2 Speed:%f", dynamic_cast<PhyxObj2D*>(gameobjects[2])->Speed());
-	ImGui::Text("\n");
-	ImGui::Text("player GameObj xpos:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->worldPosition.x);
-	ImGui::Text("player GameObj ypos:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->worldPosition.z);
+	ImGui::Begin("driftEngine", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	
+	static bool showPhyxObj = false;
+	if (ImGui::Button("Show PhyxObj2D Data")) showPhyxObj = !showPhyxObj;
 
-	//ImGui::Text("player  xG:%f", g.x);
-	//ImGui::Text("player  yG:%f", g.y);
+	static double d0 = phyxENG.timescale;
+	ImGui::InputDouble("Time Scale:", &d0, 0.01f, 1.0f, "%.8f");
+	if (ImGui::Button("Set")) phyxENG.timescale = d0;
 
-	ImGui::Text("player in Sun:%d", dynamic_cast<PhyxObj2D*>(gameobjects[1])->collider.isin(dynamic_cast<PhyxObj2D*>(gameobjects[0])->collider));
+	static double d1 = phyxENG.colEl;
+	ImGui::InputDouble("elasticity:", &d1, 0.01f, 1.0f, "%.8f");
+	if (ImGui::Button("Set")) phyxENG.colEl = d1;
+
+	static float d2 = phyxENG.G;
+	ImGui::InputFloat("G:", &d2, 0.01f, 1.0f, "%.8f");
+	if (ImGui::Button("Set")) phyxENG.G = d2;
+
+	if(showPhyxObj) for(auto go : gameobjects) {
+		auto po = dynamic_cast<PhyxObj2D*>(go);
+		if(po){
+			ImGui::Begin(po->name.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize);
+		//	static char str1[128] = "";
+		//	ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
+			ImGui::Text("Mass:%f", po->Mass());
+			ImGui::Text("Position X:%.2f\tY:%.2f", po->X(),po->Y());
+			ImGui::Text("Vitesse X:%.2f\tY:%.2f", po->XV(),po->YV());
+//			ImGui::InputDouble("input double", &d0, 0.01f, 1.0f, "%.8f");
+//			if (ImGui::Button("Set A")) po->Mass(d0);
+
+			ImGui::End();
+		}
+	}
+
+
 	ImGui::End();
-*/	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	//*/
+	
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());	
 }
 
 void Game::Terminate()

@@ -18,7 +18,7 @@ void PhyxENG::Update(){
 	TESTLOG("PhyxUpdate");
 	auto tn = std::chrono::steady_clock::now();
 	std::chrono::duration<double, std::milli> d = tn - t;
-	double dd = d.count()/1000;
+	double dd = (d.count()/1000)*timescale;
 	t=tn;
 
 	int cols=0;
@@ -155,7 +155,7 @@ glm::vec2 PhyxENG::Gravity2D(PhyxObj2D a,PhyxObj2D b) {
 	glm::vec2 a2 = glm::vec2(a.X(),a.Y());
 	glm::vec2 b2 = glm::vec2(b.X(),b.Y());
 	glm::vec2 a2b = b2-a2;
-	float G = 1.0E-5;//6.67408/100000000000.;
+//	float G = ;//6.67408/100000000000.;
 	float Mm = a.Mass()*b.Mass();
 	float d = glm::length(a2b);
 	float r2 = (d*d)/4.f;
