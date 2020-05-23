@@ -84,7 +84,7 @@ public:
 
 	Game(unsigned int width, unsigned int height, std::string tPath, std::string mPath, std::string sPath);
 	GLFWwindow* Initialize();
-	void displayImGui();
+	void phyxGui();
 	void Terminate();
 };
 

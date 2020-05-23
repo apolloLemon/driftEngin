@@ -209,7 +209,7 @@ int main(int argc, char **argv)
 		skyboxMesh.Draw(driftgame.skyboxShader);
 		glDepthFunc(GL_LESS);
 */
-		driftgame.displayImGui();
+		driftgame.phyxGui();
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

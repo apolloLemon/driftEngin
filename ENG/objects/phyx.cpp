@@ -20,6 +20,13 @@ void PhyxENG::Update(){
 	std::chrono::duration<double, std::milli> d = tn - t;
 	double dd = (d.count()/1000)*timescale;
 	t=tn;
+	timecounter+=dd;
+	if(timecounter>1.){
+		fps = framecounter;
+		framecounter = 0;
+		timecounter-=1.;
+	}
+	framecounter++;
 
 	int cols=0;
 	for(int i=0;i<managed.size();i++){
@@ -30,15 +37,18 @@ void PhyxENG::Update(){
 			//Global Forces between all objects
 			//maybe give the PhyxENG settings to toggle these
 			glm::dvec2 g = PhyxENG::Gravity2D(p,q);
-			TESTLOG("Gravity" TAB p->name TAB q->name TAB glm::length(g));
-//			if(p->orbiting == q) p->AddForce(g);
-//			if(q->orbiting == p) q->AddForce(-g);
-			if(!p->isKinematic()) p->AddForce(g);
-			if(!q->isKinematic()) q->AddForce(-g);
-
+			if(gravitymode == Everything){
+				if(!p->isKinematic()) p->AddForce(g);
+				if(!q->isKinematic()) q->AddForce(-g);
+			} else if(gravitymode == Orbiting){
+				if(p->Orbiting(q) && !p->isKinematic()) p->AddForce(g);
+				if(q->Orbiting(p) && !q->isKinematic()) q->AddForce(-g);
+			} else if (gravitymode == Directional){
+				p->AddForce(glm::dvec2(0,-1)*p->mass);
+			}
 
 			CollisionMsg * pqData = collisionENG->CollisionBetween(p,q,PHYX_LAYER);
-			if(pqData){
+			if(pqData && clipping){
 				cols++;
 				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.5){
 					//	soundENG->Play(2, false);
@@ -90,10 +100,10 @@ void PhyxENG::StaticResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider
 			p->Move(nor * overlap * q2pMassRatio);
 			q->Move(nor*-1. * overlap * p2qMassRatio);
 		}
-		else if((p->isKinematic() || q->orbiting==p) && !q->isKinematic()){
+		else if((p->isKinematic() || q->Orbiting(p)) && !q->isKinematic()){
 			q->Move(nor*-1. * overlap);
 		}
-		else if(!p->isKinematic() && (q->isKinematic()|| p->orbiting==q)){
+		else if(!p->isKinematic() && (q->isKinematic()|| p->Orbiting(q))){
 			p->Move(nor * overlap);
 		} else {
 			//what happens an unstoppable force
@@ -151,14 +161,12 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 	}
 }
 
-glm::vec2 PhyxENG::Gravity2D(PhyxObj2D* a,PhyxObj2D* b) {
-	glm::vec2 a2 = glm::vec2(a->X(),a->Y());
-	glm::vec2 b2 = glm::vec2(b->X(),b->Y());
-	glm::vec2 a2b = b2-a2;
+glm::dvec2 PhyxENG::Gravity2D(PhyxObj2D* a,PhyxObj2D* b) {
+	glm::dvec2 a2b = b->worldPosition2D() - a->worldPosition2D();
 //	float G = ;//6.67408/100000000000.;
-	float Mm = a->Mass()*b->Mass();
-	float d = glm::length(a2b);
-	float r2 = (d*d)/4.f;
+	double Mm = a->Mass()*b->Mass();
+	double d = glm::length(a2b);
+	double r2 = (d*d)/4.f;
 	return a2b*(G*(Mm/r2));
 }
 

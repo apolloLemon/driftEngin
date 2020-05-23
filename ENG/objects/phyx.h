@@ -51,7 +51,12 @@ public:
 	bool const 		isKinematic() {return kinematic;}
 	void 	 		isKinematic(bool b) {kinematic=b;}
 
-	PhyxObj2D* orbiting;
+	bool Orbiting(PhyxObj2D* other){
+		for(auto po : orbiting) if(po==other) return true;
+		return false;
+	}
+
+	std::vector<PhyxObj2D*> orbiting;
 
 //	glm::dvec2 pos2D; //now directly use gameObejct stuff
 	glm::dvec2 v;
@@ -69,6 +74,13 @@ public:
 
 };
 
+enum GravityMode {
+	Everything,
+	Orbiting,
+	Directional,
+	None
+};
+
 
 class PhyxENG {
 public:
@@ -84,11 +96,11 @@ public:
 	void DynamicResolution(PhyxObj2D*, Collider *,PhyxObj2D*, Collider *);
 
 	//built in functions
- 	glm::vec3 Gravity();//Gravity3D()
- 	glm::vec2 Gravity2D(PhyxObj2D*,PhyxObj2D*);
+// 	glm::vec3 Gravity();//Gravity3D()
+ 	glm::dvec2 Gravity2D(PhyxObj2D *,PhyxObj2D*);
 
- 	glm::vec3 Drag();
- 	glm::vec2 Drag2D();
+// 	glm::vec3 Drag();
+// 	glm::vec2 Drag2D();
 
 
 
@@ -100,9 +112,12 @@ public:
 	std::chrono::time_point
 		<std::chrono::steady_clock> t;	
 	int PHYX_LAYER=0;
+	bool clipping=true;
 	double timescale=1;
 	float G = 1.0E-5;
+	GravityMode gravitymode = Everything;
 	double colEl = .9; //collisionElasticity
+	double fps=0; int framecounter=0; double timecounter=0;
 
 //	void Collision();
 //	void Physics();
