@@ -92,17 +92,66 @@ void Game::displayImGui()
 	static bool showPhyxObj = false;
 	if (ImGui::Button("Show PhyxObj2D Data")) showPhyxObj = !showPhyxObj;
 
-	static double d0 = phyxENG.timescale;
-	ImGui::InputDouble("Time Scale:", &d0, 0.01f, 1.0f, "%.8f");
-	if (ImGui::Button("Set")) phyxENG.timescale = d0;
+	static bool showPhyxSettings = false;
+	if (ImGui::Button("Show Phyx Settings")) showPhyxSettings = !showPhyxSettings;
 
-	static double d1 = phyxENG.colEl;
-	ImGui::InputDouble("elasticity:", &d1, 0.01f, 1.0f, "%.8f");
-	if (ImGui::Button("Set")) phyxENG.colEl = d1;
+	if(showPhyxSettings){
+		static double ts = phyxENG.timescale;
+		ImGui::InputDouble("##ts", &ts, 0.01f, 1.0f, "%.8f");
+		if (ImGui::Button("Set / Play")) phyxENG.timescale = ts;
+		ImGui::SameLine();
+		if (ImGui::Button("pause")) phyxENG.timescale = 0;
 
-	static float d2 = phyxENG.G;
-	ImGui::InputFloat("G:", &d2, 0.01f, 1.0f, "%.8f");
-	if (ImGui::Button("Set")) phyxENG.G = d2;
+		static float ggravity = phyxENG.G;
+		ImGui::InputFloat("G", &ggravity, 0.01f, 1.0f, "%.8f");
+		if (ImGui::Button("Set G constant")) phyxENG.G = ggravity;
+
+		static double colEl = phyxENG.colEl;
+		ImGui::InputDouble("##colEl", &colEl, 0.01f, 1.0f, "%.8f");
+		if (ImGui::Button("Set collision elasticity")) phyxENG.colEl = colEl;
+	}
+
+	ImGui::Begin("set obj", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	static double m=1;
+	static double s=1;
+	static double x=0;
+	static double y=0;
+	static double xv=0;
+	static double yv=0;
+	ImGui::InputDouble("mass", &m, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("scale", &s, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("x pos", &x, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("y pos", &y, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("x speed", &xv, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("y speed", &yv, 0.01f, 1.0f, "%.4f");
+	if(ImGui::Button("*-1.")){
+		x*=-1.; y*=-1.; xv*=-1.; yv*=-1.;
+	}
+	for(auto go : gameobjects){
+		auto po = dynamic_cast<PhyxObj2D*>(go);
+		if(po) {
+			ImGui::PushID(po);
+			ImGui::Text(po->name.c_str());
+			ImGui::SameLine();
+/*			if (ImGui::Button("Load###po->name.c_str()[0]")){
+				x = po->X();
+				y = po->Y();
+				xv = po->XV();
+				yv = po->YV();
+			}*/
+			ImGui::SameLine();
+			if (ImGui::Button("Set###po->name.c_str()[0]")){
+				po->MoveTo(glm::dvec2(x,y));
+				po->XV(xv);
+				po->YV(yv);
+				po->Mass(m);
+				po->scale=glm::dvec3(s);
+				po->colliders[0]->scale=glm::dvec3(s);
+			}
+			ImGui::PopID();
+		}
+	}
+	ImGui::End();
 
 	if(showPhyxObj) for(auto go : gameobjects) {
 		auto po = dynamic_cast<PhyxObj2D*>(go);

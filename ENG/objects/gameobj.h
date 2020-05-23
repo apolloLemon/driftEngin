@@ -50,8 +50,12 @@ public:
 		else position += delta;
 	}
 	void MoveTo(glm::vec3 pos){
-		if(parent) parent->Move(pos);
+		if(parent) parent->MoveTo(pos);
 		else position = pos;
+	}
+	void MoveTo(glm::dvec2 pos){
+		if(parent) parent->MoveTo(pos);
+		else position = glm::dvec3(pos.x,0,pos.y);
 	}
 
 	glm::dvec3 worldRotation(){

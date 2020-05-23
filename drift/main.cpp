@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 	A->YV(0);
 	A->XV(0);
 	A->Mass(10000.f);
-	A->isKinematic(true);
+//	A->isKinematic(true);
 
 //	TESTLOG(dynamic_cast<CircleCollider *>(A->collidersLayer(0)[0])->Dim());
 
