@@ -73,35 +73,107 @@ GLFWwindow* Game::Initialize()
 
 	glfwSetWindowUserPointer(window, this);
 
+	this->collENG.Init(&gameobjects);
 	this->inputENG.Init(&gameobjects);
-	this->phyxENG.Init(&gameobjects,&soundENG);
+	this->phyxENG.Init(&gameobjects,&collENG, &soundENG);
 	return window;
 }
 
+
+
 void Game::displayImGui()
 {
-	//* Imgui 3/4
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	ImGui::Begin("driftEngine", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	
+	static bool showPhyxObj = false;
+	if (ImGui::Button("Show PhyxObj2D Data")) showPhyxObj = !showPhyxObj;
 
-	ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::Text("player XV:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->XV());
-	ImGui::Text("player YV:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->YV());
-	ImGui::Text("player Speed:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->Speed());
-	ImGui::Text("planet2 Speed:%f", dynamic_cast<PhyxObj2D*>(gameobjects[2])->Speed());
-	ImGui::Text("\n");
-	ImGui::Text("player GameObj xpos:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->worldPosition.x);
-	ImGui::Text("player GameObj ypos:%f", dynamic_cast<PhyxObj2D*>(gameobjects[0])->worldPosition.z);
+	static bool showPhyxSettings = false;
+	if (ImGui::Button("Show Phyx Settings")) showPhyxSettings = !showPhyxSettings;
 
-	//ImGui::Text("player  xG:%f", g.x);
-	//ImGui::Text("player  yG:%f", g.y);
+	if(showPhyxSettings){
+		static double ts = phyxENG.timescale;
+		ImGui::InputDouble("##ts", &ts, 0.01f, 1.0f, "%.8f");
+		if (ImGui::Button("Set / Play")) phyxENG.timescale = ts;
+		ImGui::SameLine();
+		if (ImGui::Button("pause")) phyxENG.timescale = 0;
 
-	ImGui::Text("player in Sun:%d", dynamic_cast<PhyxObj2D*>(gameobjects[1])->collider.isin(dynamic_cast<PhyxObj2D*>(gameobjects[0])->collider));
+		static float ggravity = phyxENG.G;
+		ImGui::InputFloat("G", &ggravity, 0.01f, 1.0f, "%.8f");
+		if (ImGui::Button("Set G constant")) phyxENG.G = ggravity;
+
+		static double colEl = phyxENG.colEl;
+		ImGui::InputDouble("##colEl", &colEl, 0.01f, 1.0f, "%.8f");
+		if (ImGui::Button("Set collision elasticity")) phyxENG.colEl = colEl;
+	}
+
+	ImGui::Begin("set obj", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	static double m=1;
+	static double s=1;
+	static double x=0;
+	static double y=0;
+	static double xv=0;
+	static double yv=0;
+	ImGui::InputDouble("mass", &m, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("scale", &s, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("x pos", &x, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("y pos", &y, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("x speed", &xv, 0.01f, 1.0f, "%.4f");
+	ImGui::InputDouble("y speed", &yv, 0.01f, 1.0f, "%.4f");
+	if(ImGui::Button("*-1.")){
+		x*=-1.; y*=-1.; xv*=-1.; yv*=-1.;
+	}
+	for(auto go : gameobjects){
+		auto po = dynamic_cast<PhyxObj2D*>(go);
+		if(po) {
+			ImGui::PushID(po);
+			ImGui::Text(po->name.c_str());
+			ImGui::SameLine();
+/*			if (ImGui::Button("Load###po->name.c_str()[0]")){
+				x = po->X();
+				y = po->Y();
+				xv = po->XV();
+				yv = po->YV();
+			}*/
+			ImGui::SameLine();
+			if (ImGui::Button("Set###po->name.c_str()[0]")){
+				po->MoveTo(glm::dvec2(x,y));
+				po->XV(xv);
+				po->YV(yv);
+				po->Mass(m);
+				po->scale=glm::dvec3(s);
+				po->colliders[0]->scale=glm::dvec3(s);
+			}
+			ImGui::PopID();
+		}
+	}
 	ImGui::End();
+
+	if(showPhyxObj) for(auto go : gameobjects) {
+		auto po = dynamic_cast<PhyxObj2D*>(go);
+		if(po){
+			ImGui::Begin(po->name.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize);
+		//	static char str1[128] = "";
+		//	ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
+			ImGui::Text("Mass:%f", po->Mass());
+			ImGui::Text("Position X:%.2f\tY:%.2f", po->X(),po->Y());
+			ImGui::Text("Vitesse X:%.2f\tY:%.2f", po->XV(),po->YV());
+//			ImGui::InputDouble("input double", &d0, 0.01f, 1.0f, "%.8f");
+//			if (ImGui::Button("Set A")) po->Mass(d0);
+
+			ImGui::End();
+		}
+	}
+
+
+	ImGui::End();
+	
 	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	//*/
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());	
 }
 
 void Game::Terminate()
@@ -133,7 +205,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (key == GLFW_KEY_N && action == GLFW_PRESS)
 	{
-		game->soundENG.Play(1,0);
+//		game->soundENG.Play(1,0);
 		if (game->cameraMode == FREECAM_MODE)
 		{
 			for (auto go : game->gameobjects)
@@ -141,10 +213,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				Player* cast = dynamic_cast<Player*>(go);
 				if(cast) { game->currentCamera = &cast->camera; break; }
 			}
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			game->cameraMode = ORTCAM_MODE;
 		}
 		else if (game->cameraMode == ORTCAM_MODE)
 		{
+
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			game->currentCamera = game->freecam;
 			game->cameraMode = FREECAM_MODE;
 		}

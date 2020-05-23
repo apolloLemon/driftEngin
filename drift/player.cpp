@@ -1,11 +1,11 @@
 #include "player.h"
 #include "ENG/objects/game.h"
 
-Player::Player(glm::vec3 position): MovementSpeed(PLAYER_SPEED)
+Player::Player(glm::vec3 _position): MovementSpeed(PLAYER_SPEED)
 {
-	worldPosition = position;
+	position = _position;
 	Direction = glm::vec3(0.0f);
-	camera.updateCameraVectors(worldPosition);
+	camera.updateCameraVectors(worldPosition());
 }
 
 

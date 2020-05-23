@@ -23,6 +23,7 @@
 #include "ENG/includes/glm/glm.hpp"
 
 #include "ENG/objects/gameobj.h"
+#include "ENG/objects/kldr.h"
 #include "ENG/objects/phyx.h"
 #include "ENG/objects/ctrl.h"
 #include "ENG/objects/rndr.h"
@@ -68,6 +69,7 @@ public:
 
 	// Engines
 	RenderENG rndrENG;
+	CollisionENG collENG;
 	PhyxENG phyxENG;
 	InputENG inputENG;
 	SoundENG soundENG;

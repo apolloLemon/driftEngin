@@ -17,7 +17,7 @@ struct AsteroidVertex
 	Vertex vertex;
 };
 
-class Asteroid : public RenderObj, public PhyxObj2D, public CollisionObj
+class Asteroid : public RenderObj, public PhyxObj2D//, public CollisionObj //PhyxObj is one.. for now
 {
 public:
 	Sphere core;

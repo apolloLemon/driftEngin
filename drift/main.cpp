@@ -1,153 +1,129 @@
-//* Imgui 1/4
-#include "ENG/includes/imgui/imgui.h"
-#include "ENG/includes/imgui/imgui_impl_glfw.h"
-#include "ENG/includes/imgui/imgui_impl_opengl3.h"
-//*/
-
 //ENG
-#include "ENG/init.h"
-#include "ENG/camera/freecam.h"
+#include "ENG/objects/game.h"
+#include "ENG/objects/phyx.h"
 #include "ENG/shaders/shader.h"
 #include "ENG/mesh/mesh.h"
 #include "ENG/mesh/sphere.h"
 #include "ENG/mesh/cube.h"
 #include "ENG/model/model.h"
-#include "ENG/objects/phyx.h"
 
 //drift
 #include "player.h"
+#include "simplebody.h"
 
-// Simple process to switch between Matthew's and Nathan's directories
-// -------------------------------------------------------------------
-#define N
-//#define M
-#if defined(N)
-	#define PWD "/home/rakl/Repository/spaceProject/driftEngin/"
-#elif defined(M)
-	#define PWD "/home/melon/driftEngin/"
-#endif
+#include <iostream>
 
-
-// path variables
-// --------------
-std::string srcPath = PWD;
-std::string vShadersPath = srcPath + "ENG/shaders/vertex/";
-std::string fShadersPath = srcPath + "ENG/shaders/fragment/";
-std::string texturesPath = srcPath + "drift/textures/";
-std::string modelsPath = srcPath + "drift/models/";
-
-// camera variables
+Game driftgame(1280, 720, "drift/textures/", "drift/models/", "drift/sounds/");
+// GameObjects
 // ----------------
-Freecam freecam(glm::vec3(0.0f, 7.0f, 10.0f));
-Camera *currentCamera = &freecam; // starting the game with freecam
-bool freecamMode = true;
-// variables to manipulate camera with mouse
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
-bool firstMouse = true;
-
-// player variables
-// ----------------
-Player player;
-PhyxObj2D centre;
-
-// timing variables
-// ----------------
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-
+//Player * player = new Player();
+SimpleBody * A = new SimpleBody();
+SimpleBody * B = new SimpleBody();
+SimpleBody * C = new SimpleBody(); 
 
 int main(int argc, char **argv)
 {
-	// initialize glfw
-	// ---------------
-	GLFWwindow* window = init();
+	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "track0.ogg");
+	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "bleep.ogg");
+	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
+	driftgame.soundENG.Play(0,1);
 
-	//* Imgui 2/4
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	(void)io;
-	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 130");
-	//*/
+	// initialize glfw and game
+	// ------------------------
+	driftgame.freecam = new Freecam(glm::vec3(0.0f, 7.0f, 10.0f));
+	driftgame.currentCamera = driftgame.freecam;
+	driftgame.cameraMode = FREECAM_MODE;
 
-	stbi_set_flip_vertically_on_load(true); // make textures to be flipped (we have to do this, otherwise textures will be messed up)
+	driftgame.gameobjects.push_back(driftgame.freecam);
+//	driftgame.gameobjects.push_back(player);
+	driftgame.gameobjects.push_back(A);
+	driftgame.gameobjects.push_back(B);
+	driftgame.gameobjects.push_back(C);
 
-	// build and compile our shader programs
-	// -------------------------------------
-	Shader textureShader((vShadersPath + "textureShader.vs").c_str(), (fShadersPath + "textureShader.fs").c_str());
-	Shader materialShader((vShadersPath + "materialShader.vs").c_str(), (fShadersPath + "materialShader.fs").c_str());
-	Shader lightSourceShader((vShadersPath + "lightSourceShader.vs").c_str(), (fShadersPath + "lightSourceShader.fs").c_str());
+	GLFWwindow* window = driftgame.Initialize();
 
-	// adding our textures
+	// creating our skybox
 	// -------------------
+/*
+	std::vector<std::string> faces
+	{
+		"skybox/right.png",
+		"skybox/left.png",
+		"skybox/top.png",
+		"skybox/bottom.png",
+		"skybox/front.png",
+		"skybox/back.png"
+	};
+	Texture tSkybox;
+	tSkybox.id = loadCubemap(faces, driftgame.texturesPath);
+	tSkybox.type = "texture_skybox";
+	tSkybox.path = "skybox";
+//*/
 	Texture tSquare;
-	tSquare.id = TextureFromFile("square/square.png", texturesPath);
+	tSquare.id = TextureFromFile("square/square.png", driftgame.texturesPath);
 	tSquare.type = "texture_diffuse";
 	tSquare.path = "square/square.png";
 
-	Texture tSquare2;
-	tSquare2.id = TextureFromFile("square2/square2.png", texturesPath);
-	tSquare2.type = "texture_diffuse";
-	tSquare2.path = "square2/square2.png";
-
-	Texture tSquare2_specular;
-	tSquare2_specular.id = TextureFromFile("square2/square2_specular.png", texturesPath);
-	tSquare2_specular.type = "texture_diffuse";
-	tSquare2_specular.path = "square2/square2_specular.png";
-
-	Texture tSun;
-	tSun.id = TextureFromFile("sun/sun.jpg", texturesPath);
-	tSun.type = "texture_diffuse";
-	tSun.path = "sun/sun.jpg";
-
-	// adding our materals
-	// -------------------
-	Material emerald;
-	emerald.ambient = glm::vec3(0.0215f, 0.1745f, 0.0215f);
-	emerald.diffuse = glm::vec3(0.07568f, 0.61424f, 0.07568f);
-	emerald.specular = glm::vec3(0.633f, 0.727811f, 0.633f);
-	// TODO: Import new materials from www.devernay.free.fr/cours/opengl/materials.html
-
 	// creating texture vectors
 	// ------------------------
-	std::vector<Texture> cubeTextures;
-	cubeTextures.push_back(tSquare2);
-	cubeTextures.push_back(tSquare2_specular);
-	std::vector<Texture> sunTextures;
+/*	std::vector<Texture> sunTextures;
 	sunTextures.push_back(tSun);
+
+	std::vector<Texture> skyboxTextures;
+	skyboxTextures.push_back(tSkybox);
+*/
+	std::vector<Texture> squareTextures;
+	squareTextures.push_back(tSquare);
 
 	// instantiate meshes
 	// ------------------
-	Cube texturedCube(cubeTextures);
-	Cube materialCube(emerald);
-	Sphere materialSphere(50, 50, emerald);
-	Sphere sunMesh(50, 50, sunTextures);
+//	Sphere sunMesh(50, 50, sunTextures);
+//	Cube skyboxMesh(skyboxTextures);
+	
+//	planet->meshes.push_back(new Sphere(50,50,moonTextures));
+//	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
 
-	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
-	{
-		sunMesh.vertices[i].Position += glm::vec3(2.0f);
-	}
+	A->meshes.push_back(new Sphere(50,50,squareTextures));
+	B->meshes.push_back(new Sphere(50,50,squareTextures));
+	C->meshes.push_back(new Sphere(50,50,squareTextures));
 
 	// initializing the player
 	// -----------------------
-	player.worldPosition = glm::vec3(10.0f, 0.0f, 0.0f);
-	player.scale = glm::vec3(0.001f);
-	player.loadModel(modelsPath + "ship/V1.obj");
-	player.YV(-2); // starting velocity
-//=======
-//	player.worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
-//	player.pos2D = glm::vec2(player.worldPosition.x, player.worldPosition.z);
-//	player.loadModel(modelsPath + "sputnik/sputnik1.obj");
-//	player.YV(2); // starting velocity
-//>>>>>>> orbitgame
-	player.Mass(1.f);
-	player.collider.Dim(1);
+/*	player->worldPosition = glm::vec3(15.0f, 0.0f, 0.0f);
+	player->scale = glm::vec3(0.001f);
+	player->Init();
+	//player->loadModel(modelsPath + "sputnik/sputnik1.obj");
+	player->YV(2); // starting velocity
+	player->Mass(1.f);
+	player->collider.Dim(1);
+	player->orbiting = planet;
+	player->name="stan";
+*/
+	A->name="A";
+	A->MoveTo(glm::vec3(0.0f, 0.0f, 0.0f));
+	A->CreateCollider(glm::dvec3(0),0);
+	A->YV(0);
+	A->XV(0);
+	A->Mass(10000.f);
+//	A->isKinematic(true);
 
-	centre.worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	centre.Mass(1.f);
-	centre.collider.Dim(8);
+//	TESTLOG(dynamic_cast<CircleCollider *>(A->collidersLayer(0)[0])->Dim());
+
+	B->name="B";
+	B->MoveTo(glm::vec3(-5.0f, 0.0f, 1.0f));
+	B->CreateCollider(glm::dvec3(0),0);
+	B->YV(.5);
+	B->Mass(.1f);
+//	B->orbiting=A;
+
+	C->name="C";
+	C->MoveTo(glm::vec3(4.0f, 0.0f, 1.0f));
+	C->CreateCollider(glm::dvec3(0),0);
+//	C->XV(-1);
+	C->YV(-.5);
+	C->Mass(.1f);
+//	C->orbiting=A;
+//	C->isKinematic(true);	
 
 	// lighting options
 	// ----------------
@@ -156,117 +132,85 @@ int main(int argc, char **argv)
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
 	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
 
-	bool ANDskip = false; 
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		// per-frame time logic
-		// --------------------
-		float currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
+		driftgame.collENG.Update();
+		driftgame.inputENG.Update(window);
+		driftgame.phyxENG.Update();
 
-		// input
-		// -----
-		processInput(window);
+/*		for(auto e : driftgame.collENG.events)		
+			std::cout
+				<< "collision event \t" << e << std::endl  
+				<< "life \t" << e->life << "layer \t" << e->layer << std::endl
+				<< "Pname \t" << e->P.first->name << std::endl
+				<< "Qname \t" << e->Q.first->name << std::endl;
+//*/
 
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(currentCamera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		glm::mat4 view = currentCamera->GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(driftgame.currentCamera->Zoom), (float)driftgame.screenWidth / (float)driftgame.screenHeight, 0.1f, 100.0f);
+		glm::mat4 view = driftgame.currentCamera->GetViewMatrix();
+
 
 		// configuring the light source shader and meshes
 		// ----------------------------------------------
-		lightSourceShader.use();
-		lightSourceShader.setMat4("projection", projection);
-		lightSourceShader.setMat4("view", view);
+		driftgame.lightSourceShader->use();
+		driftgame.lightSourceShader->setMat4("projection", projection);
+		driftgame.lightSourceShader->setMat4("view", view);
 
-		sunMesh.Draw(&lightSourceShader, glm::vec3(0.0f), glm::vec3(8.0f));
+//		sunMesh.Draw(driftgame.lightSourceShader, glm::vec3(50.0f,0.f,0.f), glm::vec3(10.0f));
 
 		// configuring the texture shader and meshes
 		// -----------------------------------------
-		textureShader.use();
-		textureShader.setMat4("projection", projection);
-		textureShader.setMat4("view", view);
-		textureShader.setVec3("light.position", glm::vec3(0.0f));
-		textureShader.setVec3("light.ambient", lAmbient);
-		textureShader.setVec3("light.diffuse", lDiffuse);
-		textureShader.setVec3("light.specular", lSpecular);
-		textureShader.setVec3("viewPos", currentCamera->worldPosition);
+		driftgame.textureShader->use();
+		driftgame.textureShader->setMat4("projection", projection);
+		driftgame.textureShader->setMat4("view", view);
+		driftgame.textureShader->setVec3("light.position", glm::vec3(50.0f,0.f,0.f));
+		driftgame.textureShader->setVec3("light.ambient", lAmbient);
+		driftgame.textureShader->setVec3("light.diffuse", lDiffuse);
+		driftgame.textureShader->setVec3("light.specular", lSpecular);
+		driftgame.textureShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
 
-		texturedCube.Draw(&textureShader);
-		
-/* // the proper vesion is in orbitgame/main.cpp
-		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
-		player.AddForce(g);
-		
-		if(centre.collider.boolin(player.collider) && ANDskip){
-			CollisionMsg collisiondata = centre.collider.collision(player.collider);
-			player.pos2D += glm::normalize(collisiondata.dir) * collisiondata.overlap;
-			
-			glm::dvec2 tangent = glm::normalize(glm::vec2(collisiondata.dir.y*-1.,collisiondata.dir.x));
-			double dot = glm::dot(tangent,player.V());
-			player.XV(tangent.x*dot*.8);
-			player.YV(tangent.y*dot*.8);
-			player.AddForce(g*-1.f);
 
-		}
-		ANDskip=true;
-		player.Update();
-		player.ResetA();
+//		planet->Draw(driftgame.textureShader);
+//		planet2->Draw(driftgame.textureShader);
 
-		player.Draw(&textureShader);
-		player.camera.updateCameraVectors(player.worldPosition);
->>>>>>> orbitgame */
+
+		A->Draw(driftgame.textureShader);
+		B->Draw(driftgame.textureShader);
+		C->Draw(driftgame.textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
-		materialShader.use();
-		materialShader.setMat4("projection", projection);
-		materialShader.setMat4("view", view);
-		materialShader.setVec3("light.position", glm::vec3(0.0f));
-		materialShader.setVec3("light.ambient", lAmbient);
-		materialShader.setVec3("light.diffuse", lDiffuse);
-		materialShader.setVec3("light.specular", lSpecular);
-		materialShader.setVec3("viewPos", currentCamera->worldPosition);
+		driftgame.materialShader->use();
+		driftgame.materialShader->setMat4("projection", projection);
+		driftgame.materialShader->setMat4("view", view);
+		driftgame.materialShader->setVec3("light.position", glm::vec3(0.0f));
+		driftgame.materialShader->setVec3("light.ambient", lAmbient);
+		driftgame.materialShader->setVec3("light.diffuse", lDiffuse);
+		driftgame.materialShader->setVec3("light.specular", lSpecular);
+		driftgame.materialShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
 
-		
-		glm::vec2 g = PhyxENG::Gravity2D(player,centre);
-		player.AddForce(g);
-//		player.AddForce(glm::vec2(player.X()*-.5f,player.Y()*-.5f));
-		player.Update();
-		player.ResetA();
+//		player->Draw(driftgame.materialShader);
+//		player->camera.updateCameraVectors(player->worldPosition);
 
-		player.Draw(&materialShader);
-		player.camera.updateCameraVectors(player.worldPosition);
+		// draw skybox at last
+		// -------------------
+/*		glDepthFunc(GL_LEQUAL);
+		driftgame.skyboxShader->use();
+		view = glm::mat4(glm::mat3(driftgame.currentCamera->GetViewMatrix()));
+		driftgame.skyboxShader->setMat4("view", view);
+		driftgame.skyboxShader->setMat4("projection", projection);
+		skyboxMesh.Draw(driftgame.skyboxShader);
+		glDepthFunc(GL_LESS);
+*/
+		driftgame.displayImGui();
 
-
-		//* Imgui 3/4
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
-		ImGui::Begin("driftEngin", 0, ImGuiWindowFlags_AlwaysAutoResize);
-		ImGui::Text("dTime:%f", deltaTime*1000);
-		ImGui::Text("player XV:%f", player.XV());
-		ImGui::Text("player YV:%f", player.YV());
-		ImGui::Text("player Speed:%f", player.Speed());
-		ImGui::Text("\n");
-		ImGui::Text("player GameObj xpos:%f", player.worldPosition.x);
-		ImGui::Text("player GameObj ypos:%f", player.worldPosition.z);
-
-		//ImGui::Text("player  xG:%f", g.x);
-		//ImGui::Text("player  yG:%f", g.y);
-
-		ImGui::Text("player in Sun:%d", centre.collider.boolin(player.collider));
-		ImGui::End();
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		//*/
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -274,92 +218,15 @@ int main(int argc, char **argv)
 		glfwPollEvents();
 	}
 
-	//* Imgui 4/4
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-	//*/
-
+	driftgame.Terminate();
+	
+	// Clean up sources and buffers
+   // alDeleteSources(1, &audiosrc);
+   // alDeleteBuffers(1, &audiobuffer);
+    // Exit everything
+  //  alutExit();
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
 	glfwTerminate();
 	return 0;
-}
-
-// processing input every frame (long press)
-// -----------------------------------------
-void processInput(GLFWwindow* window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		if (freecamMode)	{ freecam.ProcessKeyboard(FORWARD, deltaTime); }
-		//else				{ player.ProcessKeyboard(playerUP, deltaTime); }
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		if (freecamMode)	{ freecam.ProcessKeyboard(BACKWARD, deltaTime); }
-		//else				{ player.ProcessKeyboard(playerDOWN, deltaTime); }
-	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		if (freecamMode)	{ freecam.ProcessKeyboard(LEFT, deltaTime); }
-		//else				{ player.ProcessKeyboard(playerLEFT, deltaTime); }
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		if (freecamMode)	{ freecam.ProcessKeyboard(RIGHT, deltaTime); }
-		//else				{ player.ProcessKeyboard(playerRIGHT, deltaTime); }
-	}
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-	{
-		if (freecamMode)	{ freecam.ProcessKeyboard(UP, deltaTime); }
-	}
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-	{
-		if (freecamMode)	{ freecam.ProcessKeyboard(DOWN, deltaTime); }
-	}
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions
-	glViewport(0, 0, width, height);
-}
-
-// processing unique input (simple press)
-// --------------------------------------
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	player.inputCallback(window, key, scancode, action, mods);
-}
-
-// glfw: whenever the mouse moves, this callback is called
-// -------------------------------------------------------
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates range from bottom to top
-	lastX = xpos;
-	lastY = ypos;
-
-	freecam.ProcessMouseMovement(xoffset, yoffset);
-}
-
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	freecam.ProcessMouseScroll(yoffset);
 }
