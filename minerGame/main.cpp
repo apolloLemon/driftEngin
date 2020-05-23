@@ -26,6 +26,8 @@ int main(int argc, char **argv)
 {
 	srand(time(NULL));
 
+	driftgame.phyxENG.gravitymode = None;
+
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "track0.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "bleep.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
@@ -44,7 +46,7 @@ int main(int argc, char **argv)
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
 		asteroids.push_back(new Asteroid());
-		//driftgame.gameobjects.push_back(asteroids[i]);
+		driftgame.gameobjects.push_back(asteroids[i]);
 	}
 
 
@@ -112,18 +114,19 @@ int main(int argc, char **argv)
 	player->CreateCollider(glm::dvec3(0), 0);
 	player->XV(0);
 	player->YV(0);
-	player->Mass(1.0f);
+	player->Mass(2.0f);
 	//*/
 	//*
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
+		asteroids[i]->Generate(&moonTextures);
 		glm::vec3 pos(asteroidsPositions[i]);
 
 		std::cout << "pos: [x:" << pos.x << ", y:" << pos.y << ", z:" << pos.z << "]" << std::endl;
 		asteroids[i]->MoveTo(pos);
 		asteroids[i]->CreateCollider(glm::dvec3(0), 0, asteroids[i]->size);
 		asteroids[i]->Mass(1.0f);
-		asteroids[i]->Generate(&moonTextures);
+		asteroids[i]->YV(0.5f);
 	}
 	//*/
 //	A->name="A";
