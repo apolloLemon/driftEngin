@@ -29,7 +29,7 @@ void PhyxENG::Update(){
 			
 			//Global Forces between all objects
 			//maybe give the PhyxENG settings to toggle these
-			glm::dvec2 g = PhyxENG::Gravity2D(*p,*q);
+			glm::dvec2 g = PhyxENG::Gravity2D(p,q);
 			TESTLOG("Gravity" TAB p->name TAB q->name TAB glm::length(g));
 //			if(p->orbiting == q) p->AddForce(g);
 //			if(q->orbiting == p) q->AddForce(-g);
@@ -151,12 +151,12 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 	}
 }
 
-glm::vec2 PhyxENG::Gravity2D(PhyxObj2D a,PhyxObj2D b) {
-	glm::vec2 a2 = glm::vec2(a.X(),a.Y());
-	glm::vec2 b2 = glm::vec2(b.X(),b.Y());
+glm::vec2 PhyxENG::Gravity2D(PhyxObj2D* a,PhyxObj2D* b) {
+	glm::vec2 a2 = glm::vec2(a->X(),a->Y());
+	glm::vec2 b2 = glm::vec2(b->X(),b->Y());
 	glm::vec2 a2b = b2-a2;
 //	float G = ;//6.67408/100000000000.;
-	float Mm = a.Mass()*b.Mass();
+	float Mm = a->Mass()*b->Mass();
 	float d = glm::length(a2b);
 	float r2 = (d*d)/4.f;
 	return a2b*(G*(Mm/r2));

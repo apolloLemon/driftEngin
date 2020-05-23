@@ -85,7 +85,7 @@ public:
 
 	//built in functions
  	glm::vec3 Gravity();//Gravity3D()
- 	glm::vec2 Gravity2D(PhyxObj2D,PhyxObj2D);
+ 	glm::vec2 Gravity2D(PhyxObj2D*,PhyxObj2D*);
 
  	glm::vec3 Drag();
  	glm::vec2 Drag2D();

@@ -18,6 +18,12 @@ void CollisionObj::CreateCollider(glm::dvec3 pos,int l){
 	colliders.push_back(in);
 }
 
+void CollisionObj::CreateCollider(glm::dvec3 pos,int l, int size){
+	Collider *in = new CircleCollider(this,l, size);
+	in->position = pos;
+	colliders.push_back(in);
+}
+
 void CollisionENG::Init(std::vector<GameObj*>* gameobjects){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)
