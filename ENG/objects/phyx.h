@@ -51,7 +51,12 @@ public:
 	bool const 		isKinematic() {return kinematic;}
 	void 	 		isKinematic(bool b) {kinematic=b;}
 
-	PhyxObj2D* orbiting;
+	bool Orbiting(PhyxObj2D* other){
+		for(auto po : orbiting) if(po==other) return true;
+		return false;
+	}
+
+	std::vector<PhyxObj2D*> orbiting;
 
 //	glm::dvec2 pos2D; //now directly use gameObejct stuff
 	glm::dvec2 v;
@@ -67,6 +72,12 @@ public:
 	bool kinematic=false;
 //private:
 
+};
+
+enum GravityMode {
+	Everything,
+	Orbiting,
+	Directional
 };
 
 
@@ -103,6 +114,7 @@ public:
 	bool clipping=true;
 	double timescale=1;
 	float G = 1.0E-5;
+	GravityMode gravitymode = Everything;
 	double colEl = .9; //collisionElasticity
 
 //	void Collision();

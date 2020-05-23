@@ -30,11 +30,16 @@ void PhyxENG::Update(){
 			//Global Forces between all objects
 			//maybe give the PhyxENG settings to toggle these
 			glm::dvec2 g = PhyxENG::Gravity2D(p,q);
-			TESTLOG("Gravity" TAB p->name TAB q->name TAB glm::length(g));
-//			if(p->orbiting == q) p->AddForce(g);
-//			if(q->orbiting == p) q->AddForce(-g);
-			if(!p->isKinematic()) p->AddForce(g);
-			if(!q->isKinematic()) q->AddForce(-g);
+			if(gravitymode == Everything){
+				if(!p->isKinematic()) p->AddForce(g);
+				if(!q->isKinematic()) q->AddForce(-g);
+			} else if(gravitymode == Orbiting){
+				if(p->Orbiting(q) && !p->isKinematic()) p->AddForce(g);
+				if(q->Orbiting(p) && !q->isKinematic()) q->AddForce(-g);
+			} else if (gravitymode == Directional){
+				p->AddForce(glm::dvec2(0,-1)*p->mass);
+			}
+
 
 
 			CollisionMsg * pqData = collisionENG->CollisionBetween(p,q,PHYX_LAYER);
@@ -90,10 +95,10 @@ void PhyxENG::StaticResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider
 			p->Move(nor * overlap * q2pMassRatio);
 			q->Move(nor*-1. * overlap * p2qMassRatio);
 		}
-		else if((p->isKinematic() || q->orbiting==p) && !q->isKinematic()){
+		else if((p->isKinematic() || q->Orbiting(p)) && !q->isKinematic()){
 			q->Move(nor*-1. * overlap);
 		}
-		else if(!p->isKinematic() && (q->isKinematic()|| p->orbiting==q)){
+		else if(!p->isKinematic() && (q->isKinematic()|| p->Orbiting(q))){
 			p->Move(nor * overlap);
 		} else {
 			//what happens an unstoppable force
