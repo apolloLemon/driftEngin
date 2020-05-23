@@ -116,6 +116,7 @@ public:
 	float G = 1.0E-5;
 	GravityMode gravitymode = Everything;
 	double colEl = .9; //collisionElasticity
+	double fps=0; int framecounter=0; double timecounter=0;
 
 //	void Collision();
 //	void Physics();

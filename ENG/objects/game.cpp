@@ -88,7 +88,7 @@ void Game::phyxGui()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	ImGui::Begin("driftEngine", 0, ImGuiWindowFlags_AlwaysAutoResize);
-	
+	ImGui::Text("Phyx/s: %f",phyxENG.fps);
 	static bool showPhyxSettings = false;
 	if (ImGui::Button("Show Phyx Settings")) showPhyxSettings = !showPhyxSettings;
 

@@ -20,6 +20,13 @@ void PhyxENG::Update(){
 	std::chrono::duration<double, std::milli> d = tn - t;
 	double dd = (d.count()/1000)*timescale;
 	t=tn;
+	timecounter+=dd;
+	if(timecounter>1.){
+		fps = framecounter;
+		framecounter = 0;
+		timecounter-=1.;
+	}
+	framecounter++;
 
 	int cols=0;
 	for(int i=0;i<managed.size();i++){
