@@ -46,6 +46,8 @@ set(SOURCES
 
 add_subdirectory(${INC_DIR}/assimp assimp)
 
+add_definitions(-DPWD="${SRC_DIR}")
+
 add_executable(${PROJECT_NAME}.exe ${SOURCES})
 target_include_directories(${PROJECT_NAME}.exe PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 17)
