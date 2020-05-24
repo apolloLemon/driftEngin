@@ -197,6 +197,7 @@ int main(int argc, char **argv)
 					if(qAst->maxLayer == qAst->activeLayer[point].layer)
 					{
 						qAst->Break(point, window);
+						player->score++;
 						j++;
 					}
 				}
@@ -239,9 +240,9 @@ int main(int argc, char **argv)
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		player->gui(50, 50);
+		player->gui(window);
 		if(player->target)
-			player->target->gui(50, 130);
+			player->target->gui(window);
 		if(shield->animation.isAnimating)
 			shield->gui(window);
 

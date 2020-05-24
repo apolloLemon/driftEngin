@@ -91,9 +91,11 @@ float Asteroid::preciseSize()
 	return (mean/activeLayer.size());
 }
 
-void Asteroid::gui(float x, float y)
+void Asteroid::gui(GLFWwindow* window)
 {
-	ImGui::SetNextWindowPos(ImVec2(x, y));
+	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+
+	ImGui::SetNextWindowPos(ImVec2(game->screenWidth/100.0f*5.0f, game->screenHeight/100.0f*20.0f));
 	ImGui::Begin("Target", 0, ImGuiWindowFlags_AlwaysAutoResize);
 	
 	ImGui::Text("Position:");

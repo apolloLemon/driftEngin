@@ -7,6 +7,7 @@ Player::Player(glm::vec3 _position): MovementSpeed(PLAYER_SPEED)
 	Direction = glm::vec3(0.0f);
 	thrusting = false;
 	target = nullptr;
+	score = 0;
 	camera.updateCameraVectors(worldPosition());
 }
 
@@ -45,13 +46,21 @@ void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action
 	}
 }
 
-void Player::gui(float x, float y)
+void Player::gui(GLFWwindow* window)
 {
-	ImGui::SetNextWindowPos(ImVec2(x, y));
+	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+
+	std::ostringstream ss;
+	ss.imbue(std::locale("en_US.UTF-8"));
+	ss << this->score;
+
+	ImGui::SetNextWindowPos(ImVec2(game->screenWidth/100.0f*5.0f, game->screenHeight/100.0f*5.0f));
 	ImGui::Begin("Player", 0, ImGuiWindowFlags_AlwaysAutoResize);
 	
 	ImGui::Text("Position:");
-	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->worldPosition().x, this->worldPosition().y, this->worldPosition().z);	
+	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->worldPosition().x, this->worldPosition().y, this->worldPosition().z);
+	ImGui::Text("\n");
+	ImGui::Text(("Score: " + ss.str()).c_str());	
 
 	ImGui::End();
 }
