@@ -58,7 +58,6 @@ int main(int argc, char **argv)
 
 	// creating our skybox
 	// -------------------
-//*
 	std::vector<std::string> faces
 	{
 		"skybox/right.png",
@@ -72,7 +71,7 @@ int main(int argc, char **argv)
 	tSkybox.id = loadCubemap(faces, driftgame.texturesPath);
 	tSkybox.type = "texture_skybox";
 	tSkybox.path = "skybox";
-//*/
+
 	Texture tSquare;
 	tSquare.id = TextureFromFile("square/square.png", driftgame.texturesPath);
 	tSquare.type = "texture_diffuse";
@@ -90,9 +89,6 @@ int main(int argc, char **argv)
 
 	// creating texture vectors
 	// ------------------------
-/*	std::vector<Texture> sunTextures;
-	sunTextures.push_back(tSun);
-*/
 	std::vector<Texture> skyboxTextures;
 	skyboxTextures.push_back(tSkybox);
 
@@ -101,42 +97,30 @@ int main(int argc, char **argv)
 
 	std::vector<Texture> shieldTextures;
 	shieldTextures.push_back(tShield);
-/*
-	std::vector<Texture> squareTextures;
-	squareTextures.push_back(tSquare);
-*/
+
 	// instantiate meshes
 	// ------------------
-//	Sphere sunMesh(50, 50, sunTextures);
 	Cube skyboxMesh(skyboxTextures);
-	
-//	player->meshes.push_back(new Sphere(50,50,shieldTextures));
+
 	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
-
 	shield->meshes.push_back(new Sphere(50, 50, shieldTextures));
-
-//	A->meshes.push_back(new Sphere(50,50,squareTextures));
-//	B->meshes.push_back(new Sphere(50,50,squareTextures));
-//	C->meshes.push_back(new Sphere(50,50,squareTextures));
 
 	// initializing the player
 	// -----------------------
-	//*	
 	player->name="player";
 	player->scale = glm::vec3(0.001f);
 	player->MoveTo(glm::vec2(-5.0f, -5.0f));
-//	player->CreateCollider(glm::dvec3(0), 0);
 	player->XV(0);
 	player->YV(0);
 	player->Mass(1.0f);
-	//*/
+
 	shield->name="shield";
 	shield->position=glm::dvec3(0.1,0,0.1);
 	shield->attach(player);
 	shield->scale = glm::vec3(2.0f);
 	shield->CreateCollider(glm::dvec3(0), 0, shield->size);
 	shield->Mass(2.0f);
-	//*
+
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
 		asteroids[i]->Generate(&moonTextures);
@@ -149,32 +133,6 @@ int main(int argc, char **argv)
 		asteroids[i]->Mass(100.0f * asteroids[i]->size);
 		asteroids[i]->YV(0.5f);
 	}
-	//*/
-//	A->name="A";
-//	A->MoveTo(glm::vec3(0.0f, 0.0f, 0.0f));
-//	A->CreateCollider(glm::dvec3(0),0);
-//	A->YV(0);
-//	A->XV(0);
-//	A->Mass(10000.f);
-//	A->isKinematic(true);
-
-//	TESTLOG(dynamic_cast<CircleCollider *>(A->collidersLayer(0)[0])->Dim());
-
-//	B->name="B";
-//	B->MoveTo(glm::vec3(-5.0f, 0.0f, 1.0f));
-//	B->CreateCollider(glm::dvec3(0),0);
-//	B->YV(.5);
-//	B->Mass(.1f);
-//	B->orbiting=A;
-
-//	C->name="C";
-//	C->MoveTo(glm::vec3(4.0f, 0.0f, 1.0f));
-//	C->CreateCollider(glm::dvec3(0),0);
-//	C->XV(-1);
-//	C->YV(-.5);
-//	C->Mass(.1f);
-//	C->orbiting=A;
-//	C->isKinematic(true);	
 
 	// lighting options
 	// ----------------
@@ -192,14 +150,6 @@ int main(int argc, char **argv)
 		driftgame.inputENG.Update(window);
 		driftgame.phyxENG.Update();
 
-/*		for(auto e : driftgame.collENG.events)		
-			std::cout
-				<< "collision event \t" << e << std::endl  
-				<< "life \t" << e->life << "layer \t" << e->layer << std::endl
-				<< "Pname \t" << e->P.first->name << std::endl
-				<< "Qname \t" << e->Q.first->name << std::endl;
-//*/
-
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -215,8 +165,6 @@ int main(int argc, char **argv)
 		driftgame.lightSourceShader->setMat4("projection", projection);
 		driftgame.lightSourceShader->setMat4("view", view);
 
-//		sunMesh.Draw(driftgame.lightSourceShader, glm::vec3(50.0f,0.f,0.f), glm::vec3(10.0f));
-
 		// configuring the texture shader and meshes
 		// -----------------------------------------
 		driftgame.textureShader->use();
@@ -227,10 +175,6 @@ int main(int argc, char **argv)
 		driftgame.textureShader->setVec3("light.diffuse", lDiffuse);
 		driftgame.textureShader->setVec3("light.specular", lSpecular);
 		driftgame.textureShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
-
-
-//		planet->Draw(driftgame.textureShader);
-//		planet2->Draw(driftgame.textureShader);
 
 		for (unsigned int i = 0; i < nbAsteroids; i++)
 		{
@@ -294,12 +238,7 @@ int main(int argc, char **argv)
 	}
 
 	driftgame.Terminate();
-	
-	// Clean up sources and buffers
-   // alDeleteSources(1, &audiosrc);
-   // alDeleteBuffers(1, &audiobuffer);
-    // Exit everything
-  //  alutExit();
+
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------
 	glfwTerminate();

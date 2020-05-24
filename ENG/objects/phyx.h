@@ -11,7 +11,7 @@ class PhyxObj2D : virtual public GameObj, public CollisionObj
 {
 public:
 
-	//PhyxObj2D()=default;
+	PhyxObj2D();
 	//Phyx
 	//void Update();
 	void Update(double);

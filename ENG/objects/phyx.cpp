@@ -174,7 +174,12 @@ glm::dvec2 PhyxENG::Gravity2D(PhyxObj2D* a,PhyxObj2D* b) {
 	return a2b*(G*(Mm/r2));
 }
 
-
+PhyxObj2D::PhyxObj2D()
+{
+	a = glm::dvec2(0.0f);
+	v = glm::dvec2(0.0f);
+	mass = 1.0f;
+}
 
 
 void PhyxObj2D::Update(double dt){
