@@ -13,19 +13,24 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 
 	std::vector<Vertex> layerVertices;
 	Vertex layerVertex;
+	//perlin.gen(1, 1, 1);
+	bool b=false;
 	for (unsigned int i = 0; i < size; i++)
 	{
 		layerVertices = std::vector<Vertex>();
 		for (unsigned int j = 0; j < core.vertices.size(); j++)
 		{
 			layerVertex = core.vertices[j];
-			layerVertex.Position *= (float)(i+1);
+			if(b)std::cout << layerVertex.Position.x <<"\t"<< layerVertex.Position.y <<"\t"<< layerVertex.Position.z <<"\n";  
+			layerVertex.Position *= (float)(i+1)*perlin.get(layerVertex.Position);
 			layerVertices.push_back(layerVertex);
 		}
 		this->layers.push_back(layerVertices);
+		b=false;
 	}
 
 	layerVertices = layers[size-1];
+
 	this->meshes.push_back(new Mesh(layerVertices, core.indices, *textures));
 
 	AsteroidVertex astVertex;

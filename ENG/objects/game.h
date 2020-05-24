@@ -34,8 +34,8 @@
 
 #include "ENG/camera/freecam.h"
 
-#include "drift/player.h"
-#include "drift/asteroid.h"
+#include "minerGame/player.h"
+#include "minerGame/asteroid.h"
 
 
 enum CameraMode
