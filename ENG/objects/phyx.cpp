@@ -50,8 +50,8 @@ void PhyxENG::Update(){
 			CollisionMsg * pqData = collisionENG->CollisionBetween(p,q,PHYX_LAYER);
 			if(pqData && clipping){
 				cols++;
-				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.5){
-					//	soundENG->Play(2, false);
+				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.1){
+						soundENG->Play(2, false);
 					}
 				if(!p->isKinematic()) p->AddForce(-g);
 				if(!q->isKinematic()) q->AddForce(g);

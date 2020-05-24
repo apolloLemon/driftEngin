@@ -131,7 +131,7 @@ int main(int argc, char **argv)
 	shield->name="shield";
 	shield->attach(player);
 	shield->scale = glm::vec3(2.0f);
-	shield->CreateCollider(glm::dvec3(0), 0, 2);
+	shield->CreateCollider(glm::dvec3(0), 0, 1.5f);
 	shield->Mass(2.0f);
 	//*
 	for (unsigned int i = 0; i < nbAsteroids; i++)
@@ -233,6 +233,7 @@ int main(int argc, char **argv)
 			asteroids[i]->Draw(driftgame.textureShader);
 		}
 		shield->Draw(driftgame.textureShader);
+
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
