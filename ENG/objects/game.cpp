@@ -123,6 +123,8 @@ void Game::phyxGui()
 		ImGui::End();
 	}
 
+	int maxPhyxObjs=5;
+	int PhyxObjscntr=0;
 	if(setPhyxObj){
 		ImGui::Begin("set obj", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		static double m=1;
@@ -140,9 +142,10 @@ void Game::phyxGui()
 		if(ImGui::Button("*-1.")){
 			x*=-1.; y*=-1.; xv*=-1.; yv*=-1.;
 		}
+		PhyxObjscntr=0;
 		for(auto go : gameobjects){
 			auto po = dynamic_cast<PhyxObj2D*>(go);
-			if(po) {
+			if(po && (PhyxObjscntr++<maxPhyxObjs)) {
 				ImGui::PushID(po);
 				ImGui::Text(po->name.c_str());
 				ImGui::SameLine();
@@ -167,9 +170,10 @@ void Game::phyxGui()
 		ImGui::End();
 	}
 
+	PhyxObjscntr=0;
 	if(showPhyxObj) for(auto go : gameobjects) {
 		auto po = dynamic_cast<PhyxObj2D*>(go);
-		if(po){
+		if(po &&(PhyxObjscntr++<maxPhyxObjs)){
 			ImGui::Begin(po->name.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize);
 		//	static char str1[128] = "";
 		//	ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));

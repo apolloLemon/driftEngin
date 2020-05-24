@@ -29,13 +29,14 @@ public:
 	float const 	Y()			{ return worldPosition().z; }
 //	void			Y(float y)	{ worldPosition().z = y; }
 
-	glm::dvec2		V(){return v;}
-	void			V(glm::dvec2 _v){v=_v;}
-	float const 	XV()		{return v.x;}
-	void 			XV(float _xv){v.x=_xv;}
-	float const 	YV()		{return v.y;}
-	void 			YV(float _yv){v.y=_yv;}
-	float 			Speed() {return glm::length(v);}
+	glm::dvec2		V();
+	void			V(glm::dvec2 _v);
+	void			dV(glm::dvec2 _v);
+	float const 	XV();
+	void 			XV(float _xv);
+	float const 	YV();
+	void 			YV(float _yv);
+	float 			Speed();
 
 	glm::dvec2		A(){return a;}
 	float const 	XA()		{return a.x;}

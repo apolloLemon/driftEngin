@@ -18,7 +18,7 @@ Game driftgame(1280, 720, "minerGame/textures/", "minerGame/models/", "minerGame
 // GameObjects
 // ----------------
 Player * player = new Player();
-Shield * shield = new Shield();
+//Shield * shield = new Shield();
 std::vector<Asteroid*> asteroids;
 std::vector<glm::vec3> asteroidsPositions;
 unsigned int nbAsteroids = 0;
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 
 	driftgame.gameobjects.push_back(driftgame.freecam);
 	driftgame.gameobjects.push_back(player);
-	driftgame.gameobjects.push_back(shield);
+//	driftgame.gameobjects.push_back(shield);
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
 		asteroids.push_back(new Asteroid());
@@ -109,10 +109,10 @@ int main(int argc, char **argv)
 //	Sphere sunMesh(50, 50, sunTextures);
 	Cube skyboxMesh(skyboxTextures);
 	
-//	planet->meshes.push_back(new Sphere(50,50,moonTextures));
-	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
+	player->meshes.push_back(new Sphere(50,50,shieldTextures));
+//	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
 
-	shield->meshes.push_back(new Sphere(50, 50, shieldTextures));
+//	shield->meshes.push_back(new Sphere(50, 50, shieldTextures));
 
 //	A->meshes.push_back(new Sphere(50,50,squareTextures));
 //	B->meshes.push_back(new Sphere(50,50,squareTextures));
@@ -122,18 +122,20 @@ int main(int argc, char **argv)
 	// -----------------------
 	//*	
 	player->name="player";
-	player->scale = glm::vec3(0.001f);
+	player->scale = glm::vec3(1.f);
 	player->MoveTo(glm::vec2(-5.0f, -5.0f));
-	//player->CreateCollider(glm::dvec3(0), 0);
+//	player->CreateCollider(glm::dvec3(0), 0);
 	player->XV(0);
 	player->YV(0);
 	player->Mass(1.0f);
 	//*/
-	shield->name="shield";
+/*	shield->name="shield";
+	shield->position=glm::dvec3(0.1,0,0.1);
 	shield->attach(player);
 	shield->scale = glm::vec3(2.0f);
 	shield->CreateCollider(glm::dvec3(0), 0, 1.5f);
 	shield->Mass(2.0f);
+*/
 	//*
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
@@ -235,7 +237,7 @@ int main(int argc, char **argv)
 			asteroids[i]->Draw(driftgame.textureShader);
 			asteroids[i]->UpdateCollider(glm::vec3(0), 0, asteroids[i]->preciseSize(), 0);
 		}
-
+/*
 		std::vector<CollisionMsg*> playerCollisions = driftgame.collENG.CollisionsWith(shield, 0);
 		for (unsigned int i = 0; i < playerCollisions.size(); i++)
 		{
@@ -254,7 +256,7 @@ int main(int argc, char **argv)
 
 			
 		}
-
+*/
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -267,7 +269,7 @@ int main(int argc, char **argv)
 		driftgame.materialShader->setVec3("light.specular", lSpecular);
 		driftgame.materialShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
 
-		player->Draw(driftgame.materialShader);
+		player->Draw(driftgame.textureShader);
 		player->camera.updateCameraVectors(player->worldPosition());
 
 		// draw skybox at last
