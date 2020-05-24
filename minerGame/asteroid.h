@@ -40,6 +40,7 @@ public:
 	void Break(unsigned int indice, GLFWwindow* window);
 	float fastSize();
 	float preciseSize();
+	void gui(float, float);
 
 };
 

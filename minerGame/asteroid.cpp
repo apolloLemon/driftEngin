@@ -91,6 +91,19 @@ float Asteroid::preciseSize()
 	return (mean/activeLayer.size());
 }
 
+void Asteroid::gui(float x, float y)
+{
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::Begin("Target", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	
+	ImGui::Text("Position:");
+	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->worldPosition().x, this->worldPosition().y, this->worldPosition().z);
+	ImGui::Text("\n");
+	ImGui::Text("LifePoints: %i", this->lifePoints);
+
+	ImGui::End();
+}
+
 std::vector<glm::vec3> generateAsteroidsPos(unsigned int& nb, const float radius, const float min, const float max)
 {
 	const auto kXMin = std::array<float, 2>	{{min, min}};
@@ -105,3 +118,4 @@ std::vector<glm::vec3> generateAsteroidsPos(unsigned int& nb, const float radius
 	}
 	return out;
 }
+

@@ -34,8 +34,8 @@
 
 #include "ENG/camera/freecam.h"
 
-#include "minerGame/player.h"
 #include "minerGame/asteroid.h"
+#include "minerGame/player.h"
 
 
 enum CameraMode

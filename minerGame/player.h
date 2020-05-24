@@ -24,6 +24,8 @@ enum Player_Movement {
 	playerRIGHT
 };
 
+class Asteroid;
+
 class Player : public PhyxObj2D, public InputObj, public RenderObj
 {
 public:
@@ -33,10 +35,13 @@ public:
 	glm::vec3 Direction;
 	bool thrusting;
 
+	Asteroid* target;
+
 	Player(glm::vec3 position = glm::vec3(0.0f));
 	//void draw(Shader *shader);
 	void inputCallback(GLFWwindow* window) override;
 	void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mods) override;
+	void gui(float, float);
 
 private:
 
@@ -58,6 +63,7 @@ public:
 	Shield(float);
 	void startAnimation(GLFWwindow* window);
 	void Update(GLFWwindow* window);
+	void gui(GLFWwindow* window);
 };
 
 #endif

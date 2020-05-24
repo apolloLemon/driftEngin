@@ -187,8 +187,8 @@ int main(int argc, char **argv)
 		for (unsigned int i = 0; i < playerCollisions.size(); i++)
 		{
 			shield->startAnimation(window);
-			Asteroid* pAst = dynamic_cast<Asteroid*>(playerCollisions[i]->P.first);
 			Asteroid* qAst = dynamic_cast<Asteroid*>(playerCollisions[i]->Q.first);
+			if(qAst) { player->target = qAst; if(qAst->lifePoints == 0) { player->target=nullptr; }}
 			unsigned int j = 0;
 			while (j<10)
 			{
@@ -229,7 +229,20 @@ int main(int argc, char **argv)
 		skyboxMesh.Draw(driftgame.skyboxShader);
 		glDepthFunc(GL_LESS);
 
-		driftgame.phyxGui();
+		// ImGui displaying
+		// ----------------
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		player->gui(50, 50);
+		if(player->target)
+			player->target->gui(50, 130);
+		if(shield->animation.isAnimating)
+			shield->gui(window);
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());	
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

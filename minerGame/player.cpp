@@ -6,6 +6,7 @@ Player::Player(glm::vec3 _position): MovementSpeed(PLAYER_SPEED)
 	position = _position;
 	Direction = glm::vec3(0.0f);
 	thrusting = false;
+	target = nullptr;
 	camera.updateCameraVectors(worldPosition());
 }
 
@@ -36,12 +37,23 @@ void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action
 		if (key == GLFW_KEY_W && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
 		if (key == GLFW_KEY_S && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
 		if (key == GLFW_KEY_E && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
-		if (key == GLFW_KEY_D && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
+		if (key == GLFW_KEY_Q && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
 		if (key == GLFW_KEY_W && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 		if (key == GLFW_KEY_S && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 		if (key == GLFW_KEY_E && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
-		if (key == GLFW_KEY_D && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
+		if (key == GLFW_KEY_Q && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 	}
+}
+
+void Player::gui(float x, float y)
+{
+	ImGui::SetNextWindowPos(ImVec2(x, y));
+	ImGui::Begin("Player", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	
+	ImGui::Text("Position:");
+	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->worldPosition().x, this->worldPosition().y, this->worldPosition().z);	
+
+	ImGui::End();
 }
 
 Shield::Shield(float size)
@@ -74,4 +86,22 @@ void Shield::Update(GLFWwindow* window)
 			return;
 		}
 	}
+}
+
+void Shield::gui(GLFWwindow* window)
+{
+	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+
+	//ImGui::SetNextWindowSize(ImVec2(game->screenWidth/5.0f, game->screenHeight/10.0f));
+	ImGui::SetNextWindowPos(ImVec2(game->screenWidth/100.0f*50.0f, game->screenHeight/100.0f*80.0f));
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+	ImGui::Begin("Shield", 0, window_flags);
+	
+	ImGui::Text("Auto mining...");
+
+	ImGui::End();
 }
