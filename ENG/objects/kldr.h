@@ -3,14 +3,6 @@
 #include "ENG/includes/glm/ext.hpp"
 #include "gameobj.h"
 #include <algorithm>
-#if 0
-	#include <iostream>
-	#define TAB <<"\t"<<
-	#define TESTLOG(X) std::cout << X << std::endl
-#else
-	#define TAB 
-	#define TESTLOG(X)
-#endif
 /**
 Single Colliders
 **/
