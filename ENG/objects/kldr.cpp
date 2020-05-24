@@ -24,6 +24,13 @@ void CollisionObj::CreateCollider(glm::dvec3 pos,int l, float size){
 	colliders.push_back(in);
 }
 
+void CollisionObj::UpdateCollider(glm::dvec3 pos, int l, float size, int n)
+{
+	colliders[n]->position = pos;
+	colliders[n]->layer = l;
+	colliders[n]->scale = glm::vec3(size);
+}
+
 void CollisionENG::Init(std::vector<GameObj*>* gameobjects){
 	managed.clear();
 	for (unsigned int i = 0; i < gameobjects->size(); i++)

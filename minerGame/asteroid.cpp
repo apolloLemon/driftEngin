@@ -55,18 +55,35 @@ void Asteroid::Break(unsigned int indice)
 	//std::cout << "After: [x:" << this->layers[maxLayer-1][indice].Position.x << ", y:" << this->layers[maxLayer-1][indice].Position.y << ", z:" << this->layers[maxLayer-1][indice].Position.z << "]" << std::endl;
 
 	std::vector<Vertex> vertices;
+	bool changeMaxLayer = true;
 	for (unsigned int i = 0; i < activeLayer.size(); i++)
 	{
+		if(activeLayer[i].layer == maxLayer) changeMaxLayer = false;
 		vertices.push_back(activeLayer[i].vertex);
 	}
+	if (changeMaxLayer)	{ maxLayer--; }
 
 	this->meshes[0] = new Mesh(vertices, this->meshes[0]->indices, this->meshes[0]->textures);
 }
 
-float Asteroid::size()
+float Asteroid::fastSize()
 {
 	int point = rand() % this->activeLayer.size();
 	return glm::length(activeLayer[point].vertex.Position);
+}
+
+float Asteroid::preciseSize()
+{
+	float maxLength = -std::numeric_limits<float>::infinity();
+	for (unsigned int i = 0; i < activeLayer.size(); i++)
+	{
+		float tmpLength = glm::length(activeLayer[i].vertex.Position);
+		if(tmpLength > maxLength)
+		{
+			maxLength = tmpLength;
+		}
+	}
+	return maxLength;
 }
 
 std::vector<glm::vec3> generateAsteroidsPos(unsigned int& nb, const float radius, const float min, const float max)

@@ -13,6 +13,7 @@
 
 #include <ctime>
 #include <cstdlib>
+#include <limits>
 
 std::vector<glm::vec3> generateAsteroidsPos(unsigned int&, float, float, float);
 
@@ -34,7 +35,8 @@ public:
 	Asteroid();
 	void Generate(std::vector<Texture>* textures);
 	void Break(unsigned int indice);
-	float size();
+	float fastSize();
+	float preciseSize();
 
 };
 

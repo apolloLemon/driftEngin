@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "track0.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "bleep.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
+	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "electricshock.ogg");
 	driftgame.soundENG.Play(0,1);
 
 	// initialize glfw and game
@@ -126,7 +127,7 @@ int main(int argc, char **argv)
 	//player->CreateCollider(glm::dvec3(0), 0);
 	player->XV(0);
 	player->YV(0);
-	player->Mass(2.0f);
+	player->Mass(1.0f);
 	//*/
 	shield->name="shield";
 	shield->attach(player);
@@ -140,10 +141,11 @@ int main(int argc, char **argv)
 		glm::vec3 pos(asteroidsPositions[i]);
 
 		//std::cout << "pos: [x:" << pos.x << ", y:" << pos.y << ", z:" << pos.z << "]" << std::endl;
+		float size = asteroids[i]->preciseSize();
 		asteroids[i]->name="asteroid"+std::to_string(i);
 		asteroids[i]->MoveTo(pos);
-		asteroids[i]->CreateCollider(glm::dvec3(0), 0, asteroids[i]->size());
-		asteroids[i]->Mass(1.0f);
+		asteroids[i]->CreateCollider(glm::dvec3(0), 0, size);
+		asteroids[i]->Mass(10.0f * size);
 		asteroids[i]->YV(0.5f);
 	}
 	//*/
@@ -231,8 +233,27 @@ int main(int argc, char **argv)
 		for (unsigned int i = 0; i < nbAsteroids; i++)
 		{
 			asteroids[i]->Draw(driftgame.textureShader);
+			asteroids[i]->UpdateCollider(glm::vec3(0), 0, asteroids[i]->preciseSize(), 0);
 		}
-		shield->Draw(driftgame.textureShader);
+
+		std::vector<CollisionMsg*> playerCollisions = driftgame.collENG.CollisionsWith(shield, 0);
+		for (unsigned int i = 0; i < playerCollisions.size(); i++)
+		{
+			shield->Draw(driftgame.textureShader);
+			PhyxObj2D* p = dynamic_cast<PhyxObj2D *>(playerCollisions[i]->P.first);
+			PhyxObj2D* q = dynamic_cast<PhyxObj2D *>(playerCollisions[i]->Q.first);
+			if(glm::length(glm::dot(p->v, q->v) * 10000.0f)>0.3)
+			{
+				driftgame.soundENG.Play(3, false);
+			}
+			Asteroid* pAst = dynamic_cast<Asteroid*>(p);
+			Asteroid* qAst = dynamic_cast<Asteroid*>(q);
+			int point = rand() % 100;
+			if(pAst) 	{ pAst->Break(point); }
+			if(qAst)	{ qAst->Break(point); }
+
+			
+		}
 
 
 		// configuring the material shader and meshes

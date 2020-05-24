@@ -47,6 +47,7 @@ public:
 	std::vector<Collider *> collidersLayer(int);
 	void CreateCollider(glm::dvec3,int);
 	void CreateCollider(glm::dvec3 pos,int l, float size);
+	void UpdateCollider(glm::dvec3 pos, int l, float size, int n);
 //private:
 	std::vector<Collider *> colliders;
 };
@@ -73,7 +74,7 @@ public:
 	std::vector<CollisionMsg *> EventsOf(GameObj *);
 	CollisionMsg * CollisionBetween(GameObj *, GameObj *,int);
 	CollisionMsg * CollisionWith(GameObj *,int);
-	std::vector<CollisionMsg *> CollisionENG::CollisionsWith(GameObj*,int);
+	std::vector<CollisionMsg *> CollisionsWith(GameObj*,int);
 //private:
 	void CheckCollisions();//Generate Events //in update
 	void CleanEvents(); //in update
