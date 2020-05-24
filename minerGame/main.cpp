@@ -34,6 +34,7 @@ int main(int argc, char **argv)
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "electricshock.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "asteroidBreak.ogg");
+	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "thruster.ogg");
 	driftgame.soundENG.Play(0,1);
 
 	// initialize glfw and game

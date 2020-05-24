@@ -50,11 +50,7 @@ void Asteroid::Break(unsigned int indice, GLFWwindow* window)
 	if (activeLayer[indice].layer - 1 > 0)
 		activeLayer[indice].layer--;
 
-	//std::cout << maxLayer << std::endl;
-
-	//std::cout << "Before: [x:" << activeLayer[indice].vertex.Position.x << ", y:" << activeLayer[indice].vertex.Position.y << ", z:" << activeLayer[indice].vertex.Position.z << "]" << std::endl;
 	activeLayer[indice].vertex = this->layers[activeLayer[indice].layer-1][indice];
-	//std::cout << "After: [x:" << this->layers[maxLayer-1][indice].Position.x << ", y:" << this->layers[maxLayer-1][indice].Position.y << ", z:" << this->layers[maxLayer-1][indice].Position.z << "]" << std::endl;
 
 	std::vector<Vertex> vertices;
 	bool changeMaxLayer = true;
@@ -66,7 +62,7 @@ void Asteroid::Break(unsigned int indice, GLFWwindow* window)
 		}
 		vertices.push_back(activeLayer[i].vertex);
 	}
-	if (changeMaxLayer)	{ maxLayer--; std::cout << "yes" << std::endl;}
+	if (changeMaxLayer)	{ maxLayer--;}
 	this->size = preciseSize();
 	this->lifePoints--;
 	if(this->lifePoints <= 0)
