@@ -10,6 +10,7 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 	core = Sphere(10, 10);
 
 	maxLayer = rand() % 5 + 1;
+	float extraperlinrand = (float)(rand() % 300 + 1);
 	this->lifePoints = 50 * maxLayer;
 
 	std::vector<Vertex> layerVertices;
@@ -23,7 +24,7 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 		{
 			layerVertex = core.vertices[j];
 			if(b)std::cout << layerVertex.Position.x <<"\t"<< layerVertex.Position.y <<"\t"<< layerVertex.Position.z <<"\n";  
-			layerVertex.Position *= (float)(i+1)*perlin.get(layerVertex.Position);
+			layerVertex.Position *= (float)(i+1)*perlin.get(layerVertex.Position+extraperlinrand);
 			layerVertices.push_back(layerVertex);
 		}
 		this->layers.push_back(layerVertices);
