@@ -72,6 +72,8 @@ public:
 	void Update();
 	std::vector<CollisionMsg *> EventsOf(GameObj *);
 	CollisionMsg * CollisionBetween(GameObj *, GameObj *,int);
+	CollisionMsg * CollisionWith(GameObj *,int);
+	std::vector<CollisionMsg *> CollisionENG::CollisionsWith(GameObj*,int);
 //private:
 	void CheckCollisions();//Generate Events //in update
 	void CleanEvents(); //in update

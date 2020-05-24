@@ -93,6 +93,21 @@ CollisionMsg * CollisionENG::CollisionBetween(GameObj* p,GameObj* q,int l){
 	return nullptr;
 }
 
+CollisionMsg * CollisionENG::CollisionWith(GameObj* p,int l){
+	for(auto& e : events)
+		if((e->P.first==p)||(e->Q.first==p)&&(e->layer==l))
+			return e;
+	return nullptr;
+}
+
+std::vector<CollisionMsg *> CollisionENG::CollisionsWith(GameObj* p,int l){
+	std::vector<CollisionMsg *> out;
+	for(auto& e : events)
+		if((e->P.first==p)||(e->Q.first==p)&&(e->layer==l))
+			out.push_back(e);
+	return out;
+}
+
 bool CollisionENG::ColliderCollision(Collider * A,Collider * B){
 //	TESTLOG("111 Collider Collision");
 	CircleCollider *Ac = dynamic_cast<CircleCollider *>(A);
