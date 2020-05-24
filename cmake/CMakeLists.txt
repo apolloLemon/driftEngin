@@ -18,6 +18,7 @@ set(SOURCES
 			"${SRC_DIR}/ENG/objects/ctrl.cpp"
 			"${SRC_DIR}/ENG/objects/rndr.cpp"
 			"${SRC_DIR}/ENG/objects/sound.cpp"
+			"${SRC_DIR}/ENG/objects/perlin.cpp"
 
 			"${SRC_DIR}/ENG/camera/camera.cpp"
 			"${SRC_DIR}/ENG/camera/freecam.cpp"

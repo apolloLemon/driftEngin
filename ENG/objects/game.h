@@ -19,6 +19,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 #include "ENG/includes/glm/glm.hpp"
 
@@ -34,6 +35,7 @@
 #include "ENG/camera/freecam.h"
 
 #include "drift/player.h"
+#include "drift/asteroid.h"
 
 
 enum CameraMode
