@@ -41,10 +41,22 @@ private:
 
 };
 
+struct Animation
+{
+	bool isAnimating;
+	float start;
+};
+
 class Shield : public PhyxObj2D, public RenderObj
 {
 public:
-	int size;
+	float size;
+	int lifePoints;
+	Animation animation;
+
+	Shield(float);
+	void startAnimation(GLFWwindow* window);
+	void Update(GLFWwindow* window);
 };
 
 #endif

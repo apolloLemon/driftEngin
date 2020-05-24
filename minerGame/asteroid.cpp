@@ -10,6 +10,7 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 	core = Sphere(10, 10);
 
 	maxLayer = rand() % 5 + 1;
+	this->lifePoints = 50 * maxLayer;
 
 	std::vector<Vertex> layerVertices;
 	Vertex layerVertex;
@@ -40,28 +41,39 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 		astVertex.vertex = this->meshes[0]->vertices[i];
 		this->activeLayer.push_back(astVertex);
 	}
+	size = preciseSize();
 }
 
-void Asteroid::Break(unsigned int indice)
+void Asteroid::Break(unsigned int indice, GLFWwindow* window)
 {
 	if (activeLayer[indice].layer - 1 > 0)
 		activeLayer[indice].layer--;
 
-	unsigned int maxLayer = activeLayer[indice].layer;
 	//std::cout << maxLayer << std::endl;
 
 	//std::cout << "Before: [x:" << activeLayer[indice].vertex.Position.x << ", y:" << activeLayer[indice].vertex.Position.y << ", z:" << activeLayer[indice].vertex.Position.z << "]" << std::endl;
-	activeLayer[indice].vertex = this->layers[maxLayer-1][indice];
+	activeLayer[indice].vertex = this->layers[activeLayer[indice].layer-1][indice];
 	//std::cout << "After: [x:" << this->layers[maxLayer-1][indice].Position.x << ", y:" << this->layers[maxLayer-1][indice].Position.y << ", z:" << this->layers[maxLayer-1][indice].Position.z << "]" << std::endl;
 
 	std::vector<Vertex> vertices;
 	bool changeMaxLayer = true;
 	for (unsigned int i = 0; i < activeLayer.size(); i++)
 	{
-		if(activeLayer[i].layer == maxLayer) changeMaxLayer = false;
+		if(activeLayer[i].layer == maxLayer) 
+		{
+			changeMaxLayer = false;
+		}
 		vertices.push_back(activeLayer[i].vertex);
 	}
-	if (changeMaxLayer)	{ maxLayer--; }
+	if (changeMaxLayer)	{ maxLayer--; std::cout << "yes" << std::endl;}
+	this->size = preciseSize();
+	this->lifePoints--;
+	if(this->lifePoints <= 0)
+	{
+		Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+		this->position.y -= 10.0f; // patchy break
+		game->soundENG.Play(4, false);
+	}
 
 	this->meshes[0] = new Mesh(vertices, this->meshes[0]->indices, this->meshes[0]->textures);
 }
@@ -74,16 +86,12 @@ float Asteroid::fastSize()
 
 float Asteroid::preciseSize()
 {
-	float maxLength = -std::numeric_limits<float>::infinity();
+	float mean = 0.0f;
 	for (unsigned int i = 0; i < activeLayer.size(); i++)
 	{
-		float tmpLength = glm::length(activeLayer[i].vertex.Position);
-		if(tmpLength > maxLength)
-		{
-			maxLength = tmpLength;
-		}
+		mean += glm::length(activeLayer[i].vertex.Position);
 	}
-	return maxLength;
+	return (mean/activeLayer.size());
 }
 
 std::vector<glm::vec3> generateAsteroidsPos(unsigned int& nb, const float radius, const float min, const float max)

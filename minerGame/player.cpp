@@ -29,3 +29,35 @@ void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action
 {
 	
 }
+
+Shield::Shield(float size)
+{
+	this->size = size;
+	lifePoints = 100;
+	animation.isAnimating = false;
+}
+
+void Shield::startAnimation(GLFWwindow* window)
+{
+	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+	if(!animation.isAnimating)
+	{
+		animation.isAnimating = true;
+		animation.start = glfwGetTime();
+		game->soundENG.Play(3, false);
+	}
+}
+
+void Shield::Update(GLFWwindow* window)
+{
+	if(animation.isAnimating)
+	{
+		Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+		Draw(game->textureShader);
+		if((glfwGetTime() - animation.start) > 0.2f)
+		{
+			animation.isAnimating = false;
+			return;
+		}
+	}
+}

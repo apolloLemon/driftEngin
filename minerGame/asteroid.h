@@ -3,6 +3,7 @@
 
 #include "ENG/mesh/sphere.h"
 
+#include "ENG/objects/game.h"
 #include "ENG/objects/phyx.h"
 #include "ENG/objects/kldr.h"
 #include "ENG/objects/ctrl.h"
@@ -28,13 +29,15 @@ class Asteroid : public RenderObj, public PhyxObj2D//, public CollisionObj //Phy
 public:
 	Sphere core;
 	unsigned int maxLayer;
+	float size;
+	int lifePoints;
 	std::vector<std::vector<Vertex>> layers;
 	std::vector<AsteroidVertex> activeLayer;
 	Perlin3D perlin;
 
 	Asteroid();
 	void Generate(std::vector<Texture>* textures);
-	void Break(unsigned int indice);
+	void Break(unsigned int indice, GLFWwindow* window);
 	float fastSize();
 	float preciseSize();
 

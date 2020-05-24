@@ -18,7 +18,7 @@ Game driftgame(1280, 720, "minerGame/textures/", "minerGame/models/", "minerGame
 // GameObjects
 // ----------------
 Player * player = new Player();
-Shield * shield = new Shield();
+Shield * shield = new Shield(2.0f);
 std::vector<Asteroid*> asteroids;
 std::vector<glm::vec3> asteroidsPositions;
 unsigned int nbAsteroids = 0;
@@ -33,6 +33,7 @@ int main(int argc, char **argv)
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "bleep.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
 	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "electricshock.ogg");
+	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "asteroidBreak.ogg");
 	driftgame.soundENG.Play(0,1);
 
 	// initialize glfw and game
@@ -133,7 +134,7 @@ int main(int argc, char **argv)
 	shield->position=glm::dvec3(0.1,0,0.1);
 	shield->attach(player);
 	shield->scale = glm::vec3(2.0f);
-	shield->CreateCollider(glm::dvec3(0), 0, 1.5f);
+	shield->CreateCollider(glm::dvec3(0), 0, shield->size);
 	shield->Mass(2.0f);
 	//*
 	for (unsigned int i = 0; i < nbAsteroids; i++)
@@ -142,11 +143,10 @@ int main(int argc, char **argv)
 		glm::vec3 pos(asteroidsPositions[i]);
 
 		//std::cout << "pos: [x:" << pos.x << ", y:" << pos.y << ", z:" << pos.z << "]" << std::endl;
-		float size = asteroids[i]->preciseSize();
 		asteroids[i]->name="asteroid"+std::to_string(i);
 		asteroids[i]->MoveTo(pos);
-		asteroids[i]->CreateCollider(glm::dvec3(0), 0, size);
-		asteroids[i]->Mass(10.0f * size);
+		asteroids[i]->CreateCollider(glm::dvec3(0), 0, asteroids[i]->size * 0.9f);
+		asteroids[i]->Mass(100.0f * asteroids[i]->size);
 		asteroids[i]->YV(0.5f);
 	}
 	//*/
@@ -182,6 +182,7 @@ int main(int argc, char **argv)
 	glm::vec3 lDiffuse = lightColor * glm::vec3(0.8f);
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
 	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
+	glm::vec3 lightPos(-100.0f, 10.0f, 50.0f);
 
 	// render loop
 	// -----------
@@ -221,7 +222,7 @@ int main(int argc, char **argv)
 		driftgame.textureShader->use();
 		driftgame.textureShader->setMat4("projection", projection);
 		driftgame.textureShader->setMat4("view", view);
-		driftgame.textureShader->setVec3("light.position", glm::vec3(50.0f,0.f,0.f));
+		driftgame.textureShader->setVec3("light.position", lightPos);
 		driftgame.textureShader->setVec3("light.ambient", lAmbient);
 		driftgame.textureShader->setVec3("light.diffuse", lDiffuse);
 		driftgame.textureShader->setVec3("light.specular", lSpecular);
@@ -234,34 +235,37 @@ int main(int argc, char **argv)
 		for (unsigned int i = 0; i < nbAsteroids; i++)
 		{
 			asteroids[i]->Draw(driftgame.textureShader);
-			asteroids[i]->UpdateCollider(glm::vec3(0), 0, asteroids[i]->preciseSize(), 0);
+			asteroids[i]->UpdateCollider(glm::vec3(0), 0, asteroids[i]->size * 0.9f, 0);
 		}
 
 		std::vector<CollisionMsg*> playerCollisions = driftgame.collENG.CollisionsWith(shield, 0);
 		for (unsigned int i = 0; i < playerCollisions.size(); i++)
 		{
-			shield->Draw(driftgame.textureShader);
-			PhyxObj2D* p = dynamic_cast<PhyxObj2D *>(playerCollisions[i]->P.first);
-			PhyxObj2D* q = dynamic_cast<PhyxObj2D *>(playerCollisions[i]->Q.first);
-			if(glm::length(glm::dot(p->v, q->v) * 10000.0f)>0.3)
+			shield->startAnimation(window);
+			Asteroid* pAst = dynamic_cast<Asteroid*>(playerCollisions[i]->P.first);
+			Asteroid* qAst = dynamic_cast<Asteroid*>(playerCollisions[i]->Q.first);
+			unsigned int j = 0;
+			while (j<10)
 			{
-				driftgame.soundENG.Play(3, false);
+				int point = rand() % 122;
+				if(qAst)
+				{
+					if(qAst->maxLayer == qAst->activeLayer[point].layer)
+					{
+						qAst->Break(point, window);
+						j++;
+					}
+				}
 			}
-			Asteroid* pAst = dynamic_cast<Asteroid*>(p);
-			Asteroid* qAst = dynamic_cast<Asteroid*>(q);
-			int point = rand() % 100;
-			if(pAst) 	{ pAst->Break(point); }
-			if(qAst)	{ qAst->Break(point); }
-
-			
 		}
+		shield->Update(window);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
 		driftgame.materialShader->use();
 		driftgame.materialShader->setMat4("projection", projection);
 		driftgame.materialShader->setMat4("view", view);
-		driftgame.materialShader->setVec3("light.position", glm::vec3(0.0f));
+		driftgame.materialShader->setVec3("light.position", lightPos);
 		driftgame.materialShader->setVec3("light.ambient", lAmbient);
 		driftgame.materialShader->setVec3("light.diffuse", lDiffuse);
 		driftgame.materialShader->setVec3("light.specular", lSpecular);
