@@ -15,6 +15,8 @@
 #include "ENG/objects/ctrl.h"
 #include "ENG/objects/rndr.h"
 
+#include <locale>
+
 const float PLAYER_SPEED = 2.5f;
 
 enum Player_Movement {
@@ -36,12 +38,13 @@ public:
 	bool thrusting;
 
 	Asteroid* target;
+	int score;
 
 	Player(glm::vec3 position = glm::vec3(0.0f));
 	//void draw(Shader *shader);
 	void inputCallback(GLFWwindow* window) override;
 	void inputCallback(GLFWwindow* window, int key, int scancode, int action, int mods) override;
-	void gui(float, float);
+	void gui(GLFWwindow* window);
 
 private:
 
