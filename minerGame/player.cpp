@@ -15,10 +15,12 @@ void Player::inputCallback(GLFWwindow* window)
 	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
 	if (game->cameraMode == ORTCAM_MODE)
 	{
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)	{ AddForce(glm::vec2(Direction.x, Direction.z)); }
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)	{ rotation.y += 1.0f; }
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)	{ AddForce(-glm::vec2(Direction.x, Direction.z)); }
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)	{ rotation.y -= 1.0f; }
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)	{ AddForce(glm::dvec2(Direction.x, Direction.z)*2.); }
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)	{ rotation.y += 1.3f; }
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)	{ AddForce(-glm::dvec2(Direction.x, Direction.z)); }
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)	{ rotation.y -= 1.3f; }
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)	{ AddForce(glm::dvec2(-Direction.z, Direction.x)); }
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)	{ AddForce(glm::dvec2(Direction.z, -Direction.x)); }
 	}
 
 	Direction.x = sin(glm::radians(rotation.y));
@@ -33,8 +35,12 @@ void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action
 	{
 		if (key == GLFW_KEY_W && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
 		if (key == GLFW_KEY_S && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
+		if (key == GLFW_KEY_E && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
+		if (key == GLFW_KEY_D && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
 		if (key == GLFW_KEY_W && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 		if (key == GLFW_KEY_S && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
+		if (key == GLFW_KEY_E && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
+		if (key == GLFW_KEY_D && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 	}
 }
 
