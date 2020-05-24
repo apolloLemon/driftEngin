@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	driftgame.currentCamera = driftgame.freecam;
 	driftgame.cameraMode = FREECAM_MODE;
 
-	asteroidsPositions = generateAsteroidsPos(nbAsteroids, 10.F, -50.F, 50.F);
+	asteroidsPositions = generateAsteroidsPos(nbAsteroids, 10.F, -60.F, 60.F);
 
 	driftgame.gameobjects.push_back(driftgame.freecam);
 	driftgame.gameobjects.push_back(player);

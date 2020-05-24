@@ -33,10 +33,10 @@ void Player::inputCallback(GLFWwindow* window, int key, int scancode, int action
 	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
 	if (game->cameraMode == ORTCAM_MODE)
 	{
-		if (key == GLFW_KEY_W && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
-		if (key == GLFW_KEY_S && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
-		if (key == GLFW_KEY_E && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
-		if (key == GLFW_KEY_D && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.1f); } }
+		if (key == GLFW_KEY_W && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
+		if (key == GLFW_KEY_S && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
+		if (key == GLFW_KEY_E && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
+		if (key == GLFW_KEY_D && action == GLFW_PRESS)	{ if(!thrusting) { thrusting = true; game->soundENG.Play(5, true, 0.2f); } }
 		if (key == GLFW_KEY_W && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 		if (key == GLFW_KEY_S && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
 		if (key == GLFW_KEY_E && action == GLFW_RELEASE)	{ if(thrusting) { thrusting = false; game->soundENG.Stop(5); } }
