@@ -10,3 +10,9 @@ GameObj::GameObj(glm::vec3 wPos, glm::vec3 s): position(wPos), scale(s)
 {
 
 }
+
+void GameObj::attach(GameObj* go, glm::vec3 offset)
+{
+	this->parent = go;
+	go->children.push_back(this);
+}

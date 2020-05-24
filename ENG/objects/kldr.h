@@ -36,7 +36,7 @@ public:
 		TESTLOG("CircleCollider Created for " TAB this->parent->name);
 		scale = glm::vec3(1);
 	}
-	CircleCollider(GameObj* a,int l, int size): Collider(a,l){
+	CircleCollider(GameObj* a,int l, float size): Collider(a,l){
 		TESTLOG("CircleCollider Created for " TAB this->parent->name);
 		scale = glm::vec3(size);
 	}
@@ -46,7 +46,7 @@ class CollisionObj : virtual public GameObj {
 public:
 	std::vector<Collider *> collidersLayer(int);
 	void CreateCollider(glm::dvec3,int);
-	void CreateCollider(glm::dvec3 pos,int l, int size);
+	void CreateCollider(glm::dvec3 pos,int l, float size);
 //private:
 	std::vector<Collider *> colliders;
 };

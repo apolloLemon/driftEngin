@@ -15,6 +15,7 @@ enum of GameObj States
 class GameObj
 {
 public:
+	std::vector<GameObj*> children;
 	GameObj * parent;
 
 	std::string name;
@@ -64,6 +65,8 @@ public:
 		if(parent) out += parent->rotation; //this is probably wrongs
 		return out;
 	};
+
+	void attach(GameObj* go, glm::vec3 offset = glm::vec3(0.0f));
 //	glm::dvec3 worldScale();//should this be relative :?
 
 	// constructors

@@ -9,13 +9,13 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 {
 	core = Sphere(10, 10);
 
-	size = rand() % 5 + 1;
+	maxLayer = rand() % 5 + 1;
 
 	std::vector<Vertex> layerVertices;
 	Vertex layerVertex;
-	//perlin.gen(1, 1, 1);
+	//perlin.gen(5, 1, 1);
 	bool b=false;
-	for (unsigned int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < maxLayer; i++)
 	{
 		layerVertices = std::vector<Vertex>();
 		for (unsigned int j = 0; j < core.vertices.size(); j++)
@@ -29,14 +29,14 @@ void Asteroid::Generate(std::vector<Texture>* textures)
 		b=false;
 	}
 
-	layerVertices = layers[size-1];
+	layerVertices = layers[maxLayer-1];
 
 	this->meshes.push_back(new Mesh(layerVertices, core.indices, *textures));
 
 	AsteroidVertex astVertex;
 	for (unsigned int i = 0; i < this->meshes[0]->vertices.size(); i++)
 	{
-		astVertex.layer = size;
+		astVertex.layer = maxLayer;
 		astVertex.vertex = this->meshes[0]->vertices[i];
 		this->activeLayer.push_back(astVertex);
 	}
@@ -47,12 +47,12 @@ void Asteroid::Break(unsigned int indice)
 	if (activeLayer[indice].layer - 1 > 0)
 		activeLayer[indice].layer--;
 
-	unsigned int size = activeLayer[indice].layer;
-	//std::cout << size << std::endl;
+	unsigned int maxLayer = activeLayer[indice].layer;
+	//std::cout << maxLayer << std::endl;
 
 	//std::cout << "Before: [x:" << activeLayer[indice].vertex.Position.x << ", y:" << activeLayer[indice].vertex.Position.y << ", z:" << activeLayer[indice].vertex.Position.z << "]" << std::endl;
-	activeLayer[indice].vertex = this->layers[size-1][indice];
-	//std::cout << "After: [x:" << this->layers[size-1][indice].Position.x << ", y:" << this->layers[size-1][indice].Position.y << ", z:" << this->layers[size-1][indice].Position.z << "]" << std::endl;
+	activeLayer[indice].vertex = this->layers[maxLayer-1][indice];
+	//std::cout << "After: [x:" << this->layers[maxLayer-1][indice].Position.x << ", y:" << this->layers[maxLayer-1][indice].Position.y << ", z:" << this->layers[maxLayer-1][indice].Position.z << "]" << std::endl;
 
 	std::vector<Vertex> vertices;
 	for (unsigned int i = 0; i < activeLayer.size(); i++)
@@ -61,6 +61,12 @@ void Asteroid::Break(unsigned int indice)
 	}
 
 	this->meshes[0] = new Mesh(vertices, this->meshes[0]->indices, this->meshes[0]->textures);
+}
+
+float Asteroid::size()
+{
+	int point = rand() % this->activeLayer.size();
+	return glm::length(activeLayer[point].vertex.Position);
 }
 
 std::vector<glm::vec3> generateAsteroidsPos(unsigned int& nb, const float radius, const float min, const float max)

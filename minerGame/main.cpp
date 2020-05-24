@@ -18,6 +18,7 @@ Game driftgame(1280, 720, "minerGame/textures/", "minerGame/models/", "minerGame
 // GameObjects
 // ----------------
 Player * player = new Player();
+Shield * shield = new Shield();
 std::vector<Asteroid*> asteroids;
 std::vector<glm::vec3> asteroidsPositions;
 unsigned int nbAsteroids = 0;
@@ -43,6 +44,7 @@ int main(int argc, char **argv)
 
 	driftgame.gameobjects.push_back(driftgame.freecam);
 	driftgame.gameobjects.push_back(player);
+	driftgame.gameobjects.push_back(shield);
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
 		asteroids.push_back(new Asteroid());
@@ -79,6 +81,11 @@ int main(int argc, char **argv)
 	tMoon.type = "texture_diffuse";
 	tMoon.path = "moon/moon.jpg";
 
+	Texture tShield;
+	tShield.id = TextureFromFile("shield.jpg", driftgame.texturesPath);
+	tShield.type = "texture_diffuse";
+	tShield.path = "shield.jpg";
+
 	// creating texture vectors
 	// ------------------------
 /*	std::vector<Texture> sunTextures;
@@ -89,6 +96,9 @@ int main(int argc, char **argv)
 
 	std::vector<Texture> moonTextures;
 	moonTextures.push_back(tMoon);
+
+	std::vector<Texture> shieldTextures;
+	shieldTextures.push_back(tShield);
 /*
 	std::vector<Texture> squareTextures;
 	squareTextures.push_back(tSquare);
@@ -101,6 +111,8 @@ int main(int argc, char **argv)
 //	planet->meshes.push_back(new Sphere(50,50,moonTextures));
 	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
 
+	shield->meshes.push_back(new Sphere(50, 50, shieldTextures));
+
 //	A->meshes.push_back(new Sphere(50,50,squareTextures));
 //	B->meshes.push_back(new Sphere(50,50,squareTextures));
 //	C->meshes.push_back(new Sphere(50,50,squareTextures));
@@ -111,20 +123,26 @@ int main(int argc, char **argv)
 	player->name="player";
 	player->scale = glm::vec3(0.001f);
 	player->MoveTo(glm::vec2(-5.0f, -5.0f));
-	player->CreateCollider(glm::dvec3(0), 0);
+	//player->CreateCollider(glm::dvec3(0), 0);
 	player->XV(0);
 	player->YV(0);
 	player->Mass(2.0f);
 	//*/
+	shield->name="shield";
+	shield->attach(player);
+	shield->scale = glm::vec3(2.0f);
+	shield->CreateCollider(glm::dvec3(0), 0, 2);
+	shield->Mass(2.0f);
 	//*
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
 		asteroids[i]->Generate(&moonTextures);
 		glm::vec3 pos(asteroidsPositions[i]);
 
-		std::cout << "pos: [x:" << pos.x << ", y:" << pos.y << ", z:" << pos.z << "]" << std::endl;
+		//std::cout << "pos: [x:" << pos.x << ", y:" << pos.y << ", z:" << pos.z << "]" << std::endl;
+		asteroids[i]->name="asteroid"+std::to_string(i);
 		asteroids[i]->MoveTo(pos);
-		asteroids[i]->CreateCollider(glm::dvec3(0), 0, asteroids[i]->size);
+		asteroids[i]->CreateCollider(glm::dvec3(0), 0, asteroids[i]->size());
 		asteroids[i]->Mass(1.0f);
 		asteroids[i]->YV(0.5f);
 	}
@@ -214,6 +232,7 @@ int main(int argc, char **argv)
 		{
 			asteroids[i]->Draw(driftgame.textureShader);
 		}
+		shield->Draw(driftgame.textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
@@ -239,7 +258,7 @@ int main(int argc, char **argv)
 		skyboxMesh.Draw(driftgame.skyboxShader);
 		glDepthFunc(GL_LESS);
 
-		//driftgame.displayImGui();
+		driftgame.phyxGui();
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

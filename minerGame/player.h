@@ -41,4 +41,10 @@ private:
 
 };
 
+class Shield : public PhyxObj2D, public RenderObj
+{
+public:
+	int size;
+};
+
 #endif

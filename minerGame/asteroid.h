@@ -26,7 +26,7 @@ class Asteroid : public RenderObj, public PhyxObj2D//, public CollisionObj //Phy
 {
 public:
 	Sphere core;
-	unsigned int size;
+	unsigned int maxLayer;
 	std::vector<std::vector<Vertex>> layers;
 	std::vector<AsteroidVertex> activeLayer;
 	Perlin3D perlin;
@@ -34,6 +34,7 @@ public:
 	Asteroid();
 	void Generate(std::vector<Texture>* textures);
 	void Break(unsigned int indice);
+	float size();
 
 };
 

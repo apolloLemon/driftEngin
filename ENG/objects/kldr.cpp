@@ -18,7 +18,7 @@ void CollisionObj::CreateCollider(glm::dvec3 pos,int l){
 	colliders.push_back(in);
 }
 
-void CollisionObj::CreateCollider(glm::dvec3 pos,int l, int size){
+void CollisionObj::CreateCollider(glm::dvec3 pos,int l, float size){
 	Collider *in = new CircleCollider(this,l, size);
 	in->position = pos;
 	colliders.push_back(in);
