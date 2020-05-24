@@ -59,7 +59,17 @@ void Player::gui(GLFWwindow* window)
 	
 	ImGui::Text("Position:");
 	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->worldPosition().x, this->worldPosition().y, this->worldPosition().z);
-	ImGui::Text("\n");
+
+	ImGui::End();
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	ImGui::SetNextWindowPos(ImVec2(game->screenWidth/100.0f*50.0f, game->screenHeight/100.0f*5.0f), ImGuiCond_Always, ImVec2(0.5, 0.5));
+	
+	ImGui::Begin("Score", 0, window_flags);
+	
+	ImGui::SetWindowFontScale(1.5f);
 	ImGui::Text(("Score: " + ss.str()).c_str());	
 
 	ImGui::End();
