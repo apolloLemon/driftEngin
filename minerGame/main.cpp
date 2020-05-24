@@ -188,7 +188,6 @@ int main(int argc, char **argv)
 		{
 			shield->startAnimation(window);
 			Asteroid* qAst = dynamic_cast<Asteroid*>(playerCollisions[i]->Q.first);
-			if(qAst) { player->target = qAst; if(qAst->lifePoints == 0) { player->target=nullptr; }}
 			unsigned int j = 0;
 			while (j<10)
 			{
@@ -201,6 +200,11 @@ int main(int argc, char **argv)
 						j++;
 					}
 				}
+			}
+			if(qAst)
+			{
+				player->target = qAst;
+				if(player->target->lifePoints <= 0)	{ player->target=nullptr; }
 			}
 		}
 		shield->Update(window);
