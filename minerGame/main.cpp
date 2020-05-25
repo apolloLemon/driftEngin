@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-Game driftgame(1280, 720, "minerGame/textures/", "minerGame/models/", "minerGame/sounds/");
+Game miningGame(1280, 720, "minerGame/textures/", "minerGame/models/", "minerGame/sounds/");
 // GameObjects
 // ----------------
 Player * player = new Player();
@@ -27,35 +27,35 @@ int main(int argc, char **argv)
 {
 	srand(time(NULL));
 
-	driftgame.phyxENG.gravitymode = None;
+	miningGame.phyxENG.gravitymode = None;
 
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "track0.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "bleep.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "electricshock.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "asteroidBreak.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "thruster.ogg");
-	driftgame.soundENG.Play(0,1);
+	miningGame.soundENG.soundFiles.push_back(miningGame.soundsPath + "track0.ogg");
+	miningGame.soundENG.soundFiles.push_back(miningGame.soundsPath + "bleep.ogg");
+	miningGame.soundENG.soundFiles.push_back(miningGame.soundsPath + "solid.ogg");
+	miningGame.soundENG.soundFiles.push_back(miningGame.soundsPath + "electricshock.ogg");
+	miningGame.soundENG.soundFiles.push_back(miningGame.soundsPath + "asteroidBreak.ogg");
+	miningGame.soundENG.soundFiles.push_back(miningGame.soundsPath + "thruster.ogg");
+	miningGame.soundENG.Play(0,1);
 
 	// initialize glfw and game
 	// ------------------------
-	driftgame.freecam = new Freecam(glm::vec3(0.0f, 7.0f, 10.0f));
-	driftgame.currentCamera = driftgame.freecam;
-	driftgame.cameraMode = FREECAM_MODE;
+	miningGame.freecam = new Freecam(glm::vec3(0.0f, 7.0f, 10.0f));
+	miningGame.currentCamera = miningGame.freecam;
+	miningGame.cameraMode = FREECAM_MODE;
 
 	asteroidsPositions = generateAsteroidsPos(nbAsteroids, 10.F, -60.F, 60.F);
 
-	driftgame.gameobjects.push_back(driftgame.freecam);
-	driftgame.gameobjects.push_back(player);
-	driftgame.gameobjects.push_back(shield);
+	miningGame.gameobjects.push_back(miningGame.freecam);
+	miningGame.gameobjects.push_back(player);
+	miningGame.gameobjects.push_back(shield);
 	for (unsigned int i = 0; i < nbAsteroids; i++)
 	{
 		asteroids.push_back(new Asteroid());
-		driftgame.gameobjects.push_back(asteroids[i]);
+		miningGame.gameobjects.push_back(asteroids[i]);
 	}
 
 
-	GLFWwindow* window = driftgame.Initialize();
+	GLFWwindow* window = miningGame.Initialize();
 
 	// creating our skybox
 	// -------------------
@@ -69,22 +69,22 @@ int main(int argc, char **argv)
 		"skybox/back.png"
 	};
 	Texture tSkybox;
-	tSkybox.id = loadCubemap(faces, driftgame.texturesPath);
+	tSkybox.id = loadCubemap(faces, miningGame.texturesPath);
 	tSkybox.type = "texture_skybox";
 	tSkybox.path = "skybox";
 
 	Texture tSquare;
-	tSquare.id = TextureFromFile("square/square.png", driftgame.texturesPath);
+	tSquare.id = TextureFromFile("square/square.png", miningGame.texturesPath);
 	tSquare.type = "texture_diffuse";
 	tSquare.path = "square/square.png";
 
 	Texture tMoon;
-	tMoon.id = TextureFromFile("moon/moon.jpg", driftgame.texturesPath);
+	tMoon.id = TextureFromFile("moon/moon.jpg", miningGame.texturesPath);
 	tMoon.type = "texture_diffuse";
 	tMoon.path = "moon/moon.jpg";
 
 	Texture tShield;
-	tShield.id = TextureFromFile("shield.jpg", driftgame.texturesPath);
+	tShield.id = TextureFromFile("shield.jpg", miningGame.texturesPath);
 	tShield.type = "texture_diffuse";
 	tShield.path = "shield.jpg";
 
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 	// ------------------
 	Cube skyboxMesh(skyboxTextures);
 
-	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
+	player->loadModel(miningGame.modelsPath + "ship/V1.obj");
 	shield->meshes.push_back(new Sphere(50, 50, shieldTextures));
 
 	// initializing the player
@@ -147,43 +147,43 @@ int main(int argc, char **argv)
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		driftgame.collENG.Update();
-		driftgame.inputENG.Update(window);
-		driftgame.phyxENG.Update();
+		miningGame.collENG.Update();
+		miningGame.inputENG.Update(window);
+		miningGame.phyxENG.Update();
 
 		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(driftgame.currentCamera->Zoom), (float)driftgame.screenWidth / (float)driftgame.screenHeight, 0.1f, 100.0f);
-		glm::mat4 view = driftgame.currentCamera->GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(miningGame.currentCamera->Zoom), (float)miningGame.screenWidth / (float)miningGame.screenHeight, 0.1f, 100.0f);
+		glm::mat4 view = miningGame.currentCamera->GetViewMatrix();
 
 
 		// configuring the light source shader and meshes
 		// ----------------------------------------------
-		driftgame.lightSourceShader->use();
-		driftgame.lightSourceShader->setMat4("projection", projection);
-		driftgame.lightSourceShader->setMat4("view", view);
+		miningGame.lightSourceShader->use();
+		miningGame.lightSourceShader->setMat4("projection", projection);
+		miningGame.lightSourceShader->setMat4("view", view);
 
 		// configuring the texture shader and meshes
 		// -----------------------------------------
-		driftgame.textureShader->use();
-		driftgame.textureShader->setMat4("projection", projection);
-		driftgame.textureShader->setMat4("view", view);
-		driftgame.textureShader->setVec3("light.position", lightPos);
-		driftgame.textureShader->setVec3("light.ambient", lAmbient);
-		driftgame.textureShader->setVec3("light.diffuse", lDiffuse);
-		driftgame.textureShader->setVec3("light.specular", lSpecular);
-		driftgame.textureShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
+		miningGame.textureShader->use();
+		miningGame.textureShader->setMat4("projection", projection);
+		miningGame.textureShader->setMat4("view", view);
+		miningGame.textureShader->setVec3("light.position", lightPos);
+		miningGame.textureShader->setVec3("light.ambient", lAmbient);
+		miningGame.textureShader->setVec3("light.diffuse", lDiffuse);
+		miningGame.textureShader->setVec3("light.specular", lSpecular);
+		miningGame.textureShader->setVec3("viewPos", miningGame.currentCamera->worldPosition());
 
 		for (unsigned int i = 0; i < nbAsteroids; i++)
 		{
-			asteroids[i]->Draw(driftgame.textureShader);
+			asteroids[i]->Draw(miningGame.textureShader);
 			asteroids[i]->UpdateCollider(glm::vec3(0), 0, asteroids[i]->size * 0.9f, 0);
 		}
 
-		std::vector<CollisionMsg*> playerCollisions = driftgame.collENG.CollisionsWith(shield, 0);
+		std::vector<CollisionMsg*> playerCollisions = miningGame.collENG.CollisionsWith(shield, 0);
 		for (unsigned int i = 0; i < playerCollisions.size(); i++)
 		{
 			shield->startAnimation(window);
@@ -212,26 +212,26 @@ int main(int argc, char **argv)
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
-		driftgame.materialShader->use();
-		driftgame.materialShader->setMat4("projection", projection);
-		driftgame.materialShader->setMat4("view", view);
-		driftgame.materialShader->setVec3("light.position", lightPos);
-		driftgame.materialShader->setVec3("light.ambient", lAmbient);
-		driftgame.materialShader->setVec3("light.diffuse", lDiffuse);
-		driftgame.materialShader->setVec3("light.specular", lSpecular);
-		driftgame.materialShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
+		miningGame.materialShader->use();
+		miningGame.materialShader->setMat4("projection", projection);
+		miningGame.materialShader->setMat4("view", view);
+		miningGame.materialShader->setVec3("light.position", lightPos);
+		miningGame.materialShader->setVec3("light.ambient", lAmbient);
+		miningGame.materialShader->setVec3("light.diffuse", lDiffuse);
+		miningGame.materialShader->setVec3("light.specular", lSpecular);
+		miningGame.materialShader->setVec3("viewPos", miningGame.currentCamera->worldPosition());
 
-		player->Draw(driftgame.materialShader);
+		player->Draw(miningGame.materialShader);
 		player->camera.updateCameraVectors(player->worldPosition());
 
 		// draw skybox at last
 		// -------------------
 		glDepthFunc(GL_LEQUAL);
-		driftgame.skyboxShader->use();
-		view = glm::mat4(glm::mat3(driftgame.currentCamera->GetViewMatrix()));
-		driftgame.skyboxShader->setMat4("view", view);
-		driftgame.skyboxShader->setMat4("projection", projection);
-		skyboxMesh.Draw(driftgame.skyboxShader);
+		miningGame.skyboxShader->use();
+		view = glm::mat4(glm::mat3(miningGame.currentCamera->GetViewMatrix()));
+		miningGame.skyboxShader->setMat4("view", view);
+		miningGame.skyboxShader->setMat4("projection", projection);
+		skyboxMesh.Draw(miningGame.skyboxShader);
 		glDepthFunc(GL_LESS);
 
 		// ImGui displaying
@@ -240,11 +240,20 @@ int main(int argc, char **argv)
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		player->gui(window);
-		if(player->target)
-			player->target->gui(window);
-		if(shield->animation.isAnimating)
-			shield->gui(window);
+		if (miningGame.cameraMode == ORTCAM_MODE)
+		{
+			player->gui(window);
+			if(player->target)
+				player->target->gui(window);
+			if(shield->animation.isAnimating)
+				shield->gui(window);
+		}
+		else
+		{
+			Freecam* gamecam = static_cast<Freecam*>(miningGame.currentCamera);
+			gamecam->gui(window);
+		}
+		
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());	
@@ -256,7 +265,7 @@ int main(int argc, char **argv)
 		glfwPollEvents();
 	}
 
-	driftgame.Terminate();
+	miningGame.Terminate();
 
 	// glfw: terminate, clearing all previously allocated GLFW resources
 	// -----------------------------------------------------------------

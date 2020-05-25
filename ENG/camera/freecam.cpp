@@ -63,3 +63,28 @@ void Freecam::updateCameraVectors()
 	Right 	= glm::normalize(glm::cross(Front, WorldUp));
 	Up 		= glm::normalize(glm::cross(Right, Front));
 }
+
+void Freecam::gui(GLFWwindow* window)
+{
+	Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
+	ImGui::SetNextWindowPos(ImVec2(game->screenWidth/100.0f*90.0f, game->screenHeight/100.0f*20.0f), ImGuiCond_Always, ImVec2(0.5, 0.5));
+	
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	ImGui::Begin("Inputs", 0, window_flags);
+	
+	ImGui::Text("Inputs: ");
+	ImGui::Text("\tZ: Move Forward");
+	ImGui::Text("\tS: Move Backward");
+	ImGui::Text("\tQ: Move Left");
+	ImGui::Text("\tD: Move Right");
+	ImGui::Text("\tR: Move Up");
+	ImGui::Text("\tF: Move Down");
+	ImGui::Text("\n");
+	ImGui::Text("\tMouse movement: Rotate");
+	ImGui::Text("\tMouse scroll: Zoom");
+	ImGui::Text("\tN: Switch camera");
+
+	ImGui::End();
+}

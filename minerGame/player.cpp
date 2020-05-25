@@ -73,6 +73,23 @@ void Player::gui(GLFWwindow* window)
 	ImGui::Text(("Score: " + ss.str()).c_str());	
 
 	ImGui::End();
+
+	ImGui::SetNextWindowPos(ImVec2(game->screenWidth/100.0f*90.0f, game->screenHeight/100.0f*20.0f), ImGuiCond_Always, ImVec2(0.5, 0.5));
+	
+	ImGui::Begin("Inputs", 0, window_flags);
+	
+	ImGui::Text("Inputs: ");
+	ImGui::Text("\tZ: Move Forward");
+	ImGui::Text("\tS: Move Backward");
+	ImGui::Text("\tQ: Rotate Left");
+	ImGui::Text("\tD: Rotate Right");
+	ImGui::Text("\tA: Move Left");
+	ImGui::Text("\tE: Move Right");
+	ImGui::Text("\n");
+	ImGui::Text("\tMouse scroll: Zoom");
+	ImGui::Text("\tN: Switch camera");
+
+	ImGui::End();
 }
 
 Shield::Shield(float size)
