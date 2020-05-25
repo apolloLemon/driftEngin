@@ -9,7 +9,6 @@
 
 //drift
 #include "player.h"
-#include "simplebody.h"
 #include "minerGame/asteroid.h"
 
 #include <iostream>
