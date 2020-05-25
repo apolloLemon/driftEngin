@@ -59,6 +59,9 @@ void Player::gui(GLFWwindow* window)
 	
 	ImGui::Text("Position:");
 	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->worldPosition().x, this->worldPosition().y, this->worldPosition().z);
+	ImGui::Text("Direction:");
+	ImGui::Text("\tX:%.2f Y:%.2f Z:%.2f", this->Direction.x, this->Direction.y, this->Direction.z);
+
 
 	ImGui::End();
 

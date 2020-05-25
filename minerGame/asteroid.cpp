@@ -68,7 +68,7 @@ void Asteroid::Break(unsigned int indice, GLFWwindow* window)
 	if(this->lifePoints <= 0)
 	{
 		Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
-		this->position.y -= 10.0f; // patchy break
+		this->position.y -= 1000.0f; // patchy break
 		game->soundENG.Play(4, false);
 	}
 

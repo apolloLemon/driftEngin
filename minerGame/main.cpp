@@ -140,7 +140,9 @@ int main(int argc, char **argv)
 	glm::vec3 lDiffuse = lightColor * glm::vec3(0.8f);
 	glm::vec3 lAmbient = lDiffuse * glm::vec3(0.2f);
 	glm::vec3 lSpecular(1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos(-100.0f, 10.0f, 50.0f);
+	glm::vec3 lightPos(100.0f, 10.0f, 100.0f);
+	lightPos.x *= -0.64f;
+	lightPos.z *= -0.77f;
 
 	// render loop
 	// -----------
