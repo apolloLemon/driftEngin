@@ -95,6 +95,8 @@ void Player::gui(GLFWwindow* window)
 	ImGui::Text("\n");
 	ImGui::Text("\tMouse scroll: Zoom");
 	ImGui::Text("\tN: Switch camera");
+	ImGui::Text("\n");
+	ImGui::Text("\tECHAP: Exit game");
 	ImGui::End();
 }
 
