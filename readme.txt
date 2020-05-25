@@ -8,6 +8,7 @@ How to get DriftEngine working:
 
 2) Clone this repository wherever you want on your machine :
 	git clone https://github.com/apolloLemon/driftEngin
+or download Release Version https://github.com/apolloLemon/driftEngin/releases and unzip
 
 3) Download and move last assimp version :
 	wget https://github.com/assimp/assimp/archive/v5.0.1.zip
@@ -15,6 +16,7 @@ How to get DriftEngine working:
 	mv assimp-5.0.1/ driftEngin/ENG/includes/assimp/
 
 4) Compile the project :
+	cp driftEngin/GameName/CMakeLists.txt driftEngin/cmake/
 	cd driftEngin/cmake/
 	cmake .
 	make
