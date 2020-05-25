@@ -25,5 +25,5 @@ How to get DriftEngine working:
 
 Informations about cmake
 ------------------------
-The compiled game is selected in the cmake, you have to add your gameobjects source files to the CMakeLists.txt
-You can add them after "# gameobjects" at Line 14, don't forget to replace the old game's ones.
+Each game has its own CMakeLists.txt
+When you want to compile a game, just copy the gamename/CMakeLists.txt into the cmake/ folder, then compile with 'cmake .' and 'make'

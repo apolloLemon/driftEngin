@@ -55,4 +55,4 @@ add_executable(${PROJECT_NAME}.exe ${SOURCES})
 target_include_directories(${PROJECT_NAME}.exe PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 17)
 
-TARGET_LINK_LIBRARIES(driftEngine.exe assimp -lglfw -lGL -lX11 -lXrandr -ldl -lm -L"/usr/lib" "${INC_DIR}/IrrKlang/libIrrKlang.so" -lpthread)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}.exe assimp -lglfw -lGL -lX11 -lXrandr -ldl -lm -L"/usr/lib" "${INC_DIR}/IrrKlang/libIrrKlang.so" -lpthread)
