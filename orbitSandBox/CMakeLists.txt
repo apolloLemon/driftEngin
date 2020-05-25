@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(driftEngine)
+set(GAME_NAME "orbitSandBox")
+
+project(${GAME_NAME})
 
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
 set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
-			"${SRC_DIR}/orbitSandBox/main.cpp"
+			"${SRC_DIR}/${GAME_NAME}/main.cpp"
 			
 			"${SRC_DIR}/drift/player.cpp"
 			"${SRC_DIR}/drift/simplebody.cpp"
