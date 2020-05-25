@@ -14,6 +14,7 @@
 
 //drift
 #include "drift/player.h"
+#include "drift/asteroid.h"
 
 //orbitgame
 #include "CelestialBody.h"
@@ -110,8 +111,12 @@ int main(int argc, char **argv)
 	Cube skyboxMesh(skyboxTextures);
 	
 	planet->meshes.push_back(new Sphere(50,50,moonTextures));
+<<<<<<< HEAD
 	planet2->meshes.push_back(new Sphere(50,50,moonTextures));
 	player->loadModel(orbitgame.modelsPath + "ship/V1.obj");
+=======
+	planet2->Generate(moonTextures);
+>>>>>>> perlinAsteroid
 /*
 	for (unsigned int i = 0; i < sunMesh.vertices.size(); i++)
 	{
@@ -130,7 +135,7 @@ int main(int argc, char **argv)
 	player->YV(2); // starting velocity
 	player->Mass(1.f);
 	player->collider.Dim(1);
-	player->orbiting = planet;
+	player->orbiting;// = planet;
 	player->name="stan";
 
 	planet->worldPosition = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -142,9 +147,9 @@ int main(int argc, char **argv)
 	planet2->Init();
 	planet2->YV(2);
 	planet2->Mass(1.f);
-	planet2->scale = glm::vec3(2);
+	planet2->scale = glm::vec3(3);
 	planet2->collider.Dim(2);
-	planet2->orbiting = planet;
+	planet2->orbiting;// = planet;
 	planet2->name="nats";
 
 	// lighting options

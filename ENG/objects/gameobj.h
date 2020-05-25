@@ -3,17 +3,23 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/gtc/matrix_transform.hpp"
-
-/*
-enum of GameObj States
-*/
+#if 1
+	#include <iostream>
+	#define TAB <<"\t"<<
+	#define TESTLOG(X) std::cout << X << std::endl
+#else
+	#define TAB 
+	#define TESTLOG(X)
+#endif
 
 class GameObj
 {
 public:
+	std::vector<GameObj*> children;
 	GameObj * parent;
 
 	std::string name;
@@ -63,6 +69,8 @@ public:
 		if(parent) out += parent->rotation; //this is probably wrongs
 		return out;
 	};
+
+	void attach(GameObj* go, glm::vec3 offset = glm::vec3(0.0f));
 //	glm::dvec3 worldScale();//should this be relative :?
 
 	// constructors

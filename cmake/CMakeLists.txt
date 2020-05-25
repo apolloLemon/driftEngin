@@ -5,9 +5,9 @@ project(driftEngine)
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
 set(INC_DIR "${SRC_DIR}/ENG/includes")
 set(SOURCES
-			"${SRC_DIR}/drift/main.cpp"
-			"${SRC_DIR}/drift/player.cpp"
-			"${SRC_DIR}/drift/asteroid.cpp"
+			"${SRC_DIR}/minerGame/main.cpp"
+			"${SRC_DIR}/minerGame/player.cpp"
+			"${SRC_DIR}/minerGame/asteroid.cpp"
 
 			"${SRC_DIR}/ENG/shaders/shader.cpp"
 			
@@ -18,6 +18,7 @@ set(SOURCES
 			"${SRC_DIR}/ENG/objects/ctrl.cpp"
 			"${SRC_DIR}/ENG/objects/rndr.cpp"
 			"${SRC_DIR}/ENG/objects/sound.cpp"
+			"${SRC_DIR}/ENG/objects/perlin.cpp"
 
 			"${SRC_DIR}/ENG/camera/camera.cpp"
 			"${SRC_DIR}/ENG/camera/freecam.cpp"
@@ -45,8 +46,10 @@ set(SOURCES
 
 add_subdirectory(${INC_DIR}/assimp assimp)
 
+add_definitions(-DPWD="${SRC_DIR}")
+
 add_executable(${PROJECT_NAME}.exe ${SOURCES})
 target_include_directories(${PROJECT_NAME}.exe PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME}.exe PROPERTY CXX_STANDARD 17)
 
-TARGET_LINK_LIBRARIES(driftEngine.exe assimp -lglfw -lGL -lX11 -lXrandr -lXi -ldl -lGLU -lglut -lm -L"/usr/lib" "${INC_DIR}/IrrKlang/libIrrKlang.so" -lpthread)
+TARGET_LINK_LIBRARIES(driftEngine.exe assimp -lglfw -lGL -lX11 -lXrandr -ldl -lm -L"/usr/lib" "${INC_DIR}/IrrKlang/libIrrKlang.so" -lpthread)
