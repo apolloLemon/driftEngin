@@ -7,10 +7,14 @@
 
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/gtc/matrix_transform.hpp"
-
-/*
-enum of GameObj States
-*/
+#if 1
+	#include <iostream>
+	#define TAB <<"\t"<<
+	#define TESTLOG(X) std::cout << X << std::endl
+#else
+	#define TAB 
+	#define TESTLOG(X)
+#endif
 
 class GameObj
 {

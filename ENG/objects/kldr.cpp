@@ -42,13 +42,13 @@ void CollisionENG::Init(std::vector<GameObj*>* gameobjects){
 }
 
 void CollisionENG::Update(){
-//	TESTLOG("0 Update");
+//	TESTLOG("CollisionENG::Update");
 	CheckCollisions();//Generate Events //in update
 	CleanEvents();
 }
 
 void CollisionENG::CheckCollisions(){
-//	TESTLOG("1 CheckCollisions");
+//	TESTLOG("CollisionENG::CheckCollisions");
 	for(int i=0;i<managed.size();i++){
 			CollisionObj * p = managed[i];
 		for(int j=i+1;j<managed.size();j++){ //this kind of loop allows us to only check a couple once
@@ -62,7 +62,7 @@ void CollisionENG::CheckCollisions(){
 }
 
 void CollisionENG::CleanEvents(){
-//	TESTLOG("2 CleanEvents");
+//	TESTLOG("CollisionENG::CleanEvents");
 	for(auto& e : events)
 		if(e->life<=0){
 			delete e;
@@ -85,7 +85,7 @@ CollisionMsg * CollisionENG::Collision(CollisionObj* p,CollisionObj* q,int l){
 		for(auto& qc : qcs){
 			tests++;
 			if(ColliderCollision(pc,qc)){
-				TESTLOG("12 Collision Detected" TAB p->name TAB q->name TAB l);
+				TESTLOG("CollisionENG::Collision " TAB p->name TAB q->name TAB l);
 				return new CollisionMsg(std::make_pair(p,pc),std::make_pair(q,qc),l);
 			}
 		} 
@@ -120,7 +120,6 @@ bool CollisionENG::ColliderCollision(Collider * A,Collider * B){
 	CircleCollider *Ac = dynamic_cast<CircleCollider *>(A);
 	CircleCollider *Bc = dynamic_cast<CircleCollider *>(B);
 	if(Ac&&Bc) {
-		//TESTLOG("112 CircleCollider Collision Type Detected");
 		return CircleCollision(Ac,Bc);}
 	return false;
 }

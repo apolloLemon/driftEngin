@@ -15,7 +15,7 @@ void PhyxENG::Init(std::vector<GameObj*>* gameobjects, CollisionENG *ce,SoundENG
 }
 
 void PhyxENG::Update(){
-//	TESTLOG("PhyxUpdate");
+//	TESTLOG("PhyxENG::Update");
 	auto tn = std::chrono::steady_clock::now();
 	std::chrono::duration<double, std::milli> d = tn - t;
 	double dd = (d.count()/1000)*timescale;
@@ -39,9 +39,11 @@ void PhyxENG::Update(){
 			glm::dvec2 g = PhyxENG::Gravity2D(p,q);
 			if(p->parent==nullptr){
 			if(gravitymode == Everything){
+				TESTLOG("PhyxENG::Update Gravity Between" TAB p->name TAB q->name TAB glm::length(g));
 				if(!p->isKinematic()) p->AddForce(g);
 				if(!q->isKinematic()) q->AddForce(-g);
 			} else if(gravitymode == Orbiting){
+				TESTLOG("PhyxENG::Update Gravity Between" TAB p->name TAB q->name TAB glm::length(g));
 				if(p->Orbiting(q) && !p->isKinematic()) p->AddForce(g);
 				if(q->Orbiting(p) && !q->isKinematic()) q->AddForce(-g);
 			} else if (gravitymode == Directional){
@@ -51,6 +53,7 @@ void PhyxENG::Update(){
 
 			CollisionMsg * pqData = collisionENG->CollisionBetween(p,q,PHYX_LAYER);
 			if(pqData && clipping){
+				TESTLOG("PhyxENG::Update collision detected" TAB p->name TAB q->name);
 				cols++;
 				if(soundENG && glm::length(glm::dot(p->v,q->v))>0.1){
 						soundENG->Play(2, false);
@@ -58,6 +61,7 @@ void PhyxENG::Update(){
 //				if(!p->isKinematic()) p->AddForce(-g);
 //				if(!q->isKinematic()) q->AddForce(g);
 //				if(p->orbiting = q) p->AddForce(-g);
+				TESTLOG("p mass:" TAB p->Mass() TAB "q mass" TAB q->Mass() TAB p->Mass()-q->Mass());
 				TESTLOG("p speed:" TAB p->Speed() TAB "q speed" TAB q->Speed() TAB glm::dot(p->V(),q->V()));
 				StaticResolution(p,pqData->P.second, q,pqData->Q.second);
 				DynamicResolution(p,pqData->P.second, q,pqData->Q.second);
@@ -73,6 +77,7 @@ void PhyxENG::Update(){
 }
 
 void PhyxENG::StaticResolution(Collider *p,Collider *q){
+//	TESTLOG("PhyxENG::StaticResolution");
 	glm::dvec2 p2q = p->worldPosition2D() - q->worldPosition2D();
 	glm::dvec2 nor = glm::normalize(p2q);
 
@@ -90,6 +95,7 @@ void PhyxENG::StaticResolution(Collider *p,Collider *q){
 
 }
 void PhyxENG::StaticResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
+	TESTLOG("PhyxENG::StaticResolution" TAB p->name TAB q->name);
 	glm::dvec2 p2q = pc->worldPosition2D() - qc->worldPosition2D();
 	glm::dvec2 nor = glm::normalize(p2q);
 	double p2qMassRatio = p->mass / (p->mass+q->mass);
@@ -100,7 +106,7 @@ void PhyxENG::StaticResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider
 	if(pcc&&qcc){
 		double overlap = ((pcc->Dim() + qcc->Dim())-glm::length(p2q))*1.01;
 		if(!p->isKinematic() && !q->isKinematic()){
-			TESTLOG("normal collision");
+//			TESTLOG("normal collision");
 			p->Move(nor * overlap * q2pMassRatio);
 			q->Move(nor*-1. * overlap * p2qMassRatio);
 		}
@@ -121,17 +127,20 @@ void PhyxENG::StaticResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider
 }
 
 void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collider *qc){
+	TESTLOG("PhyxENG::DynamicResolution" TAB p->name TAB q->name);
 	glm::dvec2 p2q = pc->worldPosition2D() - qc->worldPosition2D();
 	glm::dvec2 nor = glm::normalize(p2q);
-//	TESTLOG("pc(x,y)->" TAB pc->worldPosition2D().x TAB pc->worldPosition2D().y);
-//	TESTLOG("qc(x,y)->" TAB qc->worldPosition2D().x TAB qc->worldPosition2D().y);
-//	TESTLOG("nor(x,y)->" TAB nor.x TAB nor.y);
+	TESTLOG(p->name<<"Collider(x,y)" TAB pc->worldPosition2D().x TAB pc->worldPosition2D().y);
+	TESTLOG(q->name<<"Collider(x,y)" TAB qc->worldPosition2D().x TAB qc->worldPosition2D().y);
+	TESTLOG("Collision Normal (x,y)->" TAB nor.x TAB nor.y);
 
 
 	CircleCollider *pcc = dynamic_cast<CircleCollider *>(pc);
 	CircleCollider *qcc = dynamic_cast<CircleCollider *>(qc);
 	if(pcc&&qcc){
+		TESTLOG("Circle Resolution");
 		glm::dvec2 tan = glm::vec2(nor.y*-1.,nor.x);
+		TESTLOG("Collision Tangent (x,y)->" TAB tan.x TAB tan.y);
 //		if(!p->isKinematic() && !q->isKinematic()){
 			
 			double pdottan = glm::dot(p->V(),tan);
@@ -141,6 +150,9 @@ void PhyxENG::DynamicResolution(PhyxObj2D* p, Collider * pc,PhyxObj2D*q, Collide
 
 			double pmomentum = (pdotnor*(p->mass - q->mass) + 2.*q->mass*qdotnor)/(p->mass+q->mass);
 			double qmomentum = (qdotnor*(q->mass - p->mass) + 2.*p->mass*pdotnor)/(p->mass+q->mass);
+
+			TESTLOG(p->name<<"NormalMomentum(x,y)->" TAB pmomentum);
+			TESTLOG(q->name<<"NormalMomentum(x,y)->" TAB qmomentum);
 
 			if(!p->isKinematic()) p->V((tan*pdottan + nor*pmomentum)*colEl);
 			if(!q->isKinematic()) q->V((tan*qdottan + nor*qmomentum)*colEl);
