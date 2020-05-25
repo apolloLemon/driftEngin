@@ -1,6 +1,5 @@
 How to get DriftEngine working:
 -------------------------------
-
 1) Enter these linux commands :
 	sudo apt-get update
 	sudo apt-get install cmake
@@ -22,3 +21,9 @@ How to get DriftEngine working:
 
 5) Execute the game :
 	./gamename.exe
+
+
+Informations about cmake
+------------------------
+The compiled game is selected in the cmake, you have to add your gameobjects source files to the CMakeLists.txt
+You can add them after "# gameobjects" at Line 14, don't forget to replace the old game's ones.
