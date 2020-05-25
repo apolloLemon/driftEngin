@@ -6,14 +6,17 @@
 #include "ENG/mesh/sphere.h"
 #include "ENG/mesh/cube.h"
 #include "ENG/model/model.h"
+//#include <ENG/eng.h>
+
 
 //drift
-#include "player.h"
-#include "simplebody.h"
+//#include "drift/player.h"
+//#include "drift/simplebody.h"
+#include <drift/drift.h>
 
 #include <iostream>
 
-Game driftgame(1280, 720, "drift/textures/", "drift/models/", "drift/sounds/");
+Game sandBox(1280, 720, "drift/textures/", "drift/models/", "drift/sounds/");
 // GameObjects
 // ----------------
 //Player * player = new Player();
@@ -23,24 +26,25 @@ SimpleBody * C = new SimpleBody();
 
 int main(int argc, char **argv)
 {
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "track0.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "bleep.ogg");
-	driftgame.soundENG.soundFiles.push_back(driftgame.soundsPath + "solid.ogg");
-	driftgame.soundENG.Play(0,1);
+	sandBox.phyxENG.gravitymode = Everything;
+	sandBox.soundENG.soundFiles.push_back(sandBox.soundsPath + "track0.ogg");
+	sandBox.soundENG.soundFiles.push_back(sandBox.soundsPath + "bleep.ogg");
+	sandBox.soundENG.soundFiles.push_back(sandBox.soundsPath + "solid.ogg");
+	sandBox.soundENG.Play(0,1);
 
 	// initialize glfw and game
 	// ------------------------
-	driftgame.freecam = new Freecam(glm::vec3(0.0f, 7.0f, 10.0f));
-	driftgame.currentCamera = driftgame.freecam;
-	driftgame.cameraMode = FREECAM_MODE;
+	sandBox.freecam = new Freecam(glm::vec3(0.0f, 7.0f, 10.0f));
+	sandBox.currentCamera = sandBox.freecam;
+	sandBox.cameraMode = FREECAM_MODE;
 
-	driftgame.gameobjects.push_back(driftgame.freecam);
-//	driftgame.gameobjects.push_back(player);
-	driftgame.gameobjects.push_back(A);
-	driftgame.gameobjects.push_back(B);
-	driftgame.gameobjects.push_back(C);
+	sandBox.gameobjects.push_back(sandBox.freecam);
+//	sandBox.gameobjects.push_back(player);
+	sandBox.gameobjects.push_back(A);
+	sandBox.gameobjects.push_back(B);
+	sandBox.gameobjects.push_back(C);
 
-	GLFWwindow* window = driftgame.Initialize();
+	GLFWwindow* window = sandBox.Initialize();
 
 	// creating our skybox
 	// -------------------
@@ -55,12 +59,12 @@ int main(int argc, char **argv)
 		"skybox/back.png"
 	};
 	Texture tSkybox;
-	tSkybox.id = loadCubemap(faces, driftgame.texturesPath);
+	tSkybox.id = loadCubemap(faces, sandBox.texturesPath);
 	tSkybox.type = "texture_skybox";
 	tSkybox.path = "skybox";
 //*/
 	Texture tSquare;
-	tSquare.id = TextureFromFile("square/square.png", driftgame.texturesPath);
+	tSquare.id = TextureFromFile("square/square.png", sandBox.texturesPath);
 	tSquare.type = "texture_diffuse";
 	tSquare.path = "square/square.png";
 
@@ -81,7 +85,7 @@ int main(int argc, char **argv)
 //	Cube skyboxMesh(skyboxTextures);
 	
 //	planet->meshes.push_back(new Sphere(50,50,moonTextures));
-//	player->loadModel(driftgame.modelsPath + "ship/V1.obj");
+//	player->loadModel(sandBox.modelsPath + "ship/V1.obj");
 
 	A->meshes.push_back(new Sphere(50,50,squareTextures));
 	B->meshes.push_back(new Sphere(50,50,squareTextures));
@@ -136,11 +140,11 @@ int main(int argc, char **argv)
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		driftgame.collENG.Update();
-		driftgame.inputENG.Update(window);
-		driftgame.phyxENG.Update();
+		sandBox.collENG.Update();
+		sandBox.inputENG.Update(window);
+		sandBox.phyxENG.Update();
 
-/*		for(auto e : driftgame.collENG.events)		
+/*		for(auto e : sandBox.collENG.events)		
 			std::cout
 				<< "collision event \t" << e << std::endl  
 				<< "life \t" << e->life << "layer \t" << e->layer << std::endl
@@ -153,63 +157,63 @@ int main(int argc, char **argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(driftgame.currentCamera->Zoom), (float)driftgame.screenWidth / (float)driftgame.screenHeight, 0.1f, 100.0f);
-		glm::mat4 view = driftgame.currentCamera->GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(sandBox.currentCamera->Zoom), (float)sandBox.screenWidth / (float)sandBox.screenHeight, 0.1f, 100.0f);
+		glm::mat4 view = sandBox.currentCamera->GetViewMatrix();
 
 
 		// configuring the light source shader and meshes
 		// ----------------------------------------------
-		driftgame.lightSourceShader->use();
-		driftgame.lightSourceShader->setMat4("projection", projection);
-		driftgame.lightSourceShader->setMat4("view", view);
+		sandBox.lightSourceShader->use();
+		sandBox.lightSourceShader->setMat4("projection", projection);
+		sandBox.lightSourceShader->setMat4("view", view);
 
-//		sunMesh.Draw(driftgame.lightSourceShader, glm::vec3(50.0f,0.f,0.f), glm::vec3(10.0f));
+//		sunMesh.Draw(sandBox.lightSourceShader, glm::vec3(50.0f,0.f,0.f), glm::vec3(10.0f));
 
 		// configuring the texture shader and meshes
 		// -----------------------------------------
-		driftgame.textureShader->use();
-		driftgame.textureShader->setMat4("projection", projection);
-		driftgame.textureShader->setMat4("view", view);
-		driftgame.textureShader->setVec3("light.position", glm::vec3(50.0f,0.f,0.f));
-		driftgame.textureShader->setVec3("light.ambient", lAmbient);
-		driftgame.textureShader->setVec3("light.diffuse", lDiffuse);
-		driftgame.textureShader->setVec3("light.specular", lSpecular);
-		driftgame.textureShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
+		sandBox.textureShader->use();
+		sandBox.textureShader->setMat4("projection", projection);
+		sandBox.textureShader->setMat4("view", view);
+		sandBox.textureShader->setVec3("light.position", glm::vec3(50.0f,0.f,0.f));
+		sandBox.textureShader->setVec3("light.ambient", lAmbient);
+		sandBox.textureShader->setVec3("light.diffuse", lDiffuse);
+		sandBox.textureShader->setVec3("light.specular", lSpecular);
+		sandBox.textureShader->setVec3("viewPos", sandBox.currentCamera->worldPosition());
 
 
-//		planet->Draw(driftgame.textureShader);
-//		planet2->Draw(driftgame.textureShader);
+//		planet->Draw(sandBox.textureShader);
+//		planet2->Draw(sandBox.textureShader);
 
 
-		A->Draw(driftgame.textureShader);
-		B->Draw(driftgame.textureShader);
-		C->Draw(driftgame.textureShader);
+		A->Draw(sandBox.textureShader);
+		B->Draw(sandBox.textureShader);
+		C->Draw(sandBox.textureShader);
 
 		// configuring the material shader and meshes
 		// ------------------------------------------
-		driftgame.materialShader->use();
-		driftgame.materialShader->setMat4("projection", projection);
-		driftgame.materialShader->setMat4("view", view);
-		driftgame.materialShader->setVec3("light.position", glm::vec3(0.0f));
-		driftgame.materialShader->setVec3("light.ambient", lAmbient);
-		driftgame.materialShader->setVec3("light.diffuse", lDiffuse);
-		driftgame.materialShader->setVec3("light.specular", lSpecular);
-		driftgame.materialShader->setVec3("viewPos", driftgame.currentCamera->worldPosition());
+		sandBox.materialShader->use();
+		sandBox.materialShader->setMat4("projection", projection);
+		sandBox.materialShader->setMat4("view", view);
+		sandBox.materialShader->setVec3("light.position", glm::vec3(0.0f));
+		sandBox.materialShader->setVec3("light.ambient", lAmbient);
+		sandBox.materialShader->setVec3("light.diffuse", lDiffuse);
+		sandBox.materialShader->setVec3("light.specular", lSpecular);
+		sandBox.materialShader->setVec3("viewPos", sandBox.currentCamera->worldPosition());
 
-//		player->Draw(driftgame.materialShader);
+//		player->Draw(sandBox.materialShader);
 //		player->camera.updateCameraVectors(player->worldPosition);
 
 		// draw skybox at last
 		// -------------------
 /*		glDepthFunc(GL_LEQUAL);
-		driftgame.skyboxShader->use();
-		view = glm::mat4(glm::mat3(driftgame.currentCamera->GetViewMatrix()));
-		driftgame.skyboxShader->setMat4("view", view);
-		driftgame.skyboxShader->setMat4("projection", projection);
-		skyboxMesh.Draw(driftgame.skyboxShader);
+		sandBox.skyboxShader->use();
+		view = glm::mat4(glm::mat3(sandBox.currentCamera->GetViewMatrix()));
+		sandBox.skyboxShader->setMat4("view", view);
+		sandBox.skyboxShader->setMat4("projection", projection);
+		skyboxMesh.Draw(sandBox.skyboxShader);
 		glDepthFunc(GL_LESS);
 */
-		driftgame.phyxGui();
+		sandBox.phyxGui();
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -218,7 +222,7 @@ int main(int argc, char **argv)
 		glfwPollEvents();
 	}
 
-	driftgame.Terminate();
+	sandBox.Terminate();
 	
 	// Clean up sources and buffers
    // alDeleteSources(1, &audiosrc);

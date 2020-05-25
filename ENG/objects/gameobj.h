@@ -7,7 +7,7 @@
 
 #include "ENG/includes/glm/glm.hpp"
 #include "ENG/includes/glm/gtc/matrix_transform.hpp"
-#if 1
+#if 0
 	#include <iostream>
 	#define TAB <<"\t"<<
 	#define TESTLOG(X) std::cout << X << std::endl
